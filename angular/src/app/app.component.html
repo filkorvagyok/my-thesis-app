@@ -1,0 +1,9 @@
+<mat-sidenav-container class="main-container">
+  <mat-sidenav #snav position="end" class="main-sidenav">
+    <app-sidenav></app-sidenav>
+  </mat-sidenav>
+  <mat-sidenav-content>
+      <app-header (clickEvent)=snav.open()></app-header>
+      <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

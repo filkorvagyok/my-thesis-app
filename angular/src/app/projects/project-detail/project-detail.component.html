@@ -1,0 +1,140 @@
+<mat-spinner *ngIf="projectService.isLoading || !project"></mat-spinner>
+<form *ngIf="!projectService.isLoading && project" class="panel panel-default">
+	<div class="panel-heading" color="primary">{{project.name}}</div>
+	<div  class="panel-body">
+		<div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Név</th>
+						<th>Határidő</th>
+						<th>Bevétel</th>
+						<th>Kiadás</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<strong class="company_name">{{project.name}}</strong>
+						</td>
+						<td>
+							{{project.deadline | date:'yyyy-MM-dd HH:mm'}}
+						</td>
+						<td>
+							{{project.income}}
+						</td>
+						<td>
+							{{project.expenditure}}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr>
+		<div>
+		<div id="wide">
+			<div>
+				<h3>Feladatok</h3>
+			</div>
+		</div>
+		<div id="narrow">
+			<div>
+				<h3>Cégek</h3>
+				<p *ngFor="let company of companyService.getCertainItems(project)">
+					<a mat-list-item class="linkTo" routerLink="/company/shown/{{company.id}}" routerLinkActive="active">
+						{{company.name}}
+					</a>
+				</p>
+			</div>
+			<hr>
+			<div>
+				<h3 class="contact">Névjegyek</h3>
+				<ng-template [ngIf]="contactService.getCertainItems(project, 0).length == 1"><h4>Felelős:</h4></ng-template>
+				<ng-template [ngIf]="contactService.getCertainItems(project, 0).length > 1"><h4>Felelősök:</h4></ng-template>
+				<ul *ngFor="let accountable of contactService.getCertainItems(project, 0)">
+					<li>
+						<a mat-list-item class="linkTo" routerLink="/people/shown/{{accountable.id}}" routerLinkActive="active">
+							{{accountable.full_name}}
+						</a>
+					</li>
+				</ul>
+				<ng-template [ngIf]="contactService.getCertainItems(project, 2).length == 1"><h4>Tulajdonos:</h4></ng-template>
+				<ng-template [ngIf]="contactService.getCertainItems(project, 2).length > 1"><h4>Tulajdonosok:</h4></ng-template>
+				<ul *ngFor="let owner of contactService.getCertainItems(project, 2)">
+					<li>
+						<a mat-list-item class="linkTo" routerLink="/people/shown/{{owner.id}}" routerLinkActive="active">
+							{{owner.full_name}}
+						</a>
+					</li>
+				</ul>
+				<ng-template [ngIf]="contactService.getCertainItems(project, 1).length == 1"><h4>Megfigyelő:</h4></ng-template>
+				<ng-template [ngIf]="contactService.getCertainItems(project, 1).length > 1"><h4>Megfigyelők:</h4></ng-template>
+				<ul *ngFor="let observer of contactService.getCertainItems(project, 1)">
+					<li>
+						<a mat-list-item class="linkTo" routerLink="/people/shown/{{observer.id}}" routerLinkActive="active">
+							{{observer.full_name}}
+						</a>
+					</li>
+				</ul>
+				<ng-template [ngIf]="contactService.getCertainItems(project, 3).length == 1"><h4>Résztvevő:</h4></ng-template>
+				<ng-template [ngIf]="contactService.getCertainItems(project, 3).length > 1"><h4>Résztvevők:</h4></ng-template>
+				<ul *ngFor="let participant of contactService.getCertainItems(project, 3)">
+					<li>
+						<a mat-list-item class="linkTo" routerLink="/people/shown/{{participant.id}}" routerLinkActive="active">
+							{{participant.full_name}}
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div class="botton_right">
+		<button mat-fab [matMenuTriggerFor]="menu" color="primary">
+	  		<mat-icon class="fa fa-bolt fa-lg" aria-hidden="true"></mat-icon>
+		</button>
+		<mat-menu #menu="matMenu">
+			<button mat-menu-item>
+				<mat-icon class="fa fa-file"></mat-icon>
+				<span>Új feladat</span>
+			</button>
+			<button mat-menu-item (click)="createNewCompany()">
+				<mat-icon class="fa fa-industry"></mat-icon>
+				<span>Új cég</span>
+			</button>
+			<button mat-menu-item [matMenuTriggerFor]="contact">
+				<mat-icon class="fa fa-user-plus"></mat-icon>
+				<span>Új felhasználó</span>
+			</button>
+			<button mat-menu-item (click)="navigateToEdit()">
+				<mat-icon class="fa fa-pencil"></mat-icon>
+				<span>Szerkesztés</span>
+			</button>
+			<button mat-menu-item (click)="clickOnDeleteProductButton()">
+				<mat-icon class="fa fa-trash"></mat-icon>
+				<span>Törlés</span>
+			</button>
+		</mat-menu>
+		<mat-menu #contact="matMenu">
+		<button mat-menu-item (click)="createNewContact(0)">
+			<mat-icon class="fa fa-user-plus"></mat-icon>
+			<span>Felelős</span>
+		</button>
+		<button mat-menu-item (click)="createNewContact(1)">
+			<mat-icon class="fa fa-user-plus"></mat-icon>
+			<span>Tulajdonos</span>
+		</button>
+		<button mat-menu-item (click)="createNewContact(2)">
+			<mat-icon class="fa fa-user-plus"></mat-icon>
+			<span>Megfigyelő</span>
+		</button>
+		<button mat-menu-item (click)="createNewContact(3)">
+			<mat-icon class="fa fa-user-plus"></mat-icon>
+			<span>Résztvevő</span>
+		</button>
+	</mat-menu>
+	</div>
+</form>
+<div id="back">
+	<button mat-raised-button color="primary" (click)="navigateBack()">Vissza</button>
+</div>

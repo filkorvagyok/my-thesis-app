@@ -1,0 +1,17 @@
+<div class="table-responsive">
+	<table class="table">
+		<thead class="screen-md-table">
+			<tr>
+				<th></th>
+				<th></th>
+				<th>Cég</th>
+				<th>Telefon</th>
+				<th>Email</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody class="clickable-tbody" *ngFor="let company of companyService.getItems()"
+		app-company-item [company]="company">
+		</tbody>
+	</table>
+</div>

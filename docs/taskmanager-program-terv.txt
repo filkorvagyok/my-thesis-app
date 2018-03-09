@@ -1,0 +1,382 @@
+TaskManCRM
+
+Jelölések:
+	+  - további hasonló mezőket lehet felvinni tetszőleges mennyiségben
+	*  - megjegyzés
+	%  - a felvitelnél van egy + gomb, amivel a kitöltésből kilépés nélkül, egy popupban fel lehet vinni új kontaktot
+
+Cég adatok
+	Cég név (ügyfél neve)
+	Központi telefonszám
+	Központi e-mail cím
+	Kapcsolattartó a cég részéről % +
+	Weboldal
+	Facebook oldal
+	Székhely ország
+	Székhely ir.szám
+	Székhely település
+	Székhely cím
+	Számlázási név
+	Számlázási ország
+	Számlázási ir.szám
+	Számlázási település
+	Számlázási cím
+	Adószám
+	Postázási név
+	Postázási ország
+	Postázási ir.szám
+	Postázási település
+	Postázási cím
+	Kategória (ügyfél, partner, viszonteladó, versenytárs, befektető, média, egyéb) +
+	Iparág
+	Alkalmazottak száma
+	Éves bevétel
+	Alakulás éve
+	Pénznem
+	Fizetési határidő (8 nap)
+	Fizetési mód (készpénz, átutalás)
+	Megjegyzés +
+	CRM sales status (jelöletlen, felelős kijelölésre vár, részletekre vár, nem sikerült a kapcsolatfelvétel, folyamatban, folyamat megállt, ügyfél, kamu megkeresés) +
+	Típus (érdeklődő, ügyfél, egyéb)
+	
+Cég telephely adatok
+	* Alapból a székhely felrögzítésre kerül, mint telephely "Székhely" néven
+	Telephely neve
+	Telefonszám
+	E-mail
+	Ország
+	Ir.szám
+	Település
+	Cím
+	Nyitva tartás
+	Kapcsolattartó % +
+	Saját kapcsolattartóm (users) +
+	Megjegyzés
+
+Ügyfél munkatárs adatok
+	Ügyfél, akihez tartozik
+	Telephely (ha csak egy van, akkor automatikusan az lesz kijelölve)
+	Vezetéknév
+	Középső név
+	Utónév
+	Telefon +
+	E-mail +
+	Előnyben részesített kommunikációs csatorna (telefon, e-mail, skype, fb messenger, viber, stb.)
+	Beosztás
+	Fotó
+	Üdvözlés
+	Típus (érdeklődő, ügyfél, egyéb) - öröklődik a cég adataiból létrehozáskor, ha van cég megadva, utólag nem öröklődik, csak akkor, ha csak ez az egy cég kapcsolódott hozzá
+
+Feladat
+	Cím
+	Leírás
+	Fájl csatolás +
+	Checklista
+	Felelős személy +
+	Tulajdonos
+	Megfigyelő + (itt lehet hozzáadni az ügyfél kapcsolattartókat)
+	Résztvevő +
+	Határidő dátum, óra, perc
+		Felelős megváltoztathatja
+		Kihagyja a hétvégéket és ünnepeket
+		Automatikus jóváhagyás, ha kész van
+		Kedvencekhez adás
+	Státusz
+		Státusz megerősítve (automatikusan változó mező)
+	Pipeline státusz
+	Prioritás
+	Projekt +
+	Kategória +
+	Time tracking (tervezett időkeret a feladatra), óra, perc
+	Emlékeztető +
+		Dátum, idő
+		Felelős
+		Tulajdonos
+		Saját magam
+		E-mail / instant üzenet
+	Ismétlődés
+		Napi
+			x naponta
+			minden nap / munkanapokon
+		Heti
+			x hetente
+			h,k,sz,cs,p,sz,v napokon
+		Havi
+			vagy a hónap x. napján x havonta
+			vagy a hónap minden első/második/harmadik/negyedik/utolsó hétfő/.../vasárnapján x havonta
+		Évente
+			vagy január/.../december x. napján
+			vagy január/.../december minden első/második/harmadik/negyedik/utolsó hétfő/.../vasárnapján x havonta
+		létrehozás időpontja
+		ez után a dátum után
+		ismétlés eddig a dátumig
+		kész x ismétlés után
+	Gantt
+		Ez a task kezdődik/befejeződik, ha a .... task kezdődik/befejeződik. +
+	Főtask
+	Altask +
+	Címkék +
+	Pénznem HUF/EUR/USD
+	Feladatra tervezett bevétel
+	Feladatra tervezett költség
+
+Jegyzet
+	Cím
+	Leírás
+	Fájl csatolása +
+	Felelős személy
+	Tulajdonos
+	Megfigyelő +
+	Résztvevő +
+	Státusz
+	Projekt +
+	Feladat +
+	
+Projekt
+	Cím
+	Leírás
+	Fájl csatolása +
+	Checklista
+	Felelős személy
+	Tulajdonos
+	Megfigyelő +
+	Résztvevő +
+	Határidő dátum, óra, perc
+		Felelős megváltoztathatja
+		Kihagyja a hétvégéket és ünnepeket
+		Automatikus jóváhagyás, ha kész van
+		Kedvencekhez adás
+	Státusz
+	Prioritás
+	Címkék +
+	Pénznem HUF/EUR/USD
+	Projektre tervezett bevétel
+	Projektre tervezett költség
+	Projekt forrása (nincs forrás megadva, hirdetés, hideg hívás, e-mail)
+
+Projektsablon
+	* Megadhatók ugyanazok az adatok, mint egy normál projektnél, de határidőnek a létrehozástól számított x nap kerül megadásra.
+	* Hozzáadhatók feladatsablonok
+	
+Feladat sablon
+	* Megadhatók ugyanazok az adatok, mint egy normál feladatnál, de a határidőnek a létrehozástól számított x nap kerül megadásra.
+	* Hozzáadhatók alfeladatok
+
+Pipeline
+	Név
+	Szín
+
+Pipeline elem
+	Pipeline helye (független, projekt, task) (a műveleteknél ettől függően jelenik meg pl e-mail címzettnél szerepek listája, pl a projekt szerepei vag a task szerepei)
+	Állomás (Név / Stage)
+	Szín
+	Művelet bekerüléskor
+	Művelet kikerüléskor
+
+Műveletek
+	Művelet helye
+	E-mail küldés
+		Szereplő
+	SMS küldés
+	Telefonhívás
+	Státuszváltás+ (projekt | task)
+
+Projekt forrás
+	Név
+	Szín
+
+Ügyfél típus
+	Név
+
+Státusz
+	Név
+	Szín
+	Típus (CRM sales státusz, task, projekt)
+
+Cég kategória
+	Név
+	Szín
+	
+OK - Prioritás
+	Név
+	Szín
+
+Elszámolások
+	Ügyfél cég
+	Projekt
+	Feladat neve
+	Felelős
+	Feladat kezdete
+	Feladat vége
+	Time track adat
+	Összeg
+	Számlázva
+	Fizetve
+
+Felhasználók
+	Felhasználói név
+	Jelszó
+	Típus (munkatárs-alvállalkozó / ügyfél)
+		- Ha ügyfél:
+			Cég (csak ehhez a céghez bejegyzett adatokat látja)
+			Telephely (csak ehhez a telephelyhez bejegyzett adatokat látja)
+	A neve titkos az ügyfél előtt (ha nem akarjuk a munkatárs nevét az ügyfelek tudomására hozni, csak pl.: Gábor)
+		Nicknév az ügyfél felé, pl Grafikus
+
+Felhasználói csoportok
+	Név
+
+Kereső
+Vásárlások állapota
+Spamlistára nem kerülnek?
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Események
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Új felhasználó hozzáadása
+	A felhasználó e-mailben kap értesítőt arról, hogy hozzáadták a rendszerhez.
+
+Új ügyfél hozzáadása
+Új telephely hozzáadása
+Új munkatárs hozzáadása
+	Beállítástól függően, az ügyfél e-mail értesítőt kap, hogy hozzáadták a rendszerhez és lépjen be, konfigurálja be saját ízlése szerint a taskmant, különben mindenről fog értesítőt kapni.
+
+Új projekt felvitele
+	Beállításoktól függően, a projekt résztvevői kapnak e-mail értesítőket.
+	
+Új feladat felvitele
+	Beállításoktól függően, a projekt résztvevői kapnak e-mail értesítőket.
+	Beállításoktól függően, a feladat résztvevői kapnak e-mail értesítőket.
+
+Feladat státusz változása
+Feladat prioritás változása
+Feladat készre jelentése
+	Beállításoktól függően, a feladat résztvevői kapnak e-mail értesítőket.
+
+Projekt státusz változása
+Projekt prioritás változása
+Projekt készre jelentése
+	Beállításoktól függően, a projekt résztvevői kapnak e-mail értesítőket.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Adatok megjelenítése
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+Ügyfelek
+	Kilistázza a kategória szerint "ügyfél" ÉS a CRM sales státusz szerinti "ügyfél" cégeket. Az utóbbinál a szűrést multiple selecttel lehet bővíteni, változtatni.
+	A listában az alábbiak jelennek meg:
+		- Cégnév
+		- Központi telefon
+		- Központi e-mail
+		- Kapcsolattartó a cég részéről
+		- CRM sales státusz + szín ez alapján
+		- Folyamatban lévő feladatok száma
+
+Ügyfél grafikonok
+	- Éves árbevétel megoszlás szerinti kimutatás (12M, 50M, 100M, 300M, 500M, 1Mrd, 5Mrd)
+	- Alkalmazottak szerinti megoszlás kimutatás (0, 1-5, 6-9, 10-19, 20-49, 50-99, 100-249, 250-999, 1000+)
+	- Iparági megoszlás kimutatás
+	- Cég életkor szerint megoszlás kimutatás (0, 1, 2, 3-4, 5-9, 10-19, 20+)
+
+Feladatok
+	Alapból kilistázza az összes folyamatban lévő feladatot határidő, prioritás, cím szerint rendezve. A prioritást színekkel jelöli, a határidőig hátralévő napokat is mutatja, vagy ha kevesebb, mint 1 nap van, akkor az órát mutatja. Ikon jelzi naptár vagy óra ikonnal, hogy nap vagy óra a mértékegység.
+	A listában az alábbiak jelennek meg:
+		- Feladat címe
+		- Ügyfél cég neve, akihez tartozik
+		- Felelős neve
+		- Prioritás
+		- Határidő + hátralévő idő
+		- Projekt
+		- Ismétlődő? (ikonnal)
+		- Bevétel (opcionális)
+		- Kiadás (opcionális)
+	A felhasználók megcímkézhetők a feladatok nevében és leírásaiban a @Felhasználónév megoldással. Ha ilyen történik, arról a felhasználó értesül.
+	Amikor egy feladat státuszát megváltoztatja valaki, akkor a tulajdonosnak kimegy egy e-mail, amiben megerősítheti vagy elutasíthatja a változtatást.
+
+Projektek
+	Alapból a folyamatban lévő projekteket listázza. Prioritás, státusz és cím szerint rendezve. A prioritás és a státuszt színekkel jelöli. A határidőig hátralévő napokat is mutatja.
+	A listában az alábbiak jelennek meg:
+		- Projekt neve
+		- Ügyfél cég neve, akihez tartozik
+		- Felelős neve
+		- Prioritás
+		- Határidő + hátralévő idő
+		- A projektben lévő feladatok száma és a megoldott feladatok száma, pl 10 (4 kész)
+		- A projekt készültésgi fokát egy vízszintes színes sávon %-os arányban, benne a % is ki van írva.
+		- Bevétel (opcionális)
+		- Kiadás (opcionális)
+
+Felhasználók
+	A felhasználók két fő részre osztódnak a rendszerben: munkatárs (ide értve az alvállalkozókat is), ügyfél.
+	Munkatárs típusú felhasználó:
+		- Hozzáadható feladatokhoz bármilyen pozícióba.
+		- A megfelelő jogosultsággal vihet fel adatokat a rendszerbe és hozzáfér a számára kijelölt cégek adataihoz.
+	Ügyfél típusú felhasználó:
+		- Csak megfigyelőnek adható hozzá feladatokhoz.
+		- Csak külön engedéllyel vihet fel feladatokat a rendszerbe, amit egy munkatársnak jóvá kell hagynia.
+		- Csak külön engedéllyel tölthet fel fájlokat a feladatokhoz.
+		- Csak a saját cégének adataihoz fér hozzá.
+		- Csak a saját telephelyének adataihoz fér hozzá, ha van ilyen megadva.
+	A felhasznának beállítható, hogy a neve rejtett legyen az ügyfél előtt, ilyenkor csak egy nicknév jelenik meg, amit az ügyfél lát. Pl: @BéresSándor helyett @Grafikus jelenik meg neki.
+
+Csoportok
+	A felhasználók csoportokba rendezhetők és a csoportokat is hozzá lehet adni a projektekhez, így nem kell egyesével hozzáadogatni minden egyes alkalommal a usereket.
+	Ha a csoporthoz újabb felhasználót adunk hozzá, akkor látni fogja a csoporthoz tartozó összes feladatot, céget, adatot.
+	Ha a csoportból kiveszünk egy felhasználót, a rendszer megkérdezi, hogy eltávolítsa-e az eddigi feladatokból is. Ha igen, akkor a felhasználó többé nem fogja látni a csoporthoz rendelt feladatokat. Ha nem, akkor a felhasználó az eddigi feladatokat látni fogja, de az újabbakhoz már nem fér hozzá.
+
+	
+Cél-Terv-Tettek-Kontroll - "A siker körforgása" tervező
+	Felület, ahol fel tudja vinni a felhasználó a célt - hosszú szöveges mező - projekt lesz belőle
+	Tervet - leírás, hosszú szöveges mező - a projekt leírása lesz belőle
+	Tettek - Lista arról, hogy mit kell megtenni - ezekből lesznek a feladatok
+	Kontroll - ezekből is feladatok lesznek, miután a tettekhez hozzárendeltük, hogy hogyan ellenőrizzük a feladat elvégzését és utána automatikusan a feladat lezárásakor keletkezik újabb feladat, a kontroll, vagyis mit kell leellenőrizni
+
+Napi motivációs gondolatok
+	- Idézetek, heti 1
+	- Vezetőképző ábrák rövid magyarázattal
+	- Elgondolkodtató kérdés
+
+	
+Felhasználói jogosultságok
+	Szerepkörök
+		- Cég admin				teljes hozzáférés minden információhoz + cég adatok módosítása + cég törlése, látja a cég összes projektjét
+		- User admin			a céghez felvehet felhasználókat, meghívókat küldhet
+		- Kontakt manager		hozzáférés a kontaktokhoz
+		- CRM manager			a CRM információkat látja és módosíthatja, CRM szabályokat hozhat létre, az ügyfelekre vonatkozó CRM információkat módosíthatja
+		- Project manager		a cégen belül projekteket hozhat létre, módosíthat és törölhet, csak a vele megosztott projekteket látja, vagy amiket ő hoz létre
+		- Project résztvevő		a projekten belül dolgozhat, de nincs törlési jogköre semmire
+		- Project megfigyelő	a projekten belül csak olvasási jogköre van
+		- Task manager			a projekten belül feladatokat hozhat létre, módosíthat és törölhet, alfeladatokat adhat hozzá, törölhet
+		- Task résztvevő		a feladaton belül dolgozhat, de nincs törlési jogköre
+		- Task megfigyelő		a feladaton belül csak olvasási jogköre van
+		
+	Jogoultságok
+		- Cég adat / beállítás módosítás
+		- Felhasználó felvétel
+		- Partner / névjegy felvitel
+		- Partner / névjegy listázás
+		- Partner / névjegy módosítás
+		- Partner / névjegy törlés
+		- CRM információk megtekintés
+		- CRM információk módosítás
+		- CRM szabályok létrehozás
+		- Összes projekt megtekintés
+		- Projekt létrehozás
+		- Projekt megtekintés
+		- Projekt adat módosítás
+		- Projekt törlés
+		- Projekt lezárás
+		- Összes task megtekintés
+		- Összes projekthez tartozó task megtekintés
+		- Projektfüggeten task felvitel
+		- Projekthez task felvitel
+		- Task megtekintés
+		- Task módosítás
+		- Task törlés
+		- Task lezárás
+
+Más szoftverekkel összekapcsolás / API
+	- slack.com - chat alkalmazás paarancsokkal, vehet fel projektet, taskot, kommentet írhat ezekhez, ezekre lehet válaszolni
+	- asana.com - másik taskmanager szoftver
+	- toggl.com - másik taskmanager és timetracker szoftver
+	- 

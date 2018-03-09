@@ -1,0 +1,126 @@
+<header id="main-header" class="py-3 bg-primary text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 id="company-header"><i class="fa fa-industry"></i> Cégek</h2>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section id="companies">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <mat-spinner color="accent" *ngIf="companyService.isLoading; else elseBlockOne"></mat-spinner>
+                <ng-template #elseBlockOne>
+                    <div class="card my-5">
+                        <div class="card-header bg-dark text-white">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3 id="card-header-list">Cégek Listája</h3>
+                                </div>
+                                <div class="col-md-3 screen-md">
+                                    <a routerLink="/company/new" class="btn btn-primary btn-block">
+                                        <i class="fa fa-plus"></i> Új hozzáadása
+                                    </a>
+                                </div>
+                                <div class="col-md-3 screen-md">
+                                    <button class="btn btn-outline-primary btn-block"
+                                    data-toggle="modal" data-target="#addPostModal">
+                                        <i class="fa fa-bolt"></i> 
+                                        <span class="screen-md-span">Új hozzáadása</span>
+                                        <span class="screen-lg-span">Új hozzáadása instant</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="no-company" class="text-center py-3" *ngIf="!companyService.getItems() ||
+                        companyService.getItems().length < 1; else elseBlockTwo">
+                            <h1>Nincs megadva egyetlen cég sem</h1>
+                            <p class="m-5">
+                                A munka megkezdése előtt ajánlott felvinned legalább egy céget,
+                                amihez a rendszer társítani tudja majd a feladatokat, névjegyeket és a többi
+                                információt.<br>
+                                Nem kötelező, de ajánlott.
+                            </p>
+                            <a routerLink="/company/new" class="btn btn-primary">
+                                <i class="fa fa-plus"></i> Új cég hozzáadása
+                            </a>
+                        </div>
+                        <ng-template #elseBlockTwo>
+                            <app-company-list></app-company-list>
+                        </ng-template>
+                    </div>
+                    <div class="row" *ngIf="companyService.getItems() && companyService.getItems().length > 1">
+                        <div class="col-sm-5 screen-sm pb-2">
+                            <a routerLink="/company/new" class="btn btn-primary btn-block">
+                                <i class="fa fa-plus"></i> Új hozzáadása
+                            </a>
+                        </div>
+                        <div class="col-sm-7 screen-sm">
+                            <button class="btn btn-outline-primary btn-block"  data-toggle="modal"
+                            data-target="#addPostModal">
+                                <i class="fa fa-bolt"></i> <span>Új hozzáadása instant</span>
+                            </button>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="checkedArray.length > 0">
+        <button mat-fab [matMenuTriggerFor]="menu" color="accent">
+            <mat-icon class="fa fa-bars fa-lg" aria-hidden="true"></mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+                <mat-icon class="fa fa-file"></mat-icon>
+                <span>Új feladat</span>
+            </button>
+            <button mat-menu-item (click)="navigateToNewProject()">
+                <mat-icon class="fa fa-folder"></mat-icon>
+                <span>Új projekt</span>
+            </button>
+            <button mat-menu-item (click)="navigateToNewContact()">
+                <mat-icon class="fa fa-user-plus"></mat-icon>
+                <span>Új felhasználó</span>
+            </button>
+            <button mat-menu-item [disabled]="checkedArray.length>1" (click)="navigateToEdit()">
+                <mat-icon class="fa fa-pencil"></mat-icon>
+                <span>Szerkesztés</span>
+            </button>
+            <button mat-menu-item (click)="clickOnDeleteProductButton()">
+                <mat-icon class="fa fa-trash"></mat-icon>
+                <span>Törlés</span>
+            </button>
+        </mat-menu>
+    </div>
+</section>
+
+<div class="modal fade" id="addPostModal" data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.7);">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Új cég hozzáadása instant</h5>
+                <button class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <form #f="ngForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <mat-form-field color="accent">
+                            <input #companyName matInput name="companyName" placeholder="Név" ngModel required>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal">Bezár</button>
+                    <button class="btn btn-primary" (click)="onSubmit(f)" type="submit"
+                    [disabled]="!f.valid" data-dismiss="modal">
+                    Hozzáadás
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

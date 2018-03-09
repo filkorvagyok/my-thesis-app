@@ -1,0 +1,10 @@
+@import "../../../variables.scss";
+
+.screen-md-table{
+    display: none;
+}
+@media (min-width: $screen-size-md) {
+    .screen-md-table{
+        display: table-header-group;
+    }
+}

@@ -1,0 +1,25 @@
+$dark-overlay: rgba(0,0,0,0.6);
+
+#sidenav{
+    background: url('../../assets/images/sidenav.jpg') no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100%;
+    #user-side{
+        border-bottom: 1px solid #555;
+        #user-icon{
+            .fa{
+                font-size: 80px;
+            }
+        }
+    }
+    .nav-link{
+        border-bottom: 1px solid #555;
+        padding: 15px;
+        color: white;
+    }
+
+    a.nav-link.active{
+        background: rgba(0,0,0,0.2);
+    }
+}

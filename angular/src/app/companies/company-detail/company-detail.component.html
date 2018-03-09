@@ -1,0 +1,101 @@
+<section id="company-detail">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<mat-spinner *ngIf="companyService.isLoading || !company; else elseBlock"></mat-spinner>
+				<ng-template #elseBlock>
+					<div class="card my-5">
+						<div class="card-header bg-primary text-white">
+							<h3 id="card-header-list">{{company.name}} részletei</h3>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-md-3 text-center">
+									<img *ngIf="company.logo!=''" src={{company.logo}} alt="logo" width="135" height="135">
+									<h3 class="card-title pt-3">{{company.name}}</h3>
+								</div>
+								<div class="col"></div>
+								<div class="col-md-8">
+									<p><i class="fa fa-phone"></i> {{company.phone}}</p>
+									<p><i class="fa fa-envelope"></i> {{company.email}}</p>
+									<p>
+										<i class="fa fa-map-marker"></i>
+										{{company.hq_country}} {{company.hq_zipcode}} {{company.hq_settlement}}<span *ngIf="(company.hq_country || company.hq_zipcode || company.hq_settlement) || company.hq_address">, </span>
+										{{company.hq_address}}
+									</p>
+									<p>
+										<i class="fa fa-usd"></i>
+										{{company.bi_country}} {{company.bi_zipcode}} {{company.bi_settlement}}<span *ngIf="(company.hq_country || company.hq_zipcode || company.hq_settlement) || company.hq_address">, </span> 
+										{{company.bi_address}}
+									</p>
+									<p>
+										<i class="fa fa-envelope"></i>
+										{{company.mail_country}} {{company.mail_zipcode}} {{company.mail_settlement}}<span *ngIf="(company.hq_country || company.hq_zipcode || company.hq_settlement) || company.hq_address">, </span>
+										{{company.mail_address}}
+									</p>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-md-6">
+									<h3>Projektek</h3>
+									<ul>
+										<li *ngFor="let project of projectService.getCertainItems(company)">
+											<a mat-list-item class="linkTo"
+											routerLink="/project/shown/{{project.id}}">
+												{{project.name}}
+											</a>
+										</li>
+									</ul>
+								</div>
+								<div class="col-md-6">
+									<h3>Névjegyek</h3>
+									<p *ngFor="let contact of contactService.getCertainItems(company)">
+										<a mat-list-item class="linkTo" routerLink="/people/shown/{{contact.id}}" routerLinkActive="active">
+											{{contact.full_name}}
+										</a>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<div class="row">
+								<div class="col-4 col-sm-3 col-md-2">
+									<a routerLink="../../" class="btn btn-primary btn-block">Vissza</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div>
+	<button mat-fab [matMenuTriggerFor]="menu" color="accent">
+		<mat-icon class="fa fa-bolt fa-lg" aria-hidden="true"></mat-icon>
+	</button>
+	<mat-menu #menu="matMenu">
+		<button mat-menu-item>
+			<mat-icon class="fa fa-file"></mat-icon>
+			<span>Új feladat</span>
+		</button>
+		<button mat-menu-item (click)="createNewProject()">
+			<mat-icon class="fa fa-folder"></mat-icon>
+			<span>Új projekt</span>
+		</button>
+		<button mat-menu-item (click)="createNewContact()">
+			<mat-icon class="fa fa-user-plus"></mat-icon>
+			<span>Új felhasználó</span>
+		</button>
+		<button mat-menu-item (click)="navigateToEdit()">
+			<mat-icon class="fa fa-pencil"></mat-icon>
+			<span>Szerkesztés</span>
+		</button>
+		<button mat-menu-item (click)="clickOnDeleteProductButton(company)">
+			<mat-icon class="fa fa-trash"></mat-icon>
+			<span>Törlés</span>
+		</button>
+	</mat-menu>
+</div>

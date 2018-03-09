@@ -1,0 +1,14 @@
+button.mat-fab.mat-accent{
+    position: fixed;
+    right: 30px;
+    bottom: 15px;
+}
+
+button.mat-fab.mat-accent:focus{
+    outline: none;
+}
+
+.mat-form-field{
+    width: unset;
+    display: block;
+}
