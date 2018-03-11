@@ -1,10 +1,12 @@
 @import "../../../variables.scss";
+@import "../../../default-styles.scss";
 
-.screen-md-table{
-    display: none;
+.th-lg{
+    width: 0px;
 }
-@media (min-width: $screen-size-md) {
-    .screen-md-table{
-        display: table-header-group;
+
+@media (min-width: $screen-size-lg) {
+    .th-lg{
+        min-width: 8%;
     }
 }

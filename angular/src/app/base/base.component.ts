@@ -15,16 +15,10 @@ export abstract class BaseComponent{
 
 
     clickOnDeleteProductButton(): void{
-		let dialogRef = this.dialog.open(DeleteDialog);
-		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
-			if(result===true)
-			{
-				for (let checkedItem of this.checkedArray) {
-					this.delete(checkedItem);
-				}
-			}
-		});
+		for (let checkedItem of this.checkedArray) {
+			this.delete(checkedItem);
+        }
+        this.checkedArray = [];
     }
     
 	abstract delete(item: any | number): void;

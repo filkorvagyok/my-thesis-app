@@ -488,7 +488,7 @@ export class InMemoryDataService implements InMemoryDbService {
         {
             id: 1,
             name: 'Projekt1',
-            description: 'Ez a projekt1',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum fuga tempora iste iusto dolores ipsa temporibus esse dolorum eius ratione?',
             checklist: false,
             company: [1,2],
             file: 'file',
@@ -509,7 +509,7 @@ export class InMemoryDataService implements InMemoryDbService {
         {
             id: 2,
             name: 'Projekt2',
-            description: 'Ez a projekt2',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti qui a voluptates ea asperiores amet ullam, non nulla at, nesciunt dolores maiores, est ad quisquam veritatis odio! Possimus, iste, sit!',
             checklist: false,
             company: [3,4],
             file: 'file2',

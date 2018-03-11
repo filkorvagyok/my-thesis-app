@@ -1,33 +1,23 @@
 @import "../../../../variables.scss";
-
-td{
-    vertical-align: middle;
-
-    a{
-        color: $dark;
-        font-size: 20px;
-    }
-}
-
-#no-border-td{
-    border-top: none;
-    vertical-align: top;
-}
+@import "../../../../default-styles.scss";
 
 .logo{
     display: none;
 }
 
-.screen-md-table{
-    display: none;
+@media (min-width: $screen-size-lg) {
+    .logo{
+        display: inline-block;
+        width: 33.33334px;
+        height: 33.33334px;
+    }
 }
 
-@media (min-width: $screen-size-md) {
-    .screen-md-table{
-        display: table-cell;
-    }
-    .screen-sm-table{
-        display: none;
+@media (min-width: $screen-size-xl) {
+    .logo{
+        display: inline-block;
+        width: 40px;
+        height: 40px;
     }
 }
 
@@ -41,21 +31,11 @@ td{
         border-radius: 50%;
         display: table-cell; vertical-align: middle;
     }
-    .logo{
-        display: inline-block;
-        width: 33.33334px;
-        height: 33.33334px;
-    }
 }
 
 @media (min-width: $screen-size-xl) {
     .circle{
         width: 60px;
         height: 60px;
-    }
-    .logo{
-        display: inline-block;
-        width: 40px;
-        height: 40px;
     }
 }

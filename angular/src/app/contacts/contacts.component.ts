@@ -11,7 +11,7 @@ export class ContactsComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private contactService: ContactService
+    protected contactService: ContactService
   ) { }
 
   ngOnInit() {

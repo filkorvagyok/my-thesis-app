@@ -1,4 +1,109 @@
-<mat-spinner *ngIf="projectService.isLoading || !project || companyService.isLoading ||
+<section id="project-edit">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<mat-spinner *ngIf="projectService.isLoading || !project; else elseBlock">
+				</mat-spinner>
+				<ng-template #elseBlock>
+					<div class="card my-5">
+						<div class="card-header bg-green text-white">
+							<h3 id=".card-header-h3" *ngIf="!edit">Új Projekt</h3>
+							<h3 id=".card-header-h3" *ngIf="edit">{{project.name}} Szerkesztése</h3>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<form class="edit-form" [formGroup]="projectForm" (ngSubmit)="onSubmit(project)">
+									<mat-form-field color="accent">
+										<input matInput [(ngModel)]="project.name" formControlName="projectName" placeholder="Név*">
+									</mat-form-field>
+									<mat-error *ngIf="!projectForm.controls['projectName'].valid && projectForm.controls['projectName'].touched">
+										A név mező megadása <strong>kötelező</strong>!
+									</mat-error>
+									<mat-form-field color="accent">
+										<textarea matInput [(ngModel)]="project.description" formControlName="projectDescription" placeholder="Leírás" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="5"></textarea>
+									</mat-form-field>
+									<mat-form-field color="accent">
+										<mat-select [(ngModel)]="project.company" (change)="companyChanged = true"
+										[ngModelOptions]="{standalone: true}" name="projectCompany" placeholder="Cég" multiple>
+											<mat-option *ngFor="let company of companyService.getItems()" [value]="company.id">{{company.name}}</mat-option>
+										</mat-select>
+									</mat-form-field>	
+									<mat-form-field color="accent">
+										<input matInput [(ngModel)]="project.file" formControlName="projectFile" placeholder="Fájlok">
+										</mat-form-field>
+									<mat-form-field color="accent">
+										<mat-select [(ngModel)]="project.accountable" (change)="contactChanged = true"
+										[ngModelOptions]="{standalone: true}" name="projectAccountable" placeholder="Felelős" multiple>
+											<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
+										</mat-select>
+									</mat-form-field>
+									<mat-form-field color="accent">
+										<mat-select [(ngModel)]="project.owner" (change)="contactChanged = true"
+										[ngModelOptions]="{standalone: true}" name="projectOwner" placeholder="Tulajdonos" multiple>
+											<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
+										</mat-select>
+									</mat-form-field>
+									<mat-form-field color="accent">
+										<mat-select [(ngModel)]="project.observer" (change)="contactChanged = true"
+										[ngModelOptions]="{standalone: true}" name="projectObserver" placeholder="Megfigyelő" multiple>
+											<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
+										</mat-select>
+									</mat-form-field>
+									<mat-form-field color="accent">
+										<mat-select [(ngModel)]="project.participant" (change)="contactChanged = true"
+										[ngModelOptions]="{standalone: true}" name="projectParticipant" placeholder="Résztvevő" multiple>
+											<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
+										</mat-select>
+									</mat-form-field>
+									<input class="owl-date-input my-2" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Dátum beállítása">
+									<owl-date-time #dt1></owl-date-time>
+									<mat-form-field color="accent">
+										<input matInput [(ngModel)]="project.status" formControlName="projectStatus" placeholder="Státusz">
+										</mat-form-field>	
+									<mat-form-field color="accent">
+										<input matInput [(ngModel)]="project.priority" formControlName="projectPriority" placeholder="Prioritás">
+										</mat-form-field>
+									<mat-form-field color="accent">
+										<input matInput [(ngModel)]="project.stickers" formControlName="projectStickers" placeholder="Cimkék">
+										</mat-form-field>
+									<mat-form-field color="accent">
+										<input matInput [(ngModel)]="project.currency" formControlName="projectCurrency" placeholder="Pénznem">
+										</mat-form-field>
+									<mat-form-field color="accent">
+										<input type="number" matInput [(ngModel)]="project.income" formControlName="projectIncome" placeholder="Bevétel">
+										</mat-form-field>
+										<mat-error *ngIf="!projectForm.controls['projectIncome'].valid && projectForm.controls['projectIncome'].touched">
+										Nem megfelelő formátum!
+									</mat-error>	
+									<mat-form-field color="accent">
+										<input type="number" matInput [(ngModel)]="project.expenditure" formControlName="projectExpenditure" placeholder="Kiadás">
+										</mat-form-field>
+										<mat-error *ngIf="!projectForm.controls['projectExpenditure'].valid && projectForm.controls['projectExpenditure'].touched">
+										Nem megfelelő formátum!
+									</mat-error>
+									<div class="row mx-2 my-4">
+										<div class="col-md-6 col-sm-4 col-0"></div>
+										<div class="col-md-3 col-sm-4 col-6">
+											<button class="btn btn-grey btn-block" (click)="navigateBack()">Mégse</button>
+										</div>
+										<div class="col-md-3 col-sm-4 col-6">
+											<button type="submit" [disabled]="!projectForm.valid" class="btn btn-green green darken-2 btn-block">
+												Mentés
+											</button>
+										</div>				
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<!-- <mat-spinner *ngIf="projectService.isLoading || !project || companyService.isLoading ||
 contactService.isLoading"></mat-spinner>
 <div id="maindiv" *ngIf='!projectService.isLoading && project && !companyService.isLoading &&
 !contactService.isLoading'>
@@ -69,7 +174,8 @@ contactService.isLoading"></mat-spinner>
 				</mat-form-field>
 			</div>
 			<div class="inputfield">
-				<datetime [(ngModel)]="project.deadline" [ngModelOptions]="{standalone: true}" name="projectDeadline" [datepicker]="datepickerOpts" [timepicker]="{ icon: 'fa fa-clock-o' }" [datepicker]="{ icon: 'fa fa-calendar' }"></datetime>
+				<input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
+				<owl-date-time #dt1></owl-date-time>
 			</div>
 			<div class="inputfield">	
 				<mat-form-field class="matffield">
@@ -115,4 +221,4 @@ contactService.isLoading"></mat-spinner>
 			</div>
 		</div>
 	</form>
-</div>
+</div> -->

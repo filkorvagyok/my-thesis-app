@@ -1,22 +1,10 @@
-<!-- <section id="sidenav" class="p-100">
-  <div class="dark-overlay">
-      <div class="containter">
-        <div class="row text-center text-white">
-          <div class="col">
-            alma
-          </div>
-        </div>
-      </div>
-    </div>
-</section> -->
-
 <section id="sidenav" class="bg-dark">
   <div class="container">
     <div id="user-side" class="row text-white">
-      <div class="col text-center py-5">
+      <div class="col text-center py-3">
         <span id="user-icon"><i class="fa fa-user-circle"></i></span>
         <h4 class="py-2">Üdvözlöm!</h4>
-        <button class="btn btn-danger">
+        <button class="btn btn-danger px-3" (click)="onClickNavLink()">
           <i class="fa fa-sign-out"></i> Kijelentkezés
         </button>
       </div>
@@ -24,16 +12,16 @@
     <div class="row">
       <div class="col p-0">
         <nav class="nav flex-column">
-          <a class="nav-link" routerLink="/company" routerLinkActive="active">
+          <a class="nav-link" routerLink="/company" (click)="onClickNavLink()" routerLinkActive="active">
             <h5><i class="fa fa-industry px-2"></i> Cégek</h5>
           </a>
-          <a class="nav-link" routerLink="/project" routerLinkActive="active">
+          <a class="nav-link" routerLink="/project" (click)="onClickNavLink()" routerLinkActive="active">
             <h5><i class="fa fa-folder px-2"></i> Projektek</h5>
           </a>
-          <a class="nav-link" routerLink="/people" routerLinkActive="active">
+          <a class="nav-link" routerLink="/people" (click)="onClickNavLink()" routerLinkActive="active">
             <h5><i class="fa fa-address-book px-2"></i> Névjegyek</h5>
           </a>
-          <a class="nav-link" routerLink="/task" routerLinkActive="active">
+          <a class="nav-link" routerLink="/task" (click)="onClickNavLink()" routerLinkActive="active">
             <h5><i class="fa fa-tasks px-2"></i> Feladatok</h5>
           </a>
         </nav>

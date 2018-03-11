@@ -1,15 +1,23 @@
-$primary: #3F51B5;
+$primary: #3f51b5;
+$green: #388E3C;
+$teal: #009688;
+$red: #F44336;
 $dark: #212121;
+$teal-darken-4: #004d40;
 
 $screen-size-sm: 576px;
 $screen-size-md: 768px;
 $screen-size-lg: 992px;
 $screen-size-xl: 1200px;
 
-$nav-header: 24px;
-$nav-header-md: 3.5vw;
-$nav-header-xl: 3vw;
+$nav-header-h2-xs: 1.5rem;
+$nav-header-h2-sm: 1.9rem;
+$nav-header-h2-md: 2.3rem;
+$nav-header-h2-lg: 2.7rem;
+$nav-header-h2-xl: 3.1rem;
 
-$card-header-list:  16px;
-$card-header-list-md:  2.5vw;
-$card-header-list-xl: 2vw;
+$card-header-h3-xs:  1rem;
+$card-header-h3-sm:  1.3125rem;
+$card-header-h3-md:  1.625rem;
+$card-header-h3-lg:  1.9375rem;
+$card-header-h3-xl:  2.25rem;

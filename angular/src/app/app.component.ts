@@ -7,4 +7,7 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent{}
+export class AppComponent{
+
+  private config = { hour: 7, minute: 15, format: 24 };
+}

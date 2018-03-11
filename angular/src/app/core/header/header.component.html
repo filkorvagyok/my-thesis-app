@@ -1,29 +1,4 @@
-<!-- <mat-toolbar color="primary" class="navbar navbar-default navbar-static-top">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" mat-list-item class="toolbar_li" routerLink="">Főoldal</a>
-        </div>
-        <div *ngIf="authService.isAuthenticated() else anonymous">
-            <ul class="nav navbar-nav navbar-left">
-                <a mat-list-item class="toolbar_li" routerLink="/company/list" routerLinkActive="active">Cégek</a>
-                <a mat-list-item class="toolbar_li" routerLink="/project/list" routerLinkActive="active">Projektek</a>
-                <a mat-list-item class="toolbar_li" routerLink="/people/list" routerLinkActive="active">Névjegyek</a>
-                <a mat-list-item class="toolbar_li" routerLink="/task/list" routerLinkActive="active">Feladatok</a>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <a mat-list-item class="toolbar_li" (click)="onLogout()">Kijelentkezés</a>
-            </ul>
-        </div>
-        <ng-template #anonymous>
-            <ul class="nav navbar-nav navbar-right">
-                <a mat-list-item class="toolbar_li" routerLink="/login" routerLinkActive="active">Bejelentkezés</a>
-                <a mat-list-item class="toolbar_li" routerLink="/register" routerLinkActive="active">Regisztráció</a>
-            </ul>
-        </ng-template>
-    </div>
-</mat-toolbar> -->
-
-<nav *ngIf="authService.isAuthenticated()" class="navbar navbar-expand-md navbar-dark bg-dark py-3">
+<nav *ngIf="authService.isAuthenticated()" class="navbar navbar-expand-md navbar-dark bg-teal-darken-4 py-3">
     <div class="container">
         <a routerLink="" class="navbar-brand">Főoldal</a>
         <button class="navbar-toggler" (click)="toggleSidenav()">

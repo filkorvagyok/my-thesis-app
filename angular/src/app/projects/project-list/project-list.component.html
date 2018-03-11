@@ -1,4 +1,21 @@
-<div  class="panel-body">
+<div class="table-responsive">
+    <table class="table">
+      <thead class="thead-md">
+        <tr>
+          <th></th>
+          <th><h4>Név</h4></th>
+          <th><h4>Határidő</h4></th>
+          <th ><h4>Bevétel</h4></th>
+          <th><h4>Kiadás</h4></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let project of projectService.getItems()" app-project-item [project]="project">
+      </tbody>
+    </table>
+  </div>
+
+<!-- <div  class="panel-body">
 	<div class="table-responsive">
 		<table class="table">
 			<thead>
@@ -76,4 +93,4 @@
       <span>Résztvevő</span>
     </button>
   </mat-menu>
-</div>
+</div> -->

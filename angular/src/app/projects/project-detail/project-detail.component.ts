@@ -15,15 +15,16 @@ import { BaseDetailComponent } from '../../base/base-detail.component';
 })
 export class ProjectDetailComponent extends BaseDetailComponent implements OnInit, AfterViewChecked {
   project: Project;
+  newDate: Date = new Date();
 
   constructor(
-    private companyService: CompanyService,
-    private contactService: ContactService,
-    private taskService: TaskService,
+    protected companyService: CompanyService,
+    protected contactService: ContactService,
+    protected taskService: TaskService,
     protected route: ActivatedRoute,
     protected router: Router,
     protected dialog: MatDialog,
-    private projectService: ProjectService,
+    protected projectService: ProjectService,
     private changeDetector: ChangeDetectorRef
   ) {
     super(route, router, dialog);

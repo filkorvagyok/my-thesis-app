@@ -1,5 +1,5 @@
 import { AuthService } from './../../auth/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-sidenav',
@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit {
+  @Output() clickNavLink = new EventEmitter();
 
   constructor(
     private authService: AuthService
@@ -17,6 +18,10 @@ export class SidenavComponent implements OnInit {
 
   onLogout(): void{
     this.authService.logout();
+  }
+
+  onClickNavLink(){
+    this.clickNavLink.emit();
   }
 
 }

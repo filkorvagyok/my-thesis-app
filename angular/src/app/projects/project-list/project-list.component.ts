@@ -14,25 +14,25 @@ import { BaseListComponent } from '../../base/base-list.component';
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.scss']
 })
-export class ProjectListComponent extends BaseListComponent implements OnInit, OnDestroy {
+export class ProjectListComponent implements OnInit {
   constructor(
-    private projectService: ProjectService,
+    protected projectService: ProjectService/* ,
 		private router: Router,
     protected dialog: MatDialog,
     private companyService: CompanyService,
     private contactService: ContactService,
-    private taskService: TaskService
+    private taskService: TaskService */
   ) {
-    super(dialog);
+    /* super(dialog);
     this.subscription = this.projectService.checkedArray.subscribe(
 			(array: number[]) => this.checkedArray = array
-		);
+		); */
    }
 
   ngOnInit() {
   }
 
-  delete(project: Project | number): void {
+  /* delete(project: Project | number): void {
 		const actualProject = typeof project === 'number' ? this.projectService.getItem(project) : project;
 		if(actualProject.company.length > 0)
 			this.companyService.deleteItems(actualProject);
@@ -66,5 +66,5 @@ export class ProjectListComponent extends BaseListComponent implements OnInit, O
     project.name = name.trim();
     if (!name) { return; }
     this.projectService.add(project);
-  }
+  } */
 }

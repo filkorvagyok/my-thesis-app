@@ -23,14 +23,7 @@ export abstract class BaseDetailComponent implements OnInit, AfterViewChecked{
     /*Megjelenik a DeleteDialog és ha ott megerősítettük a törlést,
   	akkor meghívjuk a törlés funkciót*/
 	clickOnDeleteProductButton(item: any): void{
-		let dialogRef = this.dialog.open(DeleteDialog);
-		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
-			if(result === true)
-			{
-				this.delete(item);
-			}
-		});
+        this.delete(item);
     }
     
     abstract delete(item: any): void;

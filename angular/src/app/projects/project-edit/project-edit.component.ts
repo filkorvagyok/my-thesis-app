@@ -22,11 +22,11 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 	contactChanged: boolean = false;
 
   constructor(
-		private companyService: CompanyService,
-		private contactService: ContactService,
+		protected companyService: CompanyService,
+		protected contactService: ContactService,
 		protected route: ActivatedRoute,
 		protected router: Router,
-		private projectService: ProjectService,
+		protected projectService: ProjectService,
 		private fb: FormBuilder,
 		private changeDetector: ChangeDetectorRef
 	) {

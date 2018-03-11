@@ -20,9 +20,9 @@
       "prefix": "app",
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.css",
-        "../node_modules/font-awesome/css/font-awesome.css",
-        "../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css",
-        "../node_modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css",
+        "../node_modules/font-awesome/css/font-awesome.min.css",
+        "../node_modules/mdbootstrap/css/mdb.css",
+        "../node_modules/ng-pick-datetime/assets/style/picker.min.css",
         "styles.css",
         "theme.scss"
       ],
@@ -35,9 +35,7 @@
         "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/popper.js/dist/umd/popper.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
-        "../node_modules/bootstrap-datepicker/js/bootstrap-datepicker.js",
-        "../node_modules/bootstrap-timepicker/js/bootstrap-timepicker.js",
-        "../node_modules/bootstrap-datepicker/dist/locales/bootstrap-datepicker.hu.min.js"
+        "../node_modules/mdbootstrap/js/mdb.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

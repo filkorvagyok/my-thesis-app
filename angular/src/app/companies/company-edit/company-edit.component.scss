@@ -1,28 +1,14 @@
 @import "../../../variables.scss";
 @import "../../../default-styles.scss";
 
-#card-header-list{
-    font-size: $card-header-list;
+.mat-checkbox-div{
+    margin-left: 35px;
 }
 
-@media (min-width: $screen-size-md) {
-    #card-header-list{
-        font-size: $card-header-list-md;
-    }
-}
-
-@media (min-width: $screen-size-xl) {
-    #card-header-list{
-        font-size: $card-header-list-xl;
-    }
-}
-
-form{
-    width: 100%;
+mat-form-field, mat-error{
     margin: 2px 50px 2px 50px;
 }
 
-hr{
-    margin-left: -50px;
-    margin-right: -50px;
+h4{
+    margin-left: 20px;
 }

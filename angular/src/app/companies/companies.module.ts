@@ -1,3 +1,4 @@
+import { SharedModule } from './../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CompanyRoutingModule } from './companies-routing.module';
@@ -23,7 +24,8 @@ import { NgModule } from '@angular/core';
     MatButtonModule,
     MatMenuModule,
     MatSelectModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    SharedModule
   ],
   declarations: [
     CompaniesComponent,

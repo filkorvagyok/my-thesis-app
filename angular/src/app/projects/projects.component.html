@@ -1,5 +1,156 @@
-<div class="row">
-  <div class="col-md-10 col-md-offset-1">
+<header id="main-header" class="py-3 bg-green text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="nav-header"><i class="fa fa-folder"></i> Projektek</h2>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section id="projects">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <mat-spinner color="accent" *ngIf="projectService.isLoading; else elseBlockOne"></mat-spinner>
+                <ng-template #elseBlockOne>
+                    <div class="card my-5">
+                        <div class="card-header bg-dark text-white">
+                            <div class="row card-header-row">
+                                <div class="col-md-4 col-lg-6">
+                                    <h3 class="card-header-h3">Projektek listája</h3>
+                                </div>
+                                <div class="col-md-4 col-lg-3 card-header-button-md">
+                                    <a routerLink="/project/new" class="btn btn-green green darken-2 btn-block card-header-button">
+                                        <i class="fa fa-plus"></i> Új hozzáadása
+                                    </a>
+                                </div>
+                                <div class="col-md-4 col-lg-3 card-header-button-md">
+                                    <button class="btn btn-outline-green darken-2 btn-block card-header-button waves-effect"
+                                    data-toggle="modal" data-target="#addInstantModal">
+                                        <i class="fa fa-bolt"></i> 
+                                        <span class="card-header-button-span-md">Új hozzáadása</span>
+                                        <span class="card-header-button-span-xl">Új hozzáadása instant</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center py-3" *ngIf="!projectService.getItems() || projectService.getItems().length < 1; else elseBlockTwo">
+                            <h1>Nincs megadva egyetlen projekt sem</h1>
+                            <p class="m-5">
+                                Projektek keretében számos extra dolgot tudsz a feladatokkal csinálni, például Gantt-diagramm szerint rendezheted, megjeleníthed. A projektek bevétel és költség oldalról, illetve határidők segítségével is hatékonyabbá teszik a munkavégzést.<br><br>
+                                Ha egyébként nem projekt alapon dolgozol, akkor a projektek segítségével csoportosíthatod a feladatokat.<br><br>
+                                A projektekhez hozzárendelheted a résztvevőket különböző szerepkörökben és könnyen, egyszerűen kommunikálhatsz velük a projekt kapcsán. Úgy az ügyfeleiddel, partnereiddel, mint a munkatársaddal.
+                            </p>
+                            <a routerLink="/project/new" class="btn btn-green green darken-2">
+                                <i class="fa fa-plus"></i> Új projekt hozzáadása
+                            </a>
+                        </div>
+                        <ng-template #elseBlockTwo>
+                            <app-project-list></app-project-list>
+                        </ng-template>
+                    </div>
+                    <div class="row" *ngIf="projectService.getItems() && projectService.getItems().length > 0">
+                        <div class="col-sm-5 card-header-button-sm pb-2">
+                            <a routerLink="/project/new" class="btn btn-green darken-2 btn-block">
+                                <i class="fa fa-plus"></i> Új hozzáadása
+                            </a>
+                        </div>
+                        <div class="col-sm-7 card-header-button-sm">
+                            <button class="btn btn-outline-green darken-2 btn-block waves-effect"  data-toggle="modal"
+                            data-target="#addInstantModal">
+                                <i class="fa fa-bolt"></i> <span>Új hozzáadása instant</span>
+                            </button>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="checkedArray.length > 0">
+        <button mat-fab [matMenuTriggerFor]="menu" color="accent">
+            <mat-icon aria-hidden="true">clear</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+                <mat-icon class="fa fa-check"></mat-icon>
+                <span>Kész</span>
+            </button>
+            <button mat-menu-item>
+                <mat-icon class="fa fa-file"></mat-icon>
+                <span>Új feladat</span>
+            </button>
+            <button mat-menu-item (click)="navigateToNewCompany()">
+                <mat-icon class="fa fa-industry"></mat-icon>
+                <span>Új cég</span>
+            </button>
+            <button mat-menu-item [matMenuTriggerFor]="contact">
+                <mat-icon class="fa fa-user-plus"></mat-icon>
+                <span>Új felhasználó</span>
+            </button>
+            <button mat-menu-item [disabled]="checkedArray.length > 1" (click)="navigateToEdit()">
+                <mat-icon class="fa fa-pencil"></mat-icon>
+                <span>Szerkesztés</span>
+            </button>
+            <button mat-menu-item data-toggle="modal" data-target="#deleteItemModal" >
+                <mat-icon class="fa fa-trash"></mat-icon>
+                <span>Törlés</span>
+            </button>
+        </mat-menu>
+        <mat-menu #contact="matMenu">
+            <button mat-menu-item (click)="navigateToNewContact(0)">
+                <mat-icon class="fa fa-user-plus"></mat-icon>
+                <span>Felelős</span>
+            </button>
+            <button mat-menu-item (click)="navigateToNewContact(1)">
+                <mat-icon class="fa fa-user-plus"></mat-icon>
+                <span>Tulajdonos</span>
+            </button>
+            <button mat-menu-item (click)="navigateToNewContact(2)">
+                <mat-icon class="fa fa-user-plus"></mat-icon>
+                <span>Megfigyelő</span>
+            </button>
+            <button mat-menu-item (click)="navigateToNewContact(3)">
+                <mat-icon class="fa fa-user-plus"></mat-icon>
+                <span>Résztvevő</span>
+            </button>
+        </mat-menu>
+    </div>
+</section>
+
+<div class="modal fade" id="addInstantModal" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-green text-white">
+                <h5 class="modal-title">Új projekt hozzáadása instant</h5>
+                <button class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <form #f="ngForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input #projectName matInput name="projectName" placeholder="Projekt neve" ngModel required>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-grey" data-dismiss="modal">Bezár</button>
+                    <button class="btn btn-green green darken-2" (click)="onSubmit(f)" type="submit"
+                    [disabled]="!f.valid" data-dismiss="modal">
+                        Hozzáadás
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<delete-dialog class="modal fade" id="deleteItemModal" (clickEvent)="clickOnDeleteProductButton()"
+data-backdrop="false">
+</delete-dialog>
+
+
+<!-- <div class="row">
       <mat-spinner *ngIf="projectService.isLoading; else elseBlockOne"></mat-spinner>
       <ng-template #elseBlockOne>
           <div class="panel panel-default">
@@ -10,7 +161,7 @@
                 <p>Projektek keretében számos extra dolgot tudsz a feladatokkal csinálni, például Gantt-diagramm szerint rendezheted, megjeleníthed. A projektek bevétel és költség oldalról, illetve határidők segítségével is hatékonyabbá teszik a munkavégzést.<br><br>
                 Ha egyébként nem projekt alapon dolgozol, akkor a projektek segítségével csoportosíthatod a feladatokat.<br><br>
                 A projektekhez hozzárendelheted a résztvevőket különböző szerepkörökben és könnyen, egyszerűen kommunikálhatsz velük a projekt kapcsán. Úgy az ügyfeleiddel, partnereiddel, mint a munkatársaddal.</p>
-                  <button mat-raised-button color="primary" (click)="createNewItem()">
+                  <button mat-raised-button color="secondary" (click)="createNewItem()">
                       <i class="fa fa-plus"></i> Új projekt hozzáadása
                   </button>
               </div>
@@ -19,5 +170,92 @@
               </ng-template>
           </div>
       </ng-template>
-  </div>
-</div>
+</div> -->
+
+<!-- <section id="projects">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <mat-spinner color="secondary" *ngIf="projectService.isLoading; else elseBlockOne"></mat-spinner>
+                <ng-template #elseBlockOne>
+                    <div class="card my-5">
+                        <div class="card-header bg-dark text-white">
+                            <div class="row"  id="card-header-row">
+                                <div class="col-md-4 col-lg-6">
+                                    <h3 class="card-header-h3">Projektek listája</h3>
+                                </div>
+                                <div class="col-md-4 col-lg-3 card-header-button-md">
+                                    <a routerLink="/project/new" class="btn btn-green green darken-2 btn-block card-header-button">
+                                        <i class="fa fa-plus"></i> Új hozzáadása
+                                    </a>
+                                </div>
+                                <div class="col-md-4 col-lg-3 card-header-button-md">
+                                    <button class="btn btn-outline-green darken-2 btn-block card-header-button waves-effect"
+                                    data-toggle="modal" data-target="#addInstantModal">
+                                        <i class="fa fa-bolt"></i> 
+                                        <span class="screen-md-span">Új hozzáadása</span>
+                                        <span class="screen-xl-span">Új hozzáadása instant</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center py-3" *ngIf="!projectService.getItems() || projectService.getItems().length < 1; else elseBlockTwo">
+                            <h1>Nincs megadva egyetlen projekt sem</h1>
+                            <p class="m-5">
+                                Projektek keretében számos extra dolgot tudsz a feladatokkal csinálni, például Gantt-diagramm szerint rendezheted, megjeleníthed. A projektek bevétel és költség oldalról, illetve határidők segítségével is hatékonyabbá teszik a munkavégzést.<br><br>
+                                Ha egyébként nem projekt alapon dolgozol, akkor a projektek segítségével csoportosíthatod a feladatokat.<br><br>
+                                A projektekhez hozzárendelheted a résztvevőket különböző szerepkörökben és könnyen, egyszerűen kommunikálhatsz velük a projekt kapcsán. Úgy az ügyfeleiddel, partnereiddel, mint a munkatársaddal.
+                            </p>
+                            <a routerLink="/project/new" class="btn btn-green green darken-2">
+                                <i class="fa fa-plus"></i> Új projekt hozzáadása
+                            </a>
+                        </div>
+                        <ng-template #elseBlockTwo>
+                            <app-project-list></app-project-list>
+                        </ng-template>
+                    </div>
+                    <div class="row" *ngIf="projectService.getItems() && projectService.getItems().length > 1">
+                        <div class="col-sm-5 card-header-button-sm pb-2">
+                            <a routerLink="/project/new" class="btn btn-green darken-2 btn-block">
+                                <i class="fa fa-plus"></i> Új hozzáadása
+                            </a>
+                        </div>
+                        <div class="col-sm-7 card-header-button-sm">
+                            <button class="btn btn-outline-green darken-2 btn-block waves-effect"  data-toggle="modal"
+                            data-target="#addInstantModal">
+                                <i class="fa fa-bolt"></i> <span>Új hozzáadása instant</span>
+                            </button>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="checkedArray.length > 0">
+        <button mat-fab [matMenuTriggerFor]="menu" color="secondary" >
+            <mat-icon aria-hidden="true">clear</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button style="outline: none;" mat-menu-item>
+                <mat-icon class="fa fa-file"></mat-icon>
+                <span>Új feladat</span>
+            </button>
+            <button mat-menu-item (click)="navigateToNewProject()">
+                <mat-icon class="fa fa-folder"></mat-icon>
+                <span>Új projekt</span>
+            </button>
+            <button mat-menu-item (click)="navigateToNewContact()">
+                <mat-icon class="fa fa-user-plus"></mat-icon>
+                <span>Új felhasználó</span>
+            </button>
+            <button mat-menu-item [disabled]="checkedArray.length>1" (click)="navigateToEdit()">
+                <mat-icon class="fa fa-pencil"></mat-icon>
+                <span>Szerkesztés</span>
+            </button>
+            <button mat-menu-item data-toggle="modal" data-target="#deleteItemModal" >
+                <mat-icon class="fa fa-trash"></mat-icon>
+                <span>Törlés</span>
+            </button>
+        </mat-menu>
+    </div>
+</section> -->

@@ -20,10 +20,10 @@ export class CompanyDetailComponent extends BaseDetailComponent implements OnIni
     protected route: ActivatedRoute,
     protected router: Router,
     protected dialog: MatDialog,
-    private companyService: CompanyService,
+    protected companyService: CompanyService,
     private changeDetector: ChangeDetectorRef,
-    private contactService: ContactService,
-    private projectService: ProjectService,
+    protected contactService: ContactService,
+    protected projectService: ProjectService,
     private taskService: TaskService
   ) {
     super(route, router, dialog);

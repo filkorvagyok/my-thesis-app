@@ -1,0 +1,12 @@
+@import "../../../default-styles.scss";
+@import "../../../variables.scss";
+
+.text-small{
+    font-size: 80%;
+}
+
+@media (min-width: $screen-size-sm) {
+    .br-xs{
+        display: none;
+    }
+}

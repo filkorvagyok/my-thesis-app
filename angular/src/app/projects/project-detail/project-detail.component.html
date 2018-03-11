@@ -1,4 +1,4 @@
-<mat-spinner *ngIf="projectService.isLoading || !project"></mat-spinner>
+<!-- <mat-spinner *ngIf="projectService.isLoading || !project"></mat-spinner>
 <form *ngIf="!projectService.isLoading && project" class="panel panel-default">
 	<div class="panel-heading" color="primary">{{project.name}}</div>
 	<div  class="panel-body">
@@ -137,4 +137,189 @@
 </form>
 <div id="back">
 	<button mat-raised-button color="primary" (click)="navigateBack()">Vissza</button>
-</div>
+</div> -->
+
+
+<section id="project-detail">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<mat-spinner color="accent" *ngIf="projectService.isLoading || !project; else elseBlock">
+					</mat-spinner>
+					<ng-template #elseBlock>
+						<div class="card my-5">
+							<div class="card-header bg-green text-white">
+								<h3 id=".card-header-h3">{{project.name}} részletei</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-4 text-center m-auto">
+										<h2 class="card-title">{{project.name}}</h2>
+									</div>
+									<div class="col"></div>
+									<div class="col-md-7 pl-4 pt-3">
+										<p>
+											<strong>Határidő: </strong>
+											<span
+											[ngStyle]="{'color': (newDate > project.deadline) ? 'red' : 'black'}">
+												{{project.deadline | date:'yyyy-MM-dd HH:mm'}}
+											</span>
+											<span class="text-danger" *ngIf="newDate > project.deadline">
+												<i class="fa fa-exclamation"></i>
+											</span>
+										</p>
+										<p>
+											<strong>Státusz: </strong>{{project.status}}
+										</p>
+										<p>
+											<strong>Bevétel: </strong>
+											{{project.income | number | huDecimal}}
+										</p>
+										<p>
+											<strong>Kiadás: </strong>
+											{{project.expenditure | number | huDecimal}}
+										</p>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col pl-4 pt-3">
+										<p><strong>Leírás: </strong></p>
+										<p class="text-muted pl-2">
+											{{project.description}}
+										</p>
+									</div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-md-6">
+										<h3>Cégek</h3>
+										<ul>
+											<li *ngFor="let company of companyService.getCertainItems(project)">
+												<a mat-list-item class="linkTo"
+												routerLink="/company/shown/{{company.id}}">
+													{{company.name}}
+												</a>
+											</li>
+										</ul>
+									</div>
+									<div class="col-md-6">
+										<h3 class="contact">Névjegyek</h3>
+										<div class="pl-4 pt-2">
+											<ng-template [ngIf]="contactService.getCertainItems(project, 0).length == 1">
+												<h5><strong>Felelős:</strong></h5>
+											</ng-template>
+											<ng-template [ngIf]="contactService.getCertainItems(project, 0).length > 1">
+												<h5><strong>Felelősök:</strong></h5>
+											</ng-template>
+											<ul *ngFor="let accountable of contactService.getCertainItems(project, 0)">
+												<li>
+													<a mat-list-item class="linkTo" routerLink="/people/shown/{{accountable.id}}" routerLinkActive="active">
+														{{accountable.full_name}}
+													</a>
+												</li>
+											</ul>
+											<ng-template [ngIf]="contactService.getCertainItems(project, 2).length == 1">
+												<h5><strong>Tulajdonos:</strong></h5>
+											</ng-template>
+											<ng-template [ngIf]="contactService.getCertainItems(project, 2).length > 1">
+												<h5><strong>Tulajdonosok:</strong></h5>
+											</ng-template>
+											<ul *ngFor="let owner of contactService.getCertainItems(project, 2)">
+												<li>
+													<a mat-list-item class="linkTo" routerLink="/people/shown/{{owner.id}}" routerLinkActive="active">
+														{{owner.full_name}}
+													</a>
+												</li>
+											</ul>
+											<ng-template [ngIf]="contactService.getCertainItems(project, 1).length == 1">
+												<h5><strong>Megfigyelő:</strong></h5>
+											</ng-template>
+											<ng-template [ngIf]="contactService.getCertainItems(project, 1).length > 1">
+												<h5><strong>Megfigyelők:</strong></h5>
+											</ng-template>
+											<ul *ngFor="let observer of contactService.getCertainItems(project, 1)">
+												<li>
+													<a mat-list-item class="linkTo" routerLink="/people/shown/{{observer.id}}" routerLinkActive="active">
+														{{observer.full_name}}
+													</a>
+												</li>
+											</ul>
+											<ng-template [ngIf]="contactService.getCertainItems(project, 3).length == 1">
+												<h5><strong>Résztvevő:</strong></h5>
+											</ng-template>
+											<ng-template [ngIf]="contactService.getCertainItems(project, 3).length > 1">
+												<h5><strong>Résztvevők:</strong></h5>
+											</ng-template>
+											<ul *ngFor="let participant of contactService.getCertainItems(project, 3)">
+												<li>
+													<a mat-list-item class="linkTo" routerLink="/people/shown/{{participant.id}}" routerLinkActive="active">
+														{{participant.full_name}}
+													</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer">
+								<div class="row">
+									<div class="col-lg-2 col-6 col-sm-4 col-md-3">
+										<a routerLink="../../" class="btn btn-green green darken-2 btn-block">Vissza</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<delete-dialog class="modal fade" id="deleteItemModal"
+						(clickEvent)="clickOnDeleteProductButton(project)" data-backdrop="false">
+						</delete-dialog>
+					</ng-template>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div>
+			<button mat-fab [matMenuTriggerFor]="menu" color="accent">
+				<mat-icon aria-hidden="true">clear</mat-icon>
+			</button>
+			<mat-menu #menu="matMenu">
+				<button mat-menu-item>
+					<mat-icon class="fa fa-file"></mat-icon>
+					<span>Új feladat</span>
+				</button>
+				<button mat-menu-item (click)="createNewCompany()">
+					<mat-icon class="fa fa-industry"></mat-icon>
+					<span>Új cég</span>
+				</button>
+				<button mat-menu-item [matMenuTriggerFor]="contact">
+					<mat-icon class="fa fa-user-plus"></mat-icon>
+					<span>Új felhasználó</span>
+				</button>
+				<button mat-menu-item (click)="navigateToEdit()">
+					<mat-icon class="fa fa-pencil"></mat-icon>
+					<span>Szerkesztés</span>
+				</button>
+				<button mat-menu-item data-toggle="modal" data-target="#deleteItemModal">
+					<mat-icon class="fa fa-trash"></mat-icon>
+					<span>Törlés</span>
+				</button>
+			</mat-menu>
+			<mat-menu #contact="matMenu">
+			<button mat-menu-item (click)="createNewContact(0)">
+				<mat-icon class="fa fa-user-plus"></mat-icon>
+				<span>Felelős</span>
+			</button>
+			<button mat-menu-item (click)="createNewContact(1)">
+				<mat-icon class="fa fa-user-plus"></mat-icon>
+				<span>Tulajdonos</span>
+			</button>
+			<button mat-menu-item (click)="createNewContact(2)">
+				<mat-icon class="fa fa-user-plus"></mat-icon>
+				<span>Megfigyelő</span>
+			</button>
+			<button mat-menu-item (click)="createNewContact(3)">
+				<mat-icon class="fa fa-user-plus"></mat-icon>
+				<span>Résztvevő</span>
+			</button>
+		</mat-menu>
+		</div>

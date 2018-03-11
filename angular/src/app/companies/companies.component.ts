@@ -21,9 +21,9 @@ export class CompaniesComponent extends BaseComponent{
         private contactService: ContactService,
         private projectService: ProjectService,
         private taskService: TaskService,
-        private companyService: CompanyService,
+        protected companyService: CompanyService,
         private router: Router,
-        protected dialog: MatDialog,
+        protected dialog: MatDialog
     ){
         super(dialog);
         this.subscription = this.companyService.checkedArray.subscribe(

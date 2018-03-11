@@ -18,8 +18,7 @@ import { BaseListComponent } from '../../base/base-list.component';
 export class CompanyListComponent implements OnInit{
 
 	constructor(
-		private companyService: CompanyService,
-		private router: Router
+		protected companyService: CompanyService
 	){
   }
 

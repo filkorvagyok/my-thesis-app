@@ -1,8 +1,8 @@
-<header id="main-header" class="py-3 bg-primary text-white">
+<header id="main-header" class="py-3 bg-indigo text-white">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <h2 id="company-header"><i class="fa fa-industry"></i> Cégek</h2>
+                <h2 class="nav-header"><i class="fa fa-industry"></i> Cégek</h2>
             </div>
         </div>
     </div>
@@ -12,30 +12,30 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <mat-spinner color="accent" *ngIf="companyService.isLoading; else elseBlockOne"></mat-spinner>
+                <mat-spinner color="primary" *ngIf="companyService.isLoading; else elseBlockOne"></mat-spinner>
                 <ng-template #elseBlockOne>
                     <div class="card my-5">
                         <div class="card-header bg-dark text-white">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h3 id="card-header-list">Cégek Listája</h3>
+                            <div class="row card-header-row">
+                                <div class="col-md-4 col-lg-6">
+                                    <h3 class="card-header-h3">Cégek Listája</h3>
                                 </div>
-                                <div class="col-md-3 screen-md">
-                                    <a routerLink="/company/new" class="btn btn-primary btn-block">
+                                <div class="col-md-4 col-lg-3 card-header-button-md">
+                                    <a routerLink="/company/new" class="btn btn-indigo btn-block card-header-button">
                                         <i class="fa fa-plus"></i> Új hozzáadása
                                     </a>
                                 </div>
-                                <div class="col-md-3 screen-md">
-                                    <button class="btn btn-outline-primary btn-block"
-                                    data-toggle="modal" data-target="#addPostModal">
+                                <div class="col-md-4 col-lg-3 card-header-button-md">
+                                    <button class="btn btn-outline-indigo btn-block card-header-button waves-effect"
+                                    data-toggle="modal" data-target="#addInstantModal">
                                         <i class="fa fa-bolt"></i> 
-                                        <span class="screen-md-span">Új hozzáadása</span>
-                                        <span class="screen-lg-span">Új hozzáadása instant</span>
+                                        <span class="card-header-button-span-md">Új hozzáadása</span>
+                                        <span class="card-header-button-span-xl">Új hozzáadása instant</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <div id="no-company" class="text-center py-3" *ngIf="!companyService.getItems() ||
+                        <div class="text-center py-3" *ngIf="!companyService.getItems() ||
                         companyService.getItems().length < 1; else elseBlockTwo">
                             <h1>Nincs megadva egyetlen cég sem</h1>
                             <p class="m-5">
@@ -44,7 +44,7 @@
                                 információt.<br>
                                 Nem kötelező, de ajánlott.
                             </p>
-                            <a routerLink="/company/new" class="btn btn-primary">
+                            <a routerLink="/company/new" class="btn btn-indigo">
                                 <i class="fa fa-plus"></i> Új cég hozzáadása
                             </a>
                         </div>
@@ -52,15 +52,15 @@
                             <app-company-list></app-company-list>
                         </ng-template>
                     </div>
-                    <div class="row" *ngIf="companyService.getItems() && companyService.getItems().length > 1">
-                        <div class="col-sm-5 screen-sm pb-2">
-                            <a routerLink="/company/new" class="btn btn-primary btn-block">
+                    <div class="row" *ngIf="companyService.getItems() && companyService.getItems().length > 0">
+                        <div class="col-sm-5 card-header-button-sm pb-2">
+                            <a routerLink="/company/new" class="btn btn-indigo btn-block">
                                 <i class="fa fa-plus"></i> Új hozzáadása
                             </a>
                         </div>
-                        <div class="col-sm-7 screen-sm">
-                            <button class="btn btn-outline-primary btn-block"  data-toggle="modal"
-                            data-target="#addPostModal">
+                        <div class="col-sm-7 card-header-button-sm">
+                            <button class="btn btn-outline-indigo btn-block waves-effect"  data-toggle="modal"
+                            data-target="#addInstantModal">
                                 <i class="fa fa-bolt"></i> <span>Új hozzáadása instant</span>
                             </button>
                         </div>
@@ -70,11 +70,11 @@
         </div>
     </div>
     <div *ngIf="checkedArray.length > 0">
-        <button mat-fab [matMenuTriggerFor]="menu" color="accent">
-            <mat-icon class="fa fa-bars fa-lg" aria-hidden="true"></mat-icon>
+        <button mat-fab [matMenuTriggerFor]="menu" color="primary" >
+            <mat-icon aria-hidden="true">clear</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-            <button mat-menu-item>
+            <button style="outline: none;" mat-menu-item>
                 <mat-icon class="fa fa-file"></mat-icon>
                 <span>Új feladat</span>
             </button>
@@ -90,7 +90,7 @@
                 <mat-icon class="fa fa-pencil"></mat-icon>
                 <span>Szerkesztés</span>
             </button>
-            <button mat-menu-item (click)="clickOnDeleteProductButton()">
+            <button mat-menu-item data-toggle="modal" data-target="#deleteItemModal" >
                 <mat-icon class="fa fa-trash"></mat-icon>
                 <span>Törlés</span>
             </button>
@@ -98,24 +98,25 @@
     </div>
 </section>
 
-<div class="modal fade" id="addPostModal" data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.7);">
+
+<div class="modal fade" id="addInstantModal" data-backdrop="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+            <div class="modal-header bg-indigo text-white">
                 <h5 class="modal-title">Új cég hozzáadása instant</h5>
                 <button class="close" data-dismiss="modal"><span>&times;</span></button>
             </div>
             <form #f="ngForm">
                 <div class="modal-body">
                     <div class="form-group">
-                        <mat-form-field color="accent">
-                            <input #companyName matInput name="companyName" placeholder="Név" ngModel required>
+                        <mat-form-field>
+                            <input #companyName matInput name="companyName" placeholder="Cég neve" ngModel required>
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal">Bezár</button>
-                    <button class="btn btn-primary" (click)="onSubmit(f)" type="submit"
+                    <button class="btn btn-grey" data-dismiss="modal">Bezár</button>
+                    <button class="btn btn-indigo" (click)="onSubmit(f)" type="submit"
                     [disabled]="!f.valid" data-dismiss="modal">
                     Hozzáadás
                     </button>
@@ -124,3 +125,7 @@
         </div>
     </div>
 </div>
+
+<delete-dialog class="modal fade" id="deleteItemModal" (clickEvent)="clickOnDeleteProductButton()"
+data-backdrop="false">
+</delete-dialog>

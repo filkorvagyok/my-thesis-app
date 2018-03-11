@@ -5,8 +5,8 @@
 				<mat-spinner *ngIf="companyService.isLoading || !company; else elseBlock"></mat-spinner>
 				<ng-template #elseBlock>
 					<div class="card my-5">
-						<div class="card-header bg-primary text-white">
-							<h3 id="card-header-list">{{company.name}} részletei</h3>
+						<div class="card-header bg-indigo text-white">
+							<h3 id=".card-header-h3">{{company.name}} részletei</h3>
 						</div>
 						<div class="card-body">
 							<div class="row">
@@ -60,12 +60,15 @@
 						</div>
 						<div class="card-footer">
 							<div class="row">
-								<div class="col-4 col-sm-3 col-md-2">
-									<a routerLink="../../" class="btn btn-primary btn-block">Vissza</a>
+								<div class="col-lg-2 col-6 col-sm-4 col-md-3">
+									<a routerLink="../../" class="btn btn-indigo btn-block">Vissza</a>
 								</div>
 							</div>
 						</div>
 					</div>
+					<delete-dialog class="modal fade" id="deleteItemModal"
+					(clickEvent)="clickOnDeleteProductButton(company)" data-backdrop="false">
+					</delete-dialog>
 				</ng-template>
 			</div>
 		</div>
@@ -73,8 +76,8 @@
 </section>
 
 <div>
-	<button mat-fab [matMenuTriggerFor]="menu" color="accent">
-		<mat-icon class="fa fa-bolt fa-lg" aria-hidden="true"></mat-icon>
+	<button mat-fab [matMenuTriggerFor]="menu" color="primary" >
+		<mat-icon aria-hidden="true">clear</mat-icon>
 	</button>
 	<mat-menu #menu="matMenu">
 		<button mat-menu-item>
@@ -93,7 +96,7 @@
 			<mat-icon class="fa fa-pencil"></mat-icon>
 			<span>Szerkesztés</span>
 		</button>
-		<button mat-menu-item (click)="clickOnDeleteProductButton(company)">
+		<button mat-menu-item data-toggle="modal" data-target="#deleteItemModal">
 			<mat-icon class="fa fa-trash"></mat-icon>
 			<span>Törlés</span>
 		</button>

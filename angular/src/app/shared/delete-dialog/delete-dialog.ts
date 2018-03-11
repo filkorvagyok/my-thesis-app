@@ -1,22 +1,15 @@
-import { Component, Inject } from '@angular/core';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'delete-dialog',
   templateUrl: 'delete-dialog.html',
 })
 export class DeleteDialog{
+  @Output() clickEvent = new EventEmitter();
 
-  constructor(
-    public dialogRef: MatDialogRef<DeleteDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor() {}
 
-  onNoClick(): void {
-    this.dialogRef.close(false);
+  onDelete(){
+    this.clickEvent.emit();
   }
-
-  onYesClick(): void {
-    this.dialogRef.close(true);
-  }
-
 }

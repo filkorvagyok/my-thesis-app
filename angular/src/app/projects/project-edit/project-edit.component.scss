@@ -1,0 +1,10 @@
+@import "../../../default-styles.scss";
+@import "../../../variables.scss";
+
+mat-form-field, mat-error{
+    margin: 2px 50px 2px 50px;
+}
+
+.owl-date-input{
+    margin-left: 50px;
+}

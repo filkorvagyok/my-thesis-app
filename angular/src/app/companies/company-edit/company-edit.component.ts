@@ -1,5 +1,5 @@
 import { Country } from './../models/country';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormControl, AbstractControl } from '@angular/forms';
 import { CompanyService } from './../company.service';
 import { Company } from './../company';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -30,7 +30,7 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 	constructor(
 		protected route: ActivatedRoute,
 		protected router: Router,
-		private companyService: CompanyService,
+		protected companyService: CompanyService,
 		private fb: FormBuilder,
 		private changeDetector: ChangeDetectorRef
 		) {
@@ -172,10 +172,20 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 	onSubmit(company: Company){
 		if(this.companyForm.valid)  //Ha a validitás megfelelő
 		  this.edit? this.save() : this.add(company);  //Ha az edit true, akkor a save hívódik meg, különben az add
-		else
+		/* else
 		{
-		  $(document.getElementById('maindiv')).animate({ scrollTop: 0 }, 1000); //Felgörger az oldal tetejére
-		  this.validateAllFormFields(this.companyForm);
-		}
+			this.validateAllFormFields(this.companyForm);
+			let target: AbstractControl;
+			for(var i in this.companyForm.controls)
+			{
+				if(!this.companyForm.controls[i].valid){
+					target = this.companyForm.controls[i];
+					break;
+				}
+			}
+			console.log(target);
+			if(target)
+				$('html,body').animate({scrollTop: $(target).offset().top}, 'slow'); //Felgörger az oldal tetejére
+		} */
 	}
 }
