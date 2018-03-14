@@ -243,15 +243,18 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<mat-spinner *ngIf="companyService.isLoading || !company; else elseBlock">
-				</mat-spinner>
-				<ng-template #elseBlock>
 					<div class="card my-5">
-						<div class="card-header bg-indigo text-white">
-							<h3 id=".card-header-h3" *ngIf="!edit">Új Cég</h3>
-							<h3 id=".card-header-h3" *ngIf="edit">{{company.name}} Szerkesztése</h3>
+						<div class="card-header bg-teal-darken-1 text-white">
+							<h3 class="card-header-h3" *ngIf="!edit; else editblock">Új Cég</h3>
+							<ng-template #editblock>
+								<h3 class="card-header-h3" *ngIf="!companyService.isLoading && company; else noheader">{{company.name}} Szerkesztése</h3>
+								<ng-template #noheader><h3 class="card-header-h3">...</h3></ng-template>
+							</ng-template>
 						</div>
 						<div class="card-body">
+							<mat-spinner *ngIf="companyService.isLoading || !company; else elseBlock">
+							</mat-spinner>
+							<ng-template #elseBlock>
 							<div class="row">
 								<form class="edit-form" [formGroup]="companyForm" (ngSubmit)="onSubmit(company)">
 									<mat-form-field>
@@ -307,10 +310,10 @@
 										<input matInput type="text" [(ngModel)]="company.hq_address" formControlName="companyHqAddress" placeholder="Cím">
 									</mat-form-field>
 									<div class="mat-checkbox-div my-2" *ngIf="!edit">
-										<mat-checkbox class="pr-4" [checked]="billing" (change)="billing = !billing" color="primary">
+										<mat-checkbox class="pr-4" [checked]="billing" (change)="billing = !billing" color="accent">
 											A számlázási adatok azonosak
 										</mat-checkbox>
-										<mat-checkbox [checked]="mail" (change)="mail = !mail" color="primary">
+										<mat-checkbox [checked]="mail" (change)="mail = !mail" color="accent">
 											A levelezési adatok azonosak
 										</mat-checkbox>
 									</div>
@@ -412,22 +415,22 @@
 									<mat-error *ngIf="!companyForm.controls['companyFounded'].valid && companyForm.controls['companyFounded'].touched">
 										Nem megfelelő évszám!
 									</mat-error>
-									<div class="row mx-2 my-4">
+									<div class="row mx-2 mt-5">
 										<div class="col-md-6 col-sm-4 col-0"></div>
 										<div class="col-md-3 col-sm-4 col-6">
 											<button class="btn btn-grey btn-block" (click)="navigateBack()">Mégse</button>
 										</div>
 										<div class="col-md-3 col-sm-4 col-6">
-											<button type="submit" [disabled]="!companyForm.valid" class="btn btn-indigo btn-block">
+											<button type="submit" [disabled]="!companyForm.valid" class="btn btn-deep-orange deep-orange darken-4 btn-block">
 												Mentés
 											</button>
 										</div>				
 									</div>
 								</form>
 							</div>
+						</ng-template>
 						</div>
 					</div>
-				</ng-template>
 			</div>
 		</div>
 	</div>

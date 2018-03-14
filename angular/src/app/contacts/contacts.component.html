@@ -8,7 +8,157 @@
     </div>
 </header>
 
-<div class="row">
+<section id="contacts">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                    <div class="card my-5">
+                        <div class="card-header bg-teal-darken-4 text-white">
+                            <div class="row card-header-row">
+                                <div class="col-md-4 col-lg-6">
+                                    <h3 class="card-header-h3">Névjegyek Listája</h3>
+                                </div>
+                                <div class="col-md-4 col-lg-3 card-header-button-md">
+                                    <a routerLink="/people/new" class="btn deep-orange deep-orange darken-4 btn-block card-header-button">
+                                        <i class="fa fa-plus"></i> Új hozzáadása
+                                    </a>
+                                </div>
+                                <div class="col-md-4 col-lg-3 card-header-button-md">
+                                    <button class="btn btn-outline-deep-orange-darken-4 btn-block card-header-button waves-effect"
+                                    data-toggle="modal" data-target="#addInstantModal">
+                                        <i class="fa fa-bolt"></i> 
+                                        <span class="card-header-button-span-md">Új hozzáadása</span>
+                                        <span class="card-header-button-span-xl">Új hozzáadása instant</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body text-center p-0">
+                            <mat-spinner *ngIf="contactService.isLoading; else elseBlockOne"></mat-spinner>
+                            <ng-template #elseBlockOne>
+                            <div *ngIf="!contactService.getItems() || contactService.getItems().length < 1; else elseBlockTwo">
+                                <h1 class="py-5">Nincs megadva egyetlen névjegy sem</h1>
+                                <p class="mx-5">
+                                    A munka megkezdése előtt ajánlott felvinned legalább egy névjegyet, 
+                                    amihez a rendszer társítani tudja majd feladatokat és a többi információt.
+                                </p>
+                                <p class="mx-5">
+                                    Nem kötelező, de ajánlott.
+                                </p>
+                                <p class="mx-5">
+                                    A névjegyek segítségével kommunikálhatsz az ügyfeleiddel, partnereiddel. Például 
+                                    küldhetsz nekik értesítő e-mailt egy feladattal vagy projekttel kapcsolatban.
+                                </p>
+                            </div>
+                            <ng-template #elseBlockTwo>
+                                <app-contact-list></app-contact-list>
+                            </ng-template>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="contactService.getItems() && contactService.getItems().length > 0">
+                        <div class="col-sm-5 card-header-button-sm pb-2">
+                            <a routerLink="/people/new" class="btn deep-orange deep-orange darken-4 btn-block">
+                                <i class="fa fa-plus"></i> Új hozzáadása
+                            </a>
+                        </div>
+                        <div class="col-sm-7 card-header-button-sm">
+                            <button class="btn btn-outline-deep-orange-darken-4 btn-block waves-effect"  data-toggle="modal"
+                            data-target="#addInstantModal">
+                                <i class="fa fa-bolt"></i> <span>Új hozzáadása instant</span>
+                            </button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <section id="fabbuton" *ngIf="checkedArray.length > 0">
+        <button mat-fab [matMenuTriggerFor]="menu" color="accent" >
+            <mat-icon aria-hidden="true">clear</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item [matMenuTriggerFor]="project">
+                <mat-icon class="fa fa-folder"></mat-icon>
+                <span>Új projekt</span>
+            </button>
+            <button mat-menu-item (click)="navigateToNewCompany()">
+                <mat-icon class="fa fa-industry"></mat-icon>
+                <span>Új cég</span>
+            </button>
+            <button mat-menu-item [disabled]="checkedArray.length > 1" (click)="navigateToEdit()">
+                <mat-icon class="fa fa-pencil"></mat-icon>
+                <span>Szerkesztés</span>
+            </button>
+            <button mat-menu-item data-toggle="modal" data-target="#deleteItemModal" >
+                <mat-icon class="fa fa-trash"></mat-icon>
+                <span>Törlés</span>
+            </button>
+        </mat-menu>
+        <mat-menu #project="matMenu">
+            <button mat-menu-item (click)="navigateToNewProject(0)">
+                <mat-icon class="fa fa-folder"></mat-icon>
+                <span>Mint felelős</span>
+            </button>
+            <button mat-menu-item (click)="navigateToNewProject(1)">
+                <mat-icon class="fa fa-folder"></mat-icon>
+                <span>Mint tulajdonos</span>
+            </button>
+            <button mat-menu-item (click)="navigateToNewProject(2)">
+                <mat-icon class="fa fa-folder"></mat-icon>
+                <span>Mint megfigyelő</span>
+            </button>
+            <button mat-menu-item (click)="navigateToNewProject(3)">
+                <mat-icon class="fa fa-folder"></mat-icon>
+                <span>Mint résztvevő</span>
+            </button>
+        </mat-menu>
+    </section>
+</section>
+
+<div class="modal fade" id="addInstantModal" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-teal-darken-4 text-white">
+                <h5 class="modal-title">Új cég hozzáadása instant</h5>
+                <button class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <form #f="ngForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input #fullname matInput name="fullname" placeholder="Teljes név" ngModel required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input type="email" #email matInput name="email"
+                            placeholder="E-mail-cím" ngModel required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input #phone matInput name="phone" placeholder="Telefonszám" ngModel>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="modal-footer bg-teal-lighten-5">
+                    <button class="btn btn-grey" data-dismiss="modal">Bezár</button>
+                    <button class="btn deep-orange deep-orange darken-4" (click)="onSubmit(f)" type="submit"
+                    [disabled]="!f.valid" data-dismiss="modal">
+                    Hozzáadás
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<delete-dialog class="modal fade" id="deleteItemModal" (clickEvent)="clickOnDeleteProductButton()"
+data-backdrop="false">
+</delete-dialog>
+
+
+
+
+
+
+<!-- <div class="row">
   <div class="col-md-10 col-md-offset-1">
       <mat-spinner *ngIf="contactService.isLoading; else elseBlockOne"></mat-spinner>
       <ng-template #elseBlockOne>
@@ -30,4 +180,4 @@
           </div>
       </ng-template>
   </div>
-</div>
+</div> -->

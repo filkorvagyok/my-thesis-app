@@ -4,7 +4,7 @@ import { ContactService } from './../contacts/contact.service';
 import { MatDialog } from '@angular/material';
 import { CompanyService } from './company.service';
 import { Router } from '@angular/router';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { Company } from './company';
 import { NgForm } from '@angular/forms';
@@ -15,7 +15,6 @@ import { NgForm } from '@angular/forms';
     styleUrls: ['./companies.component.scss']
 })
 export class CompaniesComponent extends BaseComponent{
-    @ViewChild('f') slForm: NgForm;
 
     constructor(
         private contactService: ContactService,

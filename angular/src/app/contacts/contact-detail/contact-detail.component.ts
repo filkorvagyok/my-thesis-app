@@ -18,14 +18,14 @@ export class ContactDetailComponent extends BaseDetailComponent implements OnIni
   contact: Contact;
 
   constructor(
-    private companyService: CompanyService,
-    private projectService: ProjectService,
+    protected companyService: CompanyService,
+    protected projectService: ProjectService,
     private taskService: TaskService,
     protected route: ActivatedRoute,
     protected router: Router,
     protected dialog: MatDialog,
     private changeDetector: ChangeDetectorRef,
-    private contactService: ContactService
+    protected contactService: ContactService
   ) {
     super(route, router, dialog);
   }

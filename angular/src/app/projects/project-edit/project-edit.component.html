@@ -2,15 +2,18 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<mat-spinner *ngIf="projectService.isLoading || !project; else elseBlock">
-				</mat-spinner>
-				<ng-template #elseBlock>
 					<div class="card my-5">
-						<div class="card-header bg-green text-white">
-							<h3 id=".card-header-h3" *ngIf="!edit">Új Projekt</h3>
-							<h3 id=".card-header-h3" *ngIf="edit">{{project.name}} Szerkesztése</h3>
+						<div class="card-header bg-teal-darken-1 text-white">
+							<h3 class="card-header-h3" *ngIf="!edit; else editblock">Új Projekt</h3>
+							<ng-template #editblock>
+								<h3 class="card-header-h3" *ngIf="!projectService.isLoading && project; else noheader">{{project.name}} Szerkesztése</h3>
+								<ng-template #noheader><h3 class="card-header-h3">...</h3></ng-template>
+							</ng-template>
 						</div>
 						<div class="card-body">
+							<mat-spinner *ngIf="projectService.isLoading || !project; else elseBlock">
+							</mat-spinner>
+							<ng-template #elseBlock>
 							<div class="row">
 								<form class="edit-form" [formGroup]="projectForm" (ngSubmit)="onSubmit(project)">
 									<mat-form-field color="accent">
@@ -81,22 +84,22 @@
 										<mat-error *ngIf="!projectForm.controls['projectExpenditure'].valid && projectForm.controls['projectExpenditure'].touched">
 										Nem megfelelő formátum!
 									</mat-error>
-									<div class="row mx-2 my-4">
+									<div class="row mx-2 mt-5">
 										<div class="col-md-6 col-sm-4 col-0"></div>
 										<div class="col-md-3 col-sm-4 col-6">
 											<button class="btn btn-grey btn-block" (click)="navigateBack()">Mégse</button>
 										</div>
 										<div class="col-md-3 col-sm-4 col-6">
-											<button type="submit" [disabled]="!projectForm.valid" class="btn btn-green green darken-2 btn-block">
+											<button type="submit" [disabled]="!projectForm.valid" class="btn deep-orange deep-orange darken-4 btn-block">
 												Mentés
 											</button>
 										</div>				
 									</div>
 								</form>
 							</div>
+						</ng-template>
 						</div>
 					</div>
-				</ng-template>
 			</div>
 		</div>
 	</div>

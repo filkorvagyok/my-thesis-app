@@ -2,13 +2,14 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<mat-spinner *ngIf="companyService.isLoading || !company; else elseBlock"></mat-spinner>
-				<ng-template #elseBlock>
 					<div class="card my-5">
-						<div class="card-header bg-indigo text-white">
-							<h3 id=".card-header-h3">{{company.name}} részletei</h3>
+						<div class="card-header bg-teal-darken-1 text-white">
+							<h3 *ngIf="!companyService.isLoading && company; else noheader" class="card-header-h3">{{company.name}} részletei</h3>
+							<ng-template #noheader><h3 class="card-header-h3">...</h3></ng-template>
 						</div>
 						<div class="card-body">
+							<mat-spinner *ngIf="companyService.isLoading || !company; else elseBlock"></mat-spinner>
+							<ng-template #elseBlock>
 							<div class="row">
 								<div class="col-md-3 text-center">
 									<img *ngIf="company.logo!=''" src={{company.logo}} alt="logo" width="135" height="135">
@@ -16,8 +17,16 @@
 								</div>
 								<div class="col"></div>
 								<div class="col-md-8">
-									<p><i class="fa fa-phone"></i> {{company.phone}}</p>
-									<p><i class="fa fa-envelope"></i> {{company.email}}</p>
+									<p>
+										<a href="tel:{{company.phone}}" class="text-dark">
+											<span><i class="fa fa-phone"></i></span> {{company.phone}}
+										</a>
+									</p>
+									<p>
+										<a href="mailto:{{company.email}}" class="text-dark">
+											<span><i class="fa fa-envelope"></i></span> {{company.email}}
+										</a>
+									</p>
 									<p>
 										<i class="fa fa-map-marker"></i>
 										{{company.hq_country}} {{company.hq_zipcode}} {{company.hq_settlement}}<span *ngIf="(company.hq_country || company.hq_zipcode || company.hq_settlement) || company.hq_address">, </span>
@@ -41,8 +50,7 @@
 									<h3>Projektek</h3>
 									<ul>
 										<li *ngFor="let project of projectService.getCertainItems(company)">
-											<a mat-list-item class="linkTo"
-											routerLink="/project/shown/{{project.id}}">
+											<a mat-list-item routerLink="/project/shown/{{project.id}}">
 												{{project.name}}
 											</a>
 										</li>
@@ -50,18 +58,21 @@
 								</div>
 								<div class="col-md-6">
 									<h3>Névjegyek</h3>
-									<p *ngFor="let contact of contactService.getCertainItems(company)">
-										<a mat-list-item class="linkTo" routerLink="/people/shown/{{contact.id}}" routerLinkActive="active">
-											{{contact.full_name}}
-										</a>
-									</p>
+									<ul>
+										<li *ngFor="let contact of contactService.getCertainItems(company)">
+											<a mat-list-item routerLink="/people/shown/{{contact.id}}">
+												{{contact.full_name}}
+											</a>
+										</li>
+									</ul>
 								</div>
 							</div>
+						</ng-template>
 						</div>
-						<div class="card-footer">
+						<div class="card-footer bg-teal-lighten-5">
 							<div class="row">
 								<div class="col-lg-2 col-6 col-sm-4 col-md-3">
-									<a routerLink="../../" class="btn btn-indigo btn-block">Vissza</a>
+									<a routerLink="../../" class="btn btn-deep-orange deep-orange darken-4 btn-block">Vissza</a>
 								</div>
 							</div>
 						</div>
@@ -69,14 +80,13 @@
 					<delete-dialog class="modal fade" id="deleteItemModal"
 					(clickEvent)="clickOnDeleteProductButton(company)" data-backdrop="false">
 					</delete-dialog>
-				</ng-template>
 			</div>
 		</div>
 	</div>
 </section>
 
-<div>
-	<button mat-fab [matMenuTriggerFor]="menu" color="primary" >
+<section id="fabbuton">
+	<button mat-fab [matMenuTriggerFor]="menu" color="accent" >
 		<mat-icon aria-hidden="true">clear</mat-icon>
 	</button>
 	<mat-menu #menu="matMenu">
@@ -101,4 +111,4 @@
 			<span>Törlés</span>
 		</button>
 	</mat-menu>
-</div>
+</section>

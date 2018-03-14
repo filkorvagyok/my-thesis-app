@@ -1,4 +1,4 @@
-<mat-spinner *ngIf="contactService.isLoading || !contact || companyService.isLoading"></mat-spinner>
+<!-- <mat-spinner *ngIf="contactService.isLoading || !contact || companyService.isLoading"></mat-spinner>
 <div id="maindiv" *ngIf="!contactService.isLoading && contact && !companyService.isLoading">
   <form class="panel panel-default" [formGroup]="contactForm" (ngSubmit)="onSubmit(contact)">
     <div class="panel-heading" color="primary">Névjegy</div>
@@ -8,11 +8,11 @@
           <mat-select [(ngModel)]="contact.company" (change)="companyChanged = true"
           formControlName="contactCompany" placeholder="Cég" multiple>
             <mat-option *ngFor="let company of companyService.getItems()" [value]="company.id">{{company.name}}</mat-option>
-          </mat-select>
+          </mat-select> -->
           <!--<mat-select [(ngModel)]="contact.company" name="contactCompany" placeholder="Cég" multiple>
             <mat-option *ngFor="let company of companies" [value]="company">{{company.name}}</mat-option>
           </mat-select>-->
-        </mat-form-field>
+        <!-- </mat-form-field>
       </div>
       <div class="inputfield">	
         <mat-form-field class="matffield">
@@ -81,4 +81,95 @@
       </div>
     </div>
   </form>
-</div>
+</div> -->
+
+
+
+
+
+<section id="contact-edit">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+          <div class="card my-5">
+            <div class="card-header bg-teal-darken-1 text-white">
+              <h3 class="card-header-h3" *ngIf="!edit; else editblock">Új Névjegy</h3>
+              <ng-template #editblock>
+                <h3 class="card-header-h3" *ngIf="!contactService.isLoading && contact; else noheader">{{contact.full_name}} Szerkesztése</h3>
+                <ng-template #noheader><h3 class="card-header-h3">...</h3></ng-template>
+              </ng-template>
+            </div>
+            <div class="card-body">
+              <mat-spinner *ngIf="contactService.isLoading || !contact; else elseBlock">
+              </mat-spinner>
+              <ng-template #elseBlock>
+              <div class="row">
+                <form class="edit-form" [formGroup]="contactForm" (ngSubmit)="onSubmit(contact)">
+                  <mat-form-field>
+                    <mat-select [(ngModel)]="contact.company" (change)="companyChanged = true"
+                    formControlName="contactCompany" placeholder="Cég" multiple>
+                      <mat-option *ngFor="let company of companyService.getItems()" [value]="company.id">{{company.name}}</mat-option>
+                    </mat-select>
+                    <!--<mat-select [(ngModel)]="contact.company" name="contactCompany" placeholder="Cég" multiple>
+                      <mat-option *ngFor="let company of companies" [value]="company">{{company.name}}</mat-option>
+                    </mat-select>-->
+                  </mat-form-field>
+                  <mat-form-field>
+                      <input matInput type="text" [(ngModel)]="contact.full_name" formControlName="contactFullName" placeholder="Teljes név" required>
+                    </mat-form-field>
+                    <mat-error *ngIf="!contactForm.controls['contactFullName'].valid && contactForm.controls['contactFullName'].touched">
+                      A teljes név mező megadása <strong>kötelező</strong>!
+                    </mat-error>
+                  <mat-form-field>
+                      <input matInput type="text" [(ngModel)]="contact.surname" formControlName="contactSurename" placeholder="Családnév">
+                    </mat-form-field>
+                  <mat-form-field>
+                      <input matInput type="text" [(ngModel)]="contact.middle_name" formControlName="contactMiddlename" placeholder="Középső név">
+                    </mat-form-field>
+                  <mat-form-field>
+                      <input matInput type="text" [(ngModel)]="contact.forename" formControlName="contactForename" placeholder="Utónév">
+                    </mat-form-field>
+                  <mat-form-field>
+                      <input matInput type="text" [(ngModel)]="contact.nickname" formControlName="contactNickname" placeholder="Bencenév">
+                    </mat-form-field>
+                  <mat-form-field>
+                      <input matInput type="tel" [(ngModel)]="contact.phone" formControlName="contactPhone" placeholder="Telefon">
+                    </mat-form-field>
+                    <mat-error *ngIf="!contactForm.controls['contactPhone'].valid && contactForm.controls['contactPhone'].touched">
+                      Nem megfelelő telefonszám!
+                    </mat-error>
+                  <mat-form-field>
+                      <input matInput type="email" [(ngModel)]="contact.email" formControlName="contactEmail" placeholder="E-mail-cím">
+                    </mat-form-field>
+                    <mat-error *ngIf="!contactForm.controls['contactEmail'].valid && contactForm.controls['contactEmail'].touched">
+                      Nem megfelelő e-mail-cím!
+                    </mat-error>
+                  <mat-form-field>
+                      <input matInput type="text" [(ngModel)]="contact.primary_communication_chanel" formControlName="contactPrimComChan" placeholder="Elsődleges kommunikációs csatorna">
+                    </mat-form-field>
+                  <mat-form-field>
+                      <input matInput type="text" [(ngModel)]="contact.rank" formControlName="contactRank" placeholder="Beosztás">
+                    </mat-form-field>
+                  <mat-form-field>
+                      <input matInput type="text" [(ngModel)]="contact.greeting" formControlName="contactGreeting" placeholder="Köszönés">
+                  </mat-form-field>
+                  <div class="row mx-2 mt-5">
+                    <div class="col-md-6 col-sm-4 col-0"></div>
+                    <div class="col-md-3 col-sm-4 col-6">
+                      <button class="btn btn-grey btn-block" (click)="navigateBack()">Mégse</button>
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-6">
+                      <button type="submit" [disabled]="!contactForm.valid" class="btn deep-orange deep-orange darken-4 btn-block">
+                        Mentés
+                      </button>
+                    </div>				
+                  </div>
+                </form>
+              </div>
+            </ng-template>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -2,7 +2,7 @@
 
 <tr>
     <td rowspan="2">
-        <mat-checkbox color="primary" value={{project.id}} (change)="showChbox()"></mat-checkbox>
+        <mat-checkbox color="accent" value={{project.id}} (change)="showChbox()"></mat-checkbox>
         <!--<input type="checkbox" value={{company.id}} (change)="showChbox()">-->
     </td>
     <td rowspan="2">
@@ -29,7 +29,7 @@
         (keyup.enter)="projectExpenditure.blur()">
       </td>
     <td rowspan="2 padding-td-xs">
-      <button class="btn btn-outline-green darken-2 btn-sm waves-effect btn-details" (click)="navigateToDetail(project.id)">
+      <button class="btn btn-outline-teal-darken-4 btn-sm waves-effect btn-details" (click)="navigateToDetail(project.id)">
         <i class="fa fa-angle-double-right"></i> Részletek
       </button>
     </td>

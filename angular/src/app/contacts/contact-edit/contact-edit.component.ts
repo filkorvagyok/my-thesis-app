@@ -21,10 +21,10 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
 	companyChanged: boolean = false;
 
   constructor(
-		private companyService: CompanyService,
+		protected companyService: CompanyService,
 		protected route: ActivatedRoute,
 		protected router: Router,
-		private contactService: ContactService,
+		protected contactService: ContactService,
 		private fb: FormBuilder,
 		private changeDetector: ChangeDetectorRef
   ) {

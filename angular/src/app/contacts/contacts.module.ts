@@ -1,3 +1,4 @@
+import { SharedModule } from './../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ContactRoutingModule } from './contacts-routing.module';
@@ -24,7 +25,8 @@ import { NgModule } from '@angular/core';
     MatMenuModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    MatIconModule
+    MatIconModule,
+    SharedModule
   ],
   declarations: [
     ContactsComponent,

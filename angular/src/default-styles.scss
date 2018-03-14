@@ -12,12 +12,20 @@
     background-color: $teal;
 }
 
-.bg-red{
-    background-color: $red;
+.bg-teal-darken-1{
+    background-color :$teal-darken-1;
 }
 
 .bg-teal-darken-4{
     background-color :$teal-darken-4;
+}
+
+.bg-teal-lighten-5{
+    background-color :$teal-lighten-5;
+}
+
+.bg-red{
+    background-color: $red;
 }
 
 button.mat-fab{
@@ -179,4 +187,64 @@ td{
     height: 100%;
     width: 100%;
     overflow-x: auto;
+
+    mat-form-field, mat-error{
+        margin: 2px 50px 2px 50px;
+    }
 }
+
+@media (max-width: $screen-size-sm){
+    .padding-td-xs{
+        padding: 0;
+    }
+}
+
+.btn-outline-deep-orange-darken-4 {
+    border: 2px solid #bf360c !important;
+    background-color: transparent !important;
+    color: #bf360c !important; }
+.btn-outline-deep-orange-darken-4:hover, .btn-outline-deep-orange-darken-4:focus, .btn-outline-deep-orange-darken-4:active, .btn-outline-deep-orange-darken-4:active:focus, .btn-outline-deep-orange-darken-4.active {
+    border-color: #bf360c !important;
+    background-color: transparent !important;
+    color: #bf360c !important; }
+.btn-outline-deep-orange-darken-4:not([disabled]):not(.disabled):active, .btn-outline-deep-orange-darken-4:not([disabled]):not(.disabled).active,
+.show > .btn-outline-deep-orange-darken-4.dropdown-toggle {
+    background-color: transparent !important;
+    border-color: #bf360c !important; }
+
+.btn-outline-teal-darken-4 {
+    border: 2px solid #004d40 !important;
+    background-color: transparent !important;
+    color: #004d40 !important; }
+.btn-outline-teal-darken-4:hover, .btn-outline-teal-darken-4:focus, .btn-outline-teal-darken-4:active, .btn-outline-teal-darken-4:active:focus, .btn-outline-teal-darken-4.active {
+    border-color: #004d40 !important;
+    background-color: transparent !important;
+    color: #004d40 !important; }
+.btn-outline-teal-darken-4:not([disabled]):not(.disabled):active, .btn-outline-teal-darken-4:not([disabled]):not(.disabled).active,
+.show > .btn-outline-teal-darken-4.dropdown-toggle {
+    background-color: transparent !important;
+    border-color: #004d40 !important; }
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 90%;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 90%;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 90%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 90%;
+    }
+}     

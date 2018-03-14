@@ -1,6 +1,6 @@
 <tr>
   <td rowspan="2">
-      <mat-checkbox color="primary" value={{company.id}} (change)="showChbox()"></mat-checkbox>
+      <mat-checkbox color="accent" value={{company.id}} (change)="showChbox()"></mat-checkbox>
       <!--<input type="checkbox" value={{company.id}} (change)="showChbox()">-->
   </td>
   <td rowspan="2" class="td-md" *ngIf="company.logo!=''">
@@ -25,7 +25,7 @@
     <a href="mailto:{{company.email}}"><span><i class="fa fa-envelope"></i></span></a>
   </td>
   <td rowspan="2">
-    <button class="btn btn-outline-indigo btn-sm waves-effect btn-details" (click)="navigateToDetail(company.id)">
+    <button class="btn btn-outline-teal-darken-4 btn-sm waves-effect btn-details" (click)="navigateToDetail(company.id)">
       <i class="fa fa-angle-double-right"></i> Részletek
     </button>
   </td>

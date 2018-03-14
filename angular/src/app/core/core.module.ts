@@ -7,11 +7,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 import { NgModule } from '@angular/core';
 import * as $ from 'jquery';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
     declarations: [
         HeaderComponent,
-        SidenavComponent
+        SidenavComponent,
+        FooterComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -23,7 +25,8 @@ import * as $ from 'jquery';
     exports: [
         AppRoutingModule,
         HeaderComponent,
-        SidenavComponent
+        SidenavComponent,
+        FooterComponent
       ],
     providers: [
         AuthService,

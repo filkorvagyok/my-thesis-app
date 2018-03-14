@@ -1,4 +1,4 @@
-<header id="main-header" class="py-3 bg-indigo text-white">
+<header id="main-header" class="py-3 bg-teal text-white">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -12,21 +12,20 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <mat-spinner color="primary" *ngIf="companyService.isLoading; else elseBlockOne"></mat-spinner>
-                <ng-template #elseBlockOne>
                     <div class="card my-5">
-                        <div class="card-header bg-dark text-white">
+                        <div class="card-header bg-teal-darken-4 text-white">
                             <div class="row card-header-row">
                                 <div class="col-md-4 col-lg-6">
                                     <h3 class="card-header-h3">Cégek Listája</h3>
                                 </div>
                                 <div class="col-md-4 col-lg-3 card-header-button-md">
-                                    <a routerLink="/company/new" class="btn btn-indigo btn-block card-header-button">
+                                    <a routerLink="/company/new" class="btn btn-deep-orange
+                                    deep-orange darken-4 btn-block card-header-button">
                                         <i class="fa fa-plus"></i> Új hozzáadása
                                     </a>
                                 </div>
                                 <div class="col-md-4 col-lg-3 card-header-button-md">
-                                    <button class="btn btn-outline-indigo btn-block card-header-button waves-effect"
+                                    <button class="btn btn-outline-deep-orange-darken-4 btn-block card-header-button waves-effect"
                                     data-toggle="modal" data-target="#addInstantModal">
                                         <i class="fa fa-bolt"></i> 
                                         <span class="card-header-button-span-md">Új hozzáadása</span>
@@ -35,42 +34,45 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="text-center py-3" *ngIf="!companyService.getItems() ||
-                        companyService.getItems().length < 1; else elseBlockTwo">
-                            <h1>Nincs megadva egyetlen cég sem</h1>
-                            <p class="m-5">
-                                A munka megkezdése előtt ajánlott felvinned legalább egy céget,
-                                amihez a rendszer társítani tudja majd a feladatokat, névjegyeket és a többi
-                                információt.<br>
-                                Nem kötelező, de ajánlott.
-                            </p>
-                            <a routerLink="/company/new" class="btn btn-indigo">
-                                <i class="fa fa-plus"></i> Új cég hozzáadása
-                            </a>
+                        <div class="card-body text-center p-0">
+                            <mat-spinner color="primary" *ngIf="companyService.isLoading; else elseBlockOne"></mat-spinner>
+                            <ng-template #elseBlockOne>
+                            <div *ngIf="!companyService.getItems() || companyService.getItems().length < 1; else elseBlockTwo">
+                                <h1 class="py-5">Nincs megadva egyetlen cég sem</h1>
+                                <p class="mx-5">
+                                    A munka megkezdése előtt ajánlott felvinned legalább egy céget,
+                                    amihez a rendszer társítani tudja majd a feladatokat, névjegyeket és a többi
+                                    információt.
+                                </p>
+                                <p class="mx-5">
+                                    Nem kötelező, de ajánlott.
+                                </p>
+                            </div>
+                            <ng-template #elseBlockTwo>
+                                <app-company-list></app-company-list>
+                            </ng-template>
+                            </ng-template>
                         </div>
-                        <ng-template #elseBlockTwo>
-                            <app-company-list></app-company-list>
-                        </ng-template>
                     </div>
                     <div class="row" *ngIf="companyService.getItems() && companyService.getItems().length > 0">
                         <div class="col-sm-5 card-header-button-sm pb-2">
-                            <a routerLink="/company/new" class="btn btn-indigo btn-block">
+                            <a routerLink="/company/new" class="btn btn-deep-orange
+                            deep-orange darken-4 btn-block">
                                 <i class="fa fa-plus"></i> Új hozzáadása
                             </a>
                         </div>
                         <div class="col-sm-7 card-header-button-sm">
-                            <button class="btn btn-outline-indigo btn-block waves-effect"  data-toggle="modal"
+                            <button class="btn btn-outline-deep-orange-darken-4 btn-block waves-effect"  data-toggle="modal"
                             data-target="#addInstantModal">
                                 <i class="fa fa-bolt"></i> <span>Új hozzáadása instant</span>
                             </button>
                         </div>
                     </div>
-                </ng-template>
             </div>
         </div>
     </div>
-    <div *ngIf="checkedArray.length > 0">
-        <button mat-fab [matMenuTriggerFor]="menu" color="primary" >
+    <section id="fabbuton" *ngIf="checkedArray.length > 0">
+        <button mat-fab [matMenuTriggerFor]="menu" color="accent" >
             <mat-icon aria-hidden="true">clear</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
@@ -95,14 +97,14 @@
                 <span>Törlés</span>
             </button>
         </mat-menu>
-    </div>
+    </section>
 </section>
 
 
 <div class="modal fade" id="addInstantModal" data-backdrop="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-indigo text-white">
+            <div class="modal-header bg-teal-darken-4 text-white">
                 <h5 class="modal-title">Új cég hozzáadása instant</h5>
                 <button class="close" data-dismiss="modal"><span>&times;</span></button>
             </div>
@@ -114,9 +116,9 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer bg-teal-lighten-5">
                     <button class="btn btn-grey" data-dismiss="modal">Bezár</button>
-                    <button class="btn btn-indigo" (click)="onSubmit(f)" type="submit"
+                    <button class="btn btn-deep-orange deep-orange darken-4" (click)="onSubmit(f)" type="submit"
                     [disabled]="!f.valid" data-dismiss="modal">
                     Hozzáadás
                     </button>

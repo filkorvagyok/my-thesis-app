@@ -1,15 +1,27 @@
-<tr (click)="navigateToDetail(contact.id)">
-  <td (click)="$event.stopPropagation();">
-      <mat-checkbox color="primary" value={{contact.id}} (change)="showChbox()"></mat-checkbox>
+<tr>
+  <td>
+      <mat-checkbox color="accent" value={{contact.id}} (change)="showChbox()"></mat-checkbox>
       <!--<input type="checkbox" value={{company.id}} (change)="showChbox()">-->
   </td>
   <td>
     <strong class="company_name">{{contact.full_name}}</strong>
   </td>
-  <td>
+  <td class="td-md">
     {{contact.phone}}
   </td>
-  <td>
+  <td class="td-md">
     {{contact.email}}
+  </td>
+  <td class="td-sm">
+    <a href="tel:{{contact.phone}}"><span><i class="fa fa-phone"></i></span></a>
+  </td>
+  <td class="td-sm">
+    <a href="mailto:{{contact.email}}"><span><i class="fa fa-envelope"></i></span></a>
+  </td>
+  <td class="padding-td-xs">
+    <button class="btn btn-outline-teal-darken-4 btn-sm waves-effect btn-details"
+    (click)="navigateToDetail(contact.id)">
+      <i class="fa fa-angle-double-right"></i> Részletek
+    </button>
   </td>
 </tr>
