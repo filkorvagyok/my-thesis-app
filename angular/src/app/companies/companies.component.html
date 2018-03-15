@@ -1,4 +1,4 @@
-<header id="main-header" class="py-3 bg-teal text-white">
+<header id="main-header" class="py-3 bg-teal-darken-2 text-white">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -12,31 +12,29 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                    <div class="card my-5">
-                        <div class="card-header bg-teal-darken-4 text-white">
-                            <div class="row card-header-row">
-                                <div class="col-md-4 col-lg-6">
-                                    <h3 class="card-header-h3">Cégek Listája</h3>
-                                </div>
-                                <div class="col-md-4 col-lg-3 card-header-button-md">
-                                    <a routerLink="/company/new" class="btn btn-deep-orange
-                                    deep-orange darken-4 btn-block card-header-button">
-                                        <i class="fa fa-plus"></i> Új hozzáadása
-                                    </a>
-                                </div>
-                                <div class="col-md-4 col-lg-3 card-header-button-md">
-                                    <button class="btn btn-outline-deep-orange-darken-4 btn-block card-header-button waves-effect"
-                                    data-toggle="modal" data-target="#addInstantModal">
-                                        <i class="fa fa-bolt"></i> 
-                                        <span class="card-header-button-span-md">Új hozzáadása</span>
-                                        <span class="card-header-button-span-xl">Új hozzáadása instant</span>
-                                    </button>
-                                </div>
+                <div class="card my-5">
+                    <div class="card-header bg-teal-darken-4 text-white">
+                        <div class="row card-header-row">
+                            <div class="col-md-4 col-lg-6">
+                                <h3 class="card-header-h3">Cégek Listája</h3>
+                            </div>
+                            <div class="col-md-4 col-lg-3 card-header-button-md">
+                                <a routerLink="/company/new" class="btn btn-deep-orange deep-orange darken-4 btn-block card-header-button">
+                                    <i class="fa fa-plus"></i> Új hozzáadása
+                                </a>
+                            </div>
+                            <div class="col-md-4 col-lg-3 card-header-button-md">
+                                <button class="btn btn-outline-deep-orange-darken-4 btn-block card-header-button waves-effect" data-toggle="modal" data-target="#addInstantModal">
+                                    <i class="fa fa-bolt"></i> 
+                                    <span class="card-header-button-span-md">Új hozzáadása</span>
+                                    <span class="card-header-button-span-xl">Új hozzáadása instant</span>
+                                </button>
                             </div>
                         </div>
-                        <div class="card-body text-center p-0">
-                            <mat-spinner color="primary" *ngIf="companyService.isLoading; else elseBlockOne"></mat-spinner>
-                            <ng-template #elseBlockOne>
+                    </div>
+                    <div class="card-body text-center p-0">
+                        <mat-spinner [diameter]="40" color="primary" *ngIf="companyService.isLoading; else elseBlockOne"></mat-spinner>
+                        <ng-template #elseBlockOne>
                             <div *ngIf="!companyService.getItems() || companyService.getItems().length < 1; else elseBlockTwo">
                                 <h1 class="py-5">Nincs megadva egyetlen cég sem</h1>
                                 <p class="mx-5">
@@ -51,23 +49,21 @@
                             <ng-template #elseBlockTwo>
                                 <app-company-list></app-company-list>
                             </ng-template>
-                            </ng-template>
-                        </div>
+                        </ng-template>
                     </div>
-                    <div class="row" *ngIf="companyService.getItems() && companyService.getItems().length > 0">
-                        <div class="col-sm-5 card-header-button-sm pb-2">
-                            <a routerLink="/company/new" class="btn btn-deep-orange
-                            deep-orange darken-4 btn-block">
-                                <i class="fa fa-plus"></i> Új hozzáadása
-                            </a>
-                        </div>
-                        <div class="col-sm-7 card-header-button-sm">
-                            <button class="btn btn-outline-deep-orange-darken-4 btn-block waves-effect"  data-toggle="modal"
-                            data-target="#addInstantModal">
-                                <i class="fa fa-bolt"></i> <span>Új hozzáadása instant</span>
-                            </button>
-                        </div>
+                </div>
+                <div class="row" *ngIf="companyService.getItems() && companyService.getItems().length > 0">
+                    <div class="col-sm-5 card-header-button-sm pb-2">
+                        <a routerLink="/company/new" class="btn btn-deep-orange deep-orange darken-4 btn-block">
+                            <i class="fa fa-plus"></i> Új hozzáadása
+                        </a>
                     </div>
+                    <div class="col-sm-7 card-header-button-sm">
+                        <button class="btn btn-outline-deep-orange-darken-4 btn-block waves-effect"  data-toggle="modal" data-target="#addInstantModal">
+                            <i class="fa fa-bolt"></i> <span>Új hozzáadása instant</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -118,9 +114,8 @@
                 </div>
                 <div class="modal-footer bg-teal-lighten-5">
                     <button class="btn btn-grey" data-dismiss="modal">Bezár</button>
-                    <button class="btn btn-deep-orange deep-orange darken-4" (click)="onSubmit(f)" type="submit"
-                    [disabled]="!f.valid" data-dismiss="modal">
-                    Hozzáadás
+                    <button class="btn btn-deep-orange deep-orange darken-4" (click)="onSubmit(f)" type="submit" [disabled]="!f.valid" data-dismiss="modal">
+                        Hozzáadás
                     </button>
                 </div>
             </form>
@@ -128,6 +123,5 @@
     </div>
 </div>
 
-<delete-dialog class="modal fade" id="deleteItemModal" (clickEvent)="clickOnDeleteProductButton()"
-data-backdrop="false">
+<delete-dialog class="modal fade" id="deleteItemModal" (clickEvent)="clickOnDeleteProductButton()" data-backdrop="false">
 </delete-dialog>

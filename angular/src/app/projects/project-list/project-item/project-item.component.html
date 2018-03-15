@@ -1,42 +1,31 @@
-
-
 <tr>
-    <td rowspan="2">
-        <mat-checkbox color="accent" value={{project.id}} (change)="showChbox()"></mat-checkbox>
-        <!--<input type="checkbox" value={{company.id}} (change)="showChbox()">-->
-    </td>
-    <td rowspan="2">
-      <h6><strong>{{project.name}}</strong></h6>
-    </td>
-    <td class="pb-0 padding-td-xs">
-      <p [ngStyle]="{'color': count(project) < 1 ? 'red' : 'black'}">
-        <input #projectCount matInput [ngModel]="count(project)"
-        name="{{'projectCount' + project.id}}" (focusout)="changeDate(project, projectCount.value)"
-        (keyup.enter)="projectCount.blur()" style="width: 32px; text-align: right;">
-        <span> nap</span> <span *ngIf="count(project) < 1"><i class="fa fa-exclamation"></i></span>
-      </p>
-    </td>
-    <td rowspan="2" class="td-md td-max-with padding-td-xs">
-        <!--<p (click)="editIncome = true">{{project.income}}</p>-->
-        <input type="number" #projectIncome matInput [(ngModel)]="project.income"
-        name="{{'projectIncome' + project.id}}" (focusout)="changeProject(project)"
-        (keyup.enter)="projectIncome.blur()">
-      </td>
-      <td rowspan="2" class="td-md">
-        <!--{{project.expenditure}}-->
-        <input type="number" #projectExpenditure matInput [(ngModel)]="project.expenditure"
-        name="{{'projectExpenditure' + project.id}}" (focusout)="changeProject(project)"
-        (keyup.enter)="projectExpenditure.blur()">
-      </td>
-    <td rowspan="2 padding-td-xs">
-      <button class="btn btn-outline-teal-darken-4 btn-sm waves-effect btn-details" (click)="navigateToDetail(project.id)">
-        <i class="fa fa-angle-double-right"></i> Részletek
-      </button>
-    </td>
-  </tr>
-  <tr>
-    <td class="td-md pt-0 no-border-td">
-        <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
-        <owl-date-time #dt1></owl-date-time>
-    </td>
-  </tr>
+  <td rowspan="2">
+    <mat-checkbox color="accent" value={{project.id}} (change)="showChbox()"></mat-checkbox>
+  </td>
+  <td rowspan="2">
+    <h6><strong>{{project.name}}</strong></h6>
+  </td>
+  <td class="pb-0 padding-td-xs">
+    <p [ngStyle]="{'color': count(project) < 1 ? 'red' : 'black'}">
+      <input #projectCount matInput [ngModel]="count(project)" name="{{'projectCount' + project.id}}" (focusout)="changeDate(project, projectCount.value)" (keyup.enter)="projectCount.blur()" style="width: 32px; text-align: right;">
+      <span> nap</span> <span *ngIf="count(project) < 1"><i class="fa fa-exclamation"></i></span>
+    </p>
+  </td>
+  <td rowspan="2" class="td-md td-max-with padding-td-xs">
+    <input type="number" #projectIncome matInput [(ngModel)]="project.income" name="{{'projectIncome' + project.id}}" (focusout)="changeProject(project)" (keyup.enter)="projectIncome.blur()">
+  </td>
+  <td rowspan="2" class="td-md">
+    <input type="number" #projectExpenditure matInput [(ngModel)]="project.expenditure" name="{{'projectExpenditure' + project.id}}" (focusout)="changeProject(project)" (keyup.enter)="projectExpenditure.blur()">
+  </td>
+  <td rowspan="2 padding-td-xs">
+    <button class="btn btn-outline-teal-darken-4 btn-sm waves-effect btn-details" (click)="navigateToDetail(project.id)">
+      <i class="fa fa-angle-double-right"></i> Részletek
+    </button>
+  </td>
+</tr>
+<tr>
+  <td class="td-md pt-0 no-border-td">
+    <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
+    <owl-date-time #dt1></owl-date-time>
+  </td>
+</tr>

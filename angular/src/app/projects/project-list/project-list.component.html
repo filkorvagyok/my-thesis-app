@@ -1,96 +1,16 @@
 <div class="table-responsive">
-    <table class="table">
-      <thead class="thead-md">
-        <tr>
-          <th></th>
-          <th><h4>Név</h4></th>
-          <th><h4>Határidő</h4></th>
-          <th ><h4>Bevétel</h4></th>
-          <th><h4>Kiadás</h4></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody *ngFor="let project of projectService.getItems()" app-project-item [project]="project">
-      </tbody>
-    </table>
-  </div>
-
-<!-- <div  class="panel-body">
-	<div class="table-responsive">
-		<table class="table">
-			<thead>
-				<tr>
-					<th class="th_td_chbx"></th>
-          <th>Név</th>
-          <th>Határidő</th>
-          <th>Bevétel</th>
-          <th>Kiadás</th>
-				</tr>
-			</thead>
-			<tbody *ngFor="let project of projectService.getItems()" app-project-item [project]="project">
-			</tbody>
-		</table>
-	</div>
+  <table class="table">
+    <thead class="thead-md">
+      <tr>
+        <th></th>
+        <th><h4>Név</h4></th>
+        <th><h4>Határidő</h4></th>
+        <th ><h4>Bevétel</h4></th>
+        <th><h4>Kiadás</h4></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let project of projectService.getItems()" app-project-item [project]="project">
+    </tbody>
+  </table>
 </div>
-<div class="panel-footer">
-	<button type="button" mat-raised-button color="primary" (click)="navigateToNewItem()">
-    <i class="fa fa-plus"></i> Új projekt hozzáadása
-  </button>
-	<div class="instant_input_">
-		<mat-form-field>
-      <input #projectName matInput name="projectName" placeholder="Új projekt hozzáadása instant">
-    </mat-form-field>
-    <button type="submit" mat-raised-button color="primary" (click)="addInstant(projectName.value); projectName.value='';">
-      <i class="fa fa-plus"></i>
-    </button>
-	</div>
-</div>
-<div *ngIf="checkedArray.length > 0" class="botton_right">
-	<button mat-fab [matMenuTriggerFor]="menu" color="primary">
-    <mat-icon class="fa fa-bolt fa-lg" aria-hidden="true"></mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item>
-      <mat-icon class="fa fa-check"></mat-icon>
-      <span>Kész</span>
-    </button>
-    <button mat-menu-item>
-      <mat-icon class="fa fa-file"></mat-icon>
-      <span>Új feladat</span>
-    </button>
-    <button mat-menu-item (click)="navigateToNewCompany()">
-      <mat-icon class="fa fa-industry"></mat-icon>
-      <span>Új cég</span>
-    </button>
-    <button mat-menu-item [matMenuTriggerFor]="contact">
-      <mat-icon class="fa fa-user-plus"></mat-icon>
-      <span>Új felhasználó</span>
-    </button>
-    <button mat-menu-item [disabled]="checkedArray.length > 1" (click)="navigateToEdit()">
-      <mat-icon class="fa fa-pencil"></mat-icon>
-      <span>Szerkesztés</span>
-    </button>
-    <button mat-menu-item (click)="clickOnDeleteProductButton()">
-      <mat-icon class="fa fa-trash"></mat-icon>
-      <span>Törlés</span>
-    </button>
-  </mat-menu>
-  <mat-menu #contact="matMenu">
-    <button mat-menu-item (click)="navigateToNewContact(0)">
-      <mat-icon class="fa fa-user-plus"></mat-icon>
-      <span>Felelős</span>
-    </button>
-    <button mat-menu-item (click)="navigateToNewContact(1)">
-      <mat-icon class="fa fa-user-plus"></mat-icon>
-      <span>Tulajdonos</span>
-    </button>
-    <button mat-menu-item (click)="navigateToNewContact(2)">
-      <mat-icon class="fa fa-user-plus"></mat-icon>
-      <span>Megfigyelő</span>
-    </button>
-    <button mat-menu-item (click)="navigateToNewContact(3)">
-      <mat-icon class="fa fa-user-plus"></mat-icon>
-      <span>Résztvevő</span>
-    </button>
-  </mat-menu>
-</div> -->

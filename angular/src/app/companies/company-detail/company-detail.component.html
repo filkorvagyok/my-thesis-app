@@ -2,14 +2,14 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-					<div class="card my-5">
-						<div class="card-header bg-teal-darken-1 text-white">
-							<h3 *ngIf="!companyService.isLoading && company; else noheader" class="card-header-h3">{{company.name}} részletei</h3>
-							<ng-template #noheader><h3 class="card-header-h3">...</h3></ng-template>
-						</div>
-						<div class="card-body">
-							<mat-spinner *ngIf="companyService.isLoading || !company; else elseBlock"></mat-spinner>
-							<ng-template #elseBlock>
+				<div class="card my-5">
+					<div class="card-header bg-teal-darken-1 text-white">
+						<h3 *ngIf="!companyService.isLoading && company; else noheader" class="card-header-h3">{{company.name}} részletei</h3>
+						<ng-template #noheader><h3 class="card-header-h3">...</h3></ng-template>
+					</div>
+					<div class="card-body">
+						<mat-spinner [diameter]="40" *ngIf="companyService.isLoading || !company; else elseBlock"></mat-spinner>
+						<ng-template #elseBlock>
 							<div class="row">
 								<div class="col-md-3 text-center">
 									<img *ngIf="company.logo!=''" src={{company.logo}} alt="logo" width="135" height="135">
@@ -68,18 +68,17 @@
 								</div>
 							</div>
 						</ng-template>
-						</div>
-						<div class="card-footer bg-teal-lighten-5">
-							<div class="row">
-								<div class="col-lg-2 col-6 col-sm-4 col-md-3">
-									<a routerLink="../../" class="btn btn-deep-orange deep-orange darken-4 btn-block">Vissza</a>
-								</div>
+					</div>
+					<div class="card-footer bg-teal-lighten-5">
+						<div class="row">
+							<div class="col-lg-2 col-6 col-sm-4 col-md-3">
+								<a routerLink="../../" class="btn btn-deep-orange deep-orange darken-4 btn-block">Vissza</a>
 							</div>
 						</div>
 					</div>
-					<delete-dialog class="modal fade" id="deleteItemModal"
-					(clickEvent)="clickOnDeleteProductButton(company)" data-backdrop="false">
-					</delete-dialog>
+				</div>
+				<delete-dialog class="modal fade" id="deleteItemModal" (clickEvent)="clickOnDeleteProductButton(company)" data-backdrop="false">
+				</delete-dialog>
 			</div>
 		</div>
 	</div>

@@ -2,18 +2,18 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-					<div class="card my-5">
-						<div class="card-header bg-teal-darken-1 text-white">
-							<h3 class="card-header-h3" *ngIf="!edit; else editblock">Új Projekt</h3>
-							<ng-template #editblock>
-								<h3 class="card-header-h3" *ngIf="!projectService.isLoading && project; else noheader">{{project.name}} Szerkesztése</h3>
-								<ng-template #noheader><h3 class="card-header-h3">...</h3></ng-template>
-							</ng-template>
-						</div>
-						<div class="card-body">
-							<mat-spinner *ngIf="projectService.isLoading || !project; else elseBlock">
-							</mat-spinner>
-							<ng-template #elseBlock>
+				<div class="card my-5">
+					<div class="card-header bg-teal-darken-1 text-white">
+						<h3 class="card-header-h3" *ngIf="!edit; else editblock">Új Projekt</h3>
+						<ng-template #editblock>
+							<h3 class="card-header-h3" *ngIf="!projectService.isLoading && project; else noheader">{{project.name}} Szerkesztése</h3>
+							<ng-template #noheader><h3 class="card-header-h3">...</h3></ng-template>
+						</ng-template>
+					</div>
+					<div class="card-body">
+						<mat-spinner [diameter]="40" *ngIf="projectService.isLoading || !project; else elseBlock">
+						</mat-spinner>
+						<ng-template #elseBlock>
 							<div class="row">
 								<form class="edit-form" [formGroup]="projectForm" (ngSubmit)="onSubmit(project)">
 									<mat-form-field color="accent">
@@ -26,35 +26,30 @@
 										<textarea matInput [(ngModel)]="project.description" formControlName="projectDescription" placeholder="Leírás" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="5"></textarea>
 									</mat-form-field>
 									<mat-form-field color="accent">
-										<mat-select [(ngModel)]="project.company" (change)="companyChanged = true"
-										[ngModelOptions]="{standalone: true}" name="projectCompany" placeholder="Cég" multiple>
+										<mat-select [(ngModel)]="project.company" (change)="companyChanged = true" [ngModelOptions]="{standalone: true}" name="projectCompany" placeholder="Cég" multiple>
 											<mat-option *ngFor="let company of companyService.getItems()" [value]="company.id">{{company.name}}</mat-option>
 										</mat-select>
 									</mat-form-field>	
 									<mat-form-field color="accent">
 										<input matInput [(ngModel)]="project.file" formControlName="projectFile" placeholder="Fájlok">
-										</mat-form-field>
+									</mat-form-field>
 									<mat-form-field color="accent">
-										<mat-select [(ngModel)]="project.accountable" (change)="contactChanged = true"
-										[ngModelOptions]="{standalone: true}" name="projectAccountable" placeholder="Felelős" multiple>
+										<mat-select [(ngModel)]="project.accountable" (change)="contactChanged = true" [ngModelOptions]="{standalone: true}" name="projectAccountable" placeholder="Felelős" multiple>
 											<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
 										</mat-select>
 									</mat-form-field>
 									<mat-form-field color="accent">
-										<mat-select [(ngModel)]="project.owner" (change)="contactChanged = true"
-										[ngModelOptions]="{standalone: true}" name="projectOwner" placeholder="Tulajdonos" multiple>
+										<mat-select [(ngModel)]="project.owner" (change)="contactChanged = true" [ngModelOptions]="{standalone: true}" name="projectOwner" placeholder="Tulajdonos" multiple>
 											<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
 										</mat-select>
 									</mat-form-field>
 									<mat-form-field color="accent">
-										<mat-select [(ngModel)]="project.observer" (change)="contactChanged = true"
-										[ngModelOptions]="{standalone: true}" name="projectObserver" placeholder="Megfigyelő" multiple>
+										<mat-select [(ngModel)]="project.observer" (change)="contactChanged = true" [ngModelOptions]="{standalone: true}" name="projectObserver" placeholder="Megfigyelő" multiple>
 											<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
 										</mat-select>
 									</mat-form-field>
 									<mat-form-field color="accent">
-										<mat-select [(ngModel)]="project.participant" (change)="contactChanged = true"
-										[ngModelOptions]="{standalone: true}" name="projectParticipant" placeholder="Résztvevő" multiple>
+										<mat-select [(ngModel)]="project.participant" (change)="contactChanged = true" [ngModelOptions]="{standalone: true}" name="projectParticipant" placeholder="Résztvevő" multiple>
 											<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
 										</mat-select>
 									</mat-form-field>
@@ -62,26 +57,26 @@
 									<owl-date-time #dt1></owl-date-time>
 									<mat-form-field color="accent">
 										<input matInput [(ngModel)]="project.status" formControlName="projectStatus" placeholder="Státusz">
-										</mat-form-field>	
+									</mat-form-field>	
 									<mat-form-field color="accent">
 										<input matInput [(ngModel)]="project.priority" formControlName="projectPriority" placeholder="Prioritás">
-										</mat-form-field>
+									</mat-form-field>
 									<mat-form-field color="accent">
 										<input matInput [(ngModel)]="project.stickers" formControlName="projectStickers" placeholder="Cimkék">
-										</mat-form-field>
+									</mat-form-field>
 									<mat-form-field color="accent">
 										<input matInput [(ngModel)]="project.currency" formControlName="projectCurrency" placeholder="Pénznem">
-										</mat-form-field>
+									</mat-form-field>
 									<mat-form-field color="accent">
 										<input type="number" matInput [(ngModel)]="project.income" formControlName="projectIncome" placeholder="Bevétel">
-										</mat-form-field>
-										<mat-error *ngIf="!projectForm.controls['projectIncome'].valid && projectForm.controls['projectIncome'].touched">
+									</mat-form-field>
+									<mat-error *ngIf="!projectForm.controls['projectIncome'].valid && projectForm.controls['projectIncome'].touched">
 										Nem megfelelő formátum!
 									</mat-error>	
 									<mat-form-field color="accent">
 										<input type="number" matInput [(ngModel)]="project.expenditure" formControlName="projectExpenditure" placeholder="Kiadás">
-										</mat-form-field>
-										<mat-error *ngIf="!projectForm.controls['projectExpenditure'].valid && projectForm.controls['projectExpenditure'].touched">
+									</mat-form-field>
+									<mat-error *ngIf="!projectForm.controls['projectExpenditure'].valid && projectForm.controls['projectExpenditure'].touched">
 										Nem megfelelő formátum!
 									</mat-error>
 									<div class="row mx-2 mt-5">
@@ -98,130 +93,9 @@
 								</form>
 							</div>
 						</ng-template>
-						</div>
 					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </section>
-
-
-<!-- <mat-spinner *ngIf="projectService.isLoading || !project || companyService.isLoading ||
-contactService.isLoading"></mat-spinner>
-<div id="maindiv" *ngIf='!projectService.isLoading && project && !companyService.isLoading &&
-!contactService.isLoading'>
-	<form class="panel panel-default" [formGroup]="projectForm" (ngSubmit)="onSubmit(project)">
-		<div class="panel-heading" color="primary">Projekt</div>
-		<div  class="panel-body">
-			<div class="inputfield">	
-				<mat-form-field class="matffield">
-				    <input matInput [(ngModel)]="project.name" formControlName="projectName" placeholder="Név*">
-			  	</mat-form-field>
-			  	<mat-error *ngIf="!projectForm.controls['projectName'].valid && projectForm.controls['projectName'].touched">
-			      A név mező megadása <strong>kötelező</strong>!
-			    </mat-error>
-			</div>
-			<div class="inputfield">
-				<mat-form-field class="matffield">
-				  <textarea matInput [(ngModel)]="project.description" formControlName="projectDescription" placeholder="Leírás" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="5"></textarea>
-				</mat-form-field>
-			</div>
-			<div class="inputfield">
-				<mat-checkbox [ngModel]="project.checklist" (ngModelChange)="project.checklist = onChange($event)"formControlName="projectChecklist" color="primary">
-					Feladatlista
-				</mat-checkbox>
-			</div>
-			<div class="inputfield">
-				<mat-form-field class="matffield">
-					<mat-select [(ngModel)]="project.company" (change)="companyChanged = true"
-					[ngModelOptions]="{standalone: true}" name="projectCompany" placeholder="Cég" multiple>
-						<mat-option *ngFor="let company of companyService.getItems()" [value]="company.id">{{company.name}}</mat-option>
-					</mat-select>
-				</mat-form-field>
-			</div>
-			<div class="inputfield">	
-				<mat-form-field class="matffield">
-				    <input matInput [(ngModel)]="project.file" formControlName="projectFile" placeholder="Fájlok">
-			  	</mat-form-field>
-			</div>
-			<div class="inputfield">
-				<mat-form-field class="matffield">
-					<mat-select [(ngModel)]="project.accountable" (change)="contactChanged = true"
-					[ngModelOptions]="{standalone: true}" name="projectAccountable" placeholder="Felelős" multiple>
-						<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
-					</mat-select>
-				</mat-form-field>
-			</div>
-			<div class="inputfield">
-				<mat-form-field class="matffield">
-					<mat-select [(ngModel)]="project.owner" (change)="contactChanged = true"
-					[ngModelOptions]="{standalone: true}" name="projectOwner" placeholder="Tulajdonos" multiple>
-						<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
-					</mat-select>
-				</mat-form-field>
-			</div>
-			<div class="inputfield">
-				<mat-form-field class="matffield">
-					<mat-select [(ngModel)]="project.observer" (change)="contactChanged = true"
-					[ngModelOptions]="{standalone: true}" name="projectObserver" placeholder="Megfigyelő" multiple>
-						<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
-					</mat-select>
-				</mat-form-field>
-			</div>
-			<div class="inputfield">
-				<mat-form-field class="matffield">
-					<mat-select [(ngModel)]="project.participant" (change)="contactChanged = true"
-					[ngModelOptions]="{standalone: true}" name="projectParticipant" placeholder="Résztvevő" multiple>
-						<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
-					</mat-select>
-				</mat-form-field>
-			</div>
-			<div class="inputfield">
-				<input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
-				<owl-date-time #dt1></owl-date-time>
-			</div>
-			<div class="inputfield">	
-				<mat-form-field class="matffield">
-				    <input matInput [(ngModel)]="project.status" formControlName="projectStatus" placeholder="Státusz">
-			  	</mat-form-field>
-			</div>
-			<div class="inputfield">	
-				<mat-form-field class="matffield">
-				    <input matInput [(ngModel)]="project.priority" formControlName="projectPriority" placeholder="Prioritás">
-			  	</mat-form-field>
-			</div>
-			<div class="inputfield">	
-				<mat-form-field class="matffield">
-				    <input matInput [(ngModel)]="project.stickers" formControlName="projectStickers" placeholder="Cimkék">
-			  	</mat-form-field>
-			</div>
-			<div class="inputfield">	
-				<mat-form-field class="matffield">
-				    <input matInput [(ngModel)]="project.currency" formControlName="projectCurrency" placeholder="Pénznem">
-			  	</mat-form-field>
-			</div>
-			<div class="inputfield">	
-				<mat-form-field class="matffield">
-				    <input matInput [(ngModel)]="project.income" formControlName="projectIncome" placeholder="Bevétel">
-			  	</mat-form-field>
-			  	<mat-error *ngIf="!projectForm.controls['projectIncome'].valid && projectForm.controls['projectIncome'].touched">
-			      Nem megfelelő formátum!
-			    </mat-error>
-			</div>
-			<div class="inputfield">	
-				<mat-form-field class="matffield">
-				    <input matInput [(ngModel)]="project.expenditure" formControlName="projectExpenditure" placeholder="Kiadás">
-			  	</mat-form-field>
-			  	<mat-error *ngIf="!projectForm.controls['projectExpenditure'].valid && projectForm.controls['projectExpenditure'].touched">
-			      Nem megfelelő formátum!
-			    </mat-error>
-			</div>
-			<div class="btn_primary">
-				<button type="submit" mat-raised-button color="primary">Mentés</button>
-			</div>
-			<div class="btn_primary">
-				<button mat-raised-button (click)="navigateBack(); $event.preventDefault();">Mégse</button>
-			</div>
-		</div>
-	</form>
-</div> -->

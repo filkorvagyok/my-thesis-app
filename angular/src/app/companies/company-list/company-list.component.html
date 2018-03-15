@@ -10,8 +10,7 @@
 				<th></th>
 			</tr>
 		</thead>
-		<tbody *ngFor="let company of companyService.getItems()"
-		app-company-item [company]="company">
+		<tbody *ngFor="let company of companyService.getItems()" app-company-item [company]="company">
 		</tbody>
 	</table>
 </div>

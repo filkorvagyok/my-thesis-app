@@ -1,7 +1,6 @@
 <tr>
   <td>
-      <mat-checkbox color="accent" value={{contact.id}} (change)="showChbox()"></mat-checkbox>
-      <!--<input type="checkbox" value={{company.id}} (change)="showChbox()">-->
+    <mat-checkbox color="accent" value={{contact.id}} (change)="showChbox()"></mat-checkbox>
   </td>
   <td>
     <strong class="company_name">{{contact.full_name}}</strong>
@@ -10,7 +9,7 @@
     {{contact.phone}}
   </td>
   <td class="td-md">
-    {{contact.email}}
+   {{contact.email}}
   </td>
   <td class="td-sm">
     <a href="tel:{{contact.phone}}"><span><i class="fa fa-phone"></i></span></a>
@@ -19,8 +18,7 @@
     <a href="mailto:{{contact.email}}"><span><i class="fa fa-envelope"></i></span></a>
   </td>
   <td class="padding-td-xs">
-    <button class="btn btn-outline-teal-darken-4 btn-sm waves-effect btn-details"
-    (click)="navigateToDetail(contact.id)">
+    <button class="btn btn-outline-teal-darken-4 btn-sm waves-effect btn-details" (click)="navigateToDetail(contact.id)">
       <i class="fa fa-angle-double-right"></i> Részletek
     </button>
   </td>

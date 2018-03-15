@@ -4,3 +4,13 @@
 .bg-teal-darken-5{
     background-color: #002F27;
 }
+
+.lead{
+    font-size: 0.5rem;
+}
+
+@media (min-width: $screen-size-md){
+    .lead{
+        font-size: 0.75rem;
+    }
+}
