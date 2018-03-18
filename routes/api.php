@@ -22,33 +22,76 @@ Route::post('/user/signin', [
 ]);
 
 Route::post('/company', [
-    'uses' => 'CompanyController@postCompany'
+    'uses' => 'CompanyController@postCompany',
+    'middleware' => 'jwt.auth'
 ]);
 
-Route::get('/company', [
-    'uses' => 'CompanyController@getCompanies'
+Route::get('/company/{id}', [
+    'uses' => 'CompanyController@getCompany',
+    'middleware' => 'jwt.auth'
+]);
+
+Route::get('/companies', [
+    'uses' => 'CompanyController@getCompanies',
+    'middleware' => 'jwt.auth'
 ]);
 
 Route::put('/company/{id}', [
-    'uses' => 'CompanyController@putCompany'
+    'uses' => 'CompanyController@putCompany',
+    'middleware' => 'jwt.auth'
 ]);
 
 Route::delete('/company/{id}', [
-    'uses' => 'CompanyController@deleteCompany'
+    'uses' => 'CompanyController@deleteCompany',
+    'middleware' => 'jwt.auth'
 ]);
 
 Route::post('/project', [
-    'uses' => 'ProjectController@postProject'
+    'uses' => 'ProjectController@postProject',
+    'middleware' => 'jwt.auth'
 ]);
 
-Route::get('/project', [
-    'uses' => 'ProjectController@getProject'
+Route::get('/project/{id}', [
+    'uses' => 'ProjectController@getProject',
+    'middleware' => 'jwt.auth'
+]);
+
+Route::get('/projects', [
+    'uses' => 'ProjectController@getProjects',
+    'middleware' => 'jwt.auth'
 ]);
 
 Route::put('/project/{id}', [
-    'uses' => 'ProjectController@putProject'
+    'uses' => 'ProjectController@putProject',
+    'middleware' => 'jwt.auth'
 ]);
 
 Route::delete('/project/{id}', [
-    'uses' => 'ProjectController@deleteProject'
+    'uses' => 'ProjectController@deleteProject',
+    'middleware' => 'jwt.auth'
+]);
+
+Route::post('/contact', [
+    'uses' => 'ContactController@postContact',
+    'middleware' => 'jwt.auth'
+]);
+
+Route::get('/contact/{id}', [
+    'uses' => 'ContactController@getContact',
+    'middleware' => 'jwt.auth'
+]);
+
+Route::get('/contacts', [
+    'uses' => 'ContactController@getContacts',
+    'middleware' => 'jwt.auth'
+]);
+
+Route::put('/contact/{id}', [
+    'uses' => 'ContactController@putContact',
+    'middleware' => 'jwt.auth'
+]);
+
+Route::delete('/contact/{id}', [
+    'uses' => 'ContactController@deleteContact',
+    'middleware' => 'jwt.auth'
 ]);

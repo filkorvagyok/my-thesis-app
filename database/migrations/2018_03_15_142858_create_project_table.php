@@ -16,8 +16,18 @@ class CreateProjectTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('name');
-            $table->string('status');
+            $table->string('name')->unique();
+            $table->text('description')->nullable();
+            $table->string('file')->nullable();
+            $table->date('deadline')->nullable();
+            $table->integer('status_id')->unsigned()->nullable();
+            $table->foreign('status_id')->references('id')->on('statuses');
+            $table->integer('priority_id')->unsigned()->nullable();
+            $table->foreign('priority_id')->references('id')->on('priorities');
+            $table->integer('currency_id')->unsigned()->nullable();
+            $table->foreign('currency_id')->references('id')->on('currencies');
+            $table->integer('income')->nullable();
+            $table->integer('expenditure')->nullable();
         });
     }
 

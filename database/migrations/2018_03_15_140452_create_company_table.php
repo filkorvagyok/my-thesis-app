@@ -16,10 +16,27 @@ class CreateCompanyTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('name');
-            $table->string('phone');
-            $table->string('email');
+            $table->string('name')->unique();
+            $table->string('logo')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('website')->nullable();
+            $table->string('facebook')->nullable();
+            $table->integer('taxnumber')->nullable();
+            $table->json('headquarter')->nullable();
+            $table->json('billing_address')->nullable();
+            $table->json('mail_address')->nullable();
+            $table->integer('industry_id')->unsigned()->nullable();
+            $table->foreign('industry_id')->references('id')->on('industries');
+            $table->integer('employeesnumber_id')->unsigned()->nullable();
+            $table->foreign('employeesnumber_id')->references('id')->on('employeesnumbers');
+            $table->integer('yearlyincome_id')->unsigned()->nullable();
+            $table->foreign('yearlyincome_id')->references('id')->on('yearlyincomes');
         });
+
+        /* Schema::table('companies', function (Blueprint $table) {
+            $table->foreign('industry_id')->references('id')->on('industries');
+        }); */
     }
 
     /**
