@@ -23,9 +23,6 @@ class CreateCompanyTable extends Migration
             $table->string('website')->nullable();
             $table->string('facebook')->nullable();
             $table->integer('taxnumber')->nullable();
-            $table->json('headquarter')->nullable();
-            $table->json('billing_address')->nullable();
-            $table->json('mail_address')->nullable();
             $table->integer('industry_id')->unsigned()->nullable();
             $table->foreign('industry_id')->references('id')->on('industries');
             $table->integer('employeesnumber_id')->unsigned()->nullable();
@@ -33,10 +30,6 @@ class CreateCompanyTable extends Migration
             $table->integer('yearlyincome_id')->unsigned()->nullable();
             $table->foreign('yearlyincome_id')->references('id')->on('yearlyincomes');
         });
-
-        /* Schema::table('companies', function (Blueprint $table) {
-            $table->foreign('industry_id')->references('id')->on('industries');
-        }); */
     }
 
     /**

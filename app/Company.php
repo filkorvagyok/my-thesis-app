@@ -14,6 +14,10 @@ class Company extends Model
         return $this->belongsToMany('App\Contact');
     }
 
+    public function addresstype(){
+        return $this->hasMany('App\Addresstype');
+    }
+
     public function industry(){
         return $this->belongsTo('App\Industry');
     }
