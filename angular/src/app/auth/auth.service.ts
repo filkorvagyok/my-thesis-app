@@ -18,6 +18,7 @@ export class AuthService{
     }
 
     signin(email: string, password: string){
+        console.log('email: ' + email + '   password: ' + password);
         return this.http.post('http://homestead.test/api/user/signin', {email: email, password: password},
             {headers: new HttpHeaders({'X-Requested-With': 'XMLHttpRequest'})})
             .map(
@@ -46,7 +47,7 @@ export class AuthService{
     }
 
     isAuthenticated(){
-        /* return localStorage.getItem('token') != null; */
-        return true;
+        return localStorage.getItem('token') != null;
+        /* return true; */
     }
 }

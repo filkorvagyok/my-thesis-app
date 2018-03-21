@@ -66,6 +66,11 @@ class CompanyController extends Controller{
             foreach($addresstypes as $addresstype){
                 $country = $addresstype->address->country;
             }
+            $projects = $company->projects;
+            $contacts = $company->contacts;
+            $industry = $company->industry;
+            $employeesnumber = $company->employeesnumber;
+            $yearlyincome = $company->yearlyincome;
         }
         $response = [
             'companies' => $companies
@@ -173,6 +178,7 @@ class CompanyController extends Controller{
         $company->industry_id = $request->input('industry_id');
         $company->employeesnumber_id = $request->input('employeesnumber_id');
         $company->yearlyincome_id = $request->input('yearlyincome_id');
+        $company->founded = $request->input('founded');
         $company->save();
         return $company;
     }

@@ -1,3 +1,4 @@
+import { AuthService } from './../auth/auth.service';
 import { Task } from '../tasks/task';
 import { Project } from '../projects/project';
 import { Contact } from '../contacts/contact';
@@ -12,8 +13,9 @@ import { of } from 'rxjs/observable/of';
 import 'rxjs/add/observable/of';
 import { tap, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Company } from './company';
+import { Company, Address } from './company';
 import { BaseService } from '../base/base.service';
+import 'rxjs/add/operator/map'
 
 @Injectable()
 export class CompanyService extends BaseService{
@@ -31,9 +33,72 @@ export class CompanyService extends BaseService{
     private employeesnumsUrl = 'api/employeesnums';
     private yearlyincomesUrl = 'api/yearlyincomes';
 
-    constructor(private http: HttpClient){
+    constructor(
+        private http: HttpClient,
+        private authService: AuthService
+    ){
         super();
         this.getStartingdatas();
+    }
+
+    getCompanies(): Observable<any>{
+        const token = this.authService.getToken();
+        return this.http.get('http://homestead.test/api/companies?token=' + token)
+        .map(
+            res => {
+                let companies: Company[] = [];
+                const comps = res['companies'];
+                comps.forEach(company => {
+                    let c = new Company();
+                    c.id = company['id'];
+                    c.logo = company['logo'];
+                    c.name = company['name'];
+                    c.phone = company['phone'];
+                    c.email = company['email'];
+                    c.website = company['website'];
+                    c.facebook = company['facebook'];
+                    c.taxnumber = company['taxnumber'];
+                    const addresstype = company['addresstype'];
+                    addresstype.forEach(at => {
+                        switch(at['address_type']){
+                            case 'headquarter':{
+                                c.headquarter.country.id = at['address']['country']['id'];
+                                c.headquarter.country.code = at['address']['country']['code'];
+                                c.headquarter.country.name = at['address']['country']['name'];
+                                c.headquarter.zipcode = at['address']['zipcode'];
+                                c.headquarter.settlement = at['address']['settlement'];
+                                c.headquarter.address_line = at['address']['address_line'];
+                                break;
+                            }
+                            case 'billing':{
+                                c.billing.country.id = at['address']['country']['id'];
+                                c.billing.country.code = at['address']['country']['code'];
+                                c.billing.country.name = at['address']['country']['name'];
+                                c.billing.zipcode = at['address']['zipcode'];
+                                c.billing.settlement = at['address']['settlement'];
+                                c.billing.address_line = at['address']['address_line'];
+                            }
+                            case 'mail':{
+                                c.mailing.country.id = at['address']['country']['id'];
+                                c.mailing.country.code = at['address']['country']['code'];
+                                c.mailing.country.name = at['address']['country']['name'];
+                                c.mailing.zipcode = at['address']['zipcode'];
+                                c.mailing.settlement = at['address']['settlement'];
+                                c.mailing.address_line = at['address']['address_line'];
+                            }
+                        }
+                    });
+                    c.industry = company['industry'];
+                    c.employeesnumber = company['employeesnumber'];
+                    c.yearlyincome = company['yearlyincome'];
+                    c.founded = company['founded'];
+                    c.project = company['projects'];
+                    c.contact = company['contacts'];
+                    companies.push(c);
+                });
+                return companies;
+            }
+        );
     }
 
     getStartingdatas(): void{
@@ -223,7 +288,7 @@ export class CompanyService extends BaseService{
                     })
                 }
             } else /*if(tasknak különleges property)*/ {
-                let companyToBeModified = this.companies
+                /* let companyToBeModified = this.companies
                     .filter(x => x.task.includes(item.id))
                     .filter(company => !item.company.includes(company.id));
                 companyToBeModified.forEach(company => {
@@ -237,7 +302,7 @@ export class CompanyService extends BaseService{
                             this.update(actualCompany);
                         }
                     })
-                }
+                } */
             }
         } else {
             while(this.isLoading === true){
@@ -262,11 +327,11 @@ export class CompanyService extends BaseService{
                     this.update(company);
                 });
             } else /*if(tasknak különleges property)*/ {
-                this.companies.filter(companies => companies.task.includes(item.id))
+                /* this.companies.filter(companies => companies.task.includes(item.id))
                 .forEach(company => {
                     company.task.splice(company.task.indexOf(item.id), 1);
                     this.update(company);
-                });
+                }); */
             }
         } else {
             while(this.isLoading === true){

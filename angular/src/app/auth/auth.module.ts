@@ -1,3 +1,4 @@
+import { AuthService } from './auth.service';
 import { AuthRoutingModule } from './auth-routing.module';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule, MatInputModule, MatIconModule, MatCheckboxModule, MatButtonModule } from '@angular/material';
@@ -23,6 +24,7 @@ import { NgModule } from "@angular/core";
         MatIconModule,
         MatCheckboxModule,
         MatButtonModule,
-      ]
+      ],
+      providers: [AuthService]
 })
 export class AuthModule {}

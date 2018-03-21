@@ -15,6 +15,7 @@ import { NgForm } from '@angular/forms';
     styleUrls: ['./companies.component.scss']
 })
 export class CompaniesComponent extends BaseComponent{
+    companies: any[];
 
     constructor(
         private contactService: ContactService,
@@ -27,7 +28,14 @@ export class CompaniesComponent extends BaseComponent{
         super(dialog);
         this.subscription = this.companyService.checkedArray.subscribe(
 			(array: number[]) => this.checkedArray = array
-		);
+        );
+        this.companyService.getCompanies().subscribe(
+            (data: Company[]) => {
+                this.companies = data;
+                console.log(this.companies);
+            },
+            (error: Response) => console.log(error)
+        )
     }
 
     /*Tölés esetén a céggel összekapcsolt projekt(ek) és névjegy(ek) közül is ki kell törölnünk az adott céget,
@@ -38,8 +46,8 @@ export class CompaniesComponent extends BaseComponent{
 			this.contactService.deleteItems(actualCompany);
 		if(actualCompany.project.length > 0)
 			this.projectService.deleteItems(actualCompany);
-		if(actualCompany.task.length > 0)
-			this.taskService.deleteItems(actualCompany);
+		/* if(actualCompany.task.length > 0)
+			this.taskService.deleteItems(actualCompany); */
 		this.companyService.delete(actualCompany);
     }
     

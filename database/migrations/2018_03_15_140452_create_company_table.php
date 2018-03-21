@@ -29,6 +29,7 @@ class CreateCompanyTable extends Migration
             $table->foreign('employeesnumber_id')->references('id')->on('employeesnumbers');
             $table->integer('yearlyincome_id')->unsigned()->nullable();
             $table->foreign('yearlyincome_id')->references('id')->on('yearlyincomes');
+            $table->integer('founded')->nullable();
         });
     }
 
