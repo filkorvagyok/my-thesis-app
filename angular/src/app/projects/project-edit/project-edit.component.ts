@@ -81,7 +81,7 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 
 	setNew(): void{
 		this.project = new Project();
-		switch (Number(this.route.snapshot.params['num'])) {
+		/* switch (Number(this.route.snapshot.params['num'])) {
 			case 0:
 				this.route.snapshot.params['array'].split(",").forEach(x =>
 					this.project.company.push(Number(x)));
@@ -110,7 +110,7 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 				break;
 			default:
 				break;
-		}
+		} */
 	}
 
 	setEdit(): void{
@@ -146,10 +146,10 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 		if(project.company.length > 0){
 			this.companyService.modifyItems(project);
 		}
-		if(project.accountable.length > 0 || project.owner.length > 0 ||
+		/* if(project.accountable.length > 0 || project.owner.length > 0 ||
 			project.observer.length > 0 || project.participant.length > 0){
 				this.contactService.modifyItems(project);
-			}
+			} */
     this.navigateBack();
   }
 

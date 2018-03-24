@@ -1,3 +1,4 @@
+import { AuthService } from './../auth/auth.service';
 import { Task } from './../tasks/task';
 import { Contact } from './../contacts/contact';
 import { Company } from './../companies/company';
@@ -9,6 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseService } from '../base/base.service';
+import 'rxjs/add/operator/map'
 
 export class ProjectForContact{
 	project: Project;
@@ -22,9 +24,57 @@ export class ProjectService extends BaseService{
     checkedArray = new Subject<number[]>();
     private projectsUrl = 'api/projects';
 
-    constructor(private http: HttpClient){
+    constructor(
+        private http: HttpClient,
+        private authService: AuthService
+    ){
         super();
         this.getStartingdatas();
+    }
+
+    getProjects(): Observable<Project[]>{
+        const token = this.authService.getToken();
+        return this.http.get('http://homestead.test/api/projects?token=' + token)
+        .map(
+            (res: Response) => {
+                let projects: Project[] = [];
+                const projs = res['projects'];
+                projs.forEach(project => {
+                    let p = new Project();
+                    p = this.formatItem(p, project);
+                    projects.push(p);
+                });
+                return projects;
+            }
+        );
+    }
+
+    getProject(id: number): Observable<Project>{
+        const token = this.authService.getToken();
+        return this.http.get('http://homestead.test/api/project/' + id + '?token=' + token)
+        .map(
+            (res: Response) => {
+                let project = new Project();
+                project = this.formatItem(project, res['project']);
+                return project;
+            }
+        );
+    }
+
+    private formatItem(project: Project, res): Project{
+        project.id = res['id'];
+        project.name = res['name'];
+        project.description = res['description'];
+        project.file = res['file'];
+        project.deadline = res['deadline'];
+        project.status = res['status'];
+        project.priority = res['priority'];
+        project.currency = res['currency'];
+        project.income = res['income'];
+        project.expenditure = res['expenditure'];
+        project.company = res['companies'];
+        project.contact = res['contacts'];
+        return project;
     }
 
     getStartingdatas(): void{
@@ -81,8 +131,8 @@ export class ProjectService extends BaseService{
         this.projects.find(oldProject => oldProject.id === project.id)[0] = project;
     }
 
-    getCertainItems(item: Company | Contact | Task): Project[] | ProjectForContact[] {
-        if(this.projects){
+    getCertainItems(item: Company | Contact | Task): any {
+        /* if(this.projects){
             if(item.project.length > 0){
                 if(item.hasOwnProperty('full_name')){
                     let projectsObject: ProjectForContact[] = [];
@@ -114,11 +164,11 @@ export class ProjectService extends BaseService{
                 continue;
             }
             this.getCertainItems(item);
-        }
+        } */
     }
 
     modifyItems(item: Company | Task): void{
-        if(this.projects){
+        /* if(this.projects){
             if(item.hasOwnProperty('taxnumber')){
                 let projectToBeModified = this.projects
                     .filter(x => x.company.includes(item.id))
@@ -135,7 +185,7 @@ export class ProjectService extends BaseService{
                         }
                     });
                 }
-            } else /*if(tasknak különleges property)*/ {
+            } else if(tasknak különleges property) {
                 let projectToBeModified = this.projects
                     .filter(x => x.task.includes(item.id))
                     .filter(project => !item.project.includes(project.id));
@@ -157,11 +207,11 @@ export class ProjectService extends BaseService{
                 continue;
             }
             this.modifyItems(item);
-        }
+        } */
     }
 
     deleteItems(item: Company | Contact | Task): void{
-        if(this.projects){
+        /* if(this.projects){
             if(item.hasOwnProperty('taxnumber')){
                 this.projects.filter(projects => projects.company.includes(item.id))
                 .forEach(project => {
@@ -189,7 +239,7 @@ export class ProjectService extends BaseService{
                     project.participant.splice(project.participant.indexOf(item.id), 1);
                     this.update(project);
                 });
-            } else /*if(tasknak különleges property)*/ {
+            } else if(tasknak különleges property) {
                 this.projects.filter(projects => projects.task.includes(item.id))
                 .forEach(project => {
                     project.task.splice(project.task.indexOf(item.id), 1);
@@ -201,7 +251,7 @@ export class ProjectService extends BaseService{
                 continue;
             }
             this.deleteItems(item);
-        }
+        } */
     }
     
     //Hibakezelő

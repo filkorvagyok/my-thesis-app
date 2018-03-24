@@ -34,6 +34,10 @@ class ContactController extends Controller{
     //HUN: Ez a funkció megtalálja az összes névjegyet az adatbázisban és visszaadja néhány plusz információval.
     public function getContacts(){
         $contacts = Contact::all();
+        foreach($contacts as $contact){
+            $companies = $contact->companies;
+            $projects = $contact->projects;
+        }
         $response = [
             'contacts' => $contacts
         ];

@@ -1,3 +1,4 @@
+import { AuthService } from './../auth/auth.service';
 import { Task } from '../tasks/task';
 import { Project } from '../projects/project';
 import { Company } from '../companies/company';
@@ -17,9 +18,55 @@ export class ContactService extends BaseService{
     checkedArray = new Subject<number[]>();
     private contactsUrl = 'api/contacts';
 
-    constructor(private http: HttpClient){
+    constructor(
+        private http: HttpClient,
+        private authService: AuthService
+    ){
         super();
         this.getStartingdatas();
+    }
+
+    getContacts(): Observable<Contact[]>{
+        const token = this.authService.getToken();
+        return this.http.get('http://homestead.test/api/contacts?token=' + token)
+        .map(
+            (res: Response) => {
+                let contacts: Contact[] = [];
+                const conts = res['contacts'];
+                conts.forEach(contact => {
+                    let c = new Contact();
+                    c = this.formatItem(c, contact);
+                    contacts.push(c);
+                });
+                return contacts;
+            }
+        );
+    }
+
+    getContact(id: number): Observable<Contact>{
+        const token = this.authService.getToken();
+        return this.http.get('http://homestead.test/api/contact/' + id + '?token=' + token)
+        .map(
+            (res: Response) => {
+                let contact = new Contact();
+                contact = this.formatItem(contact, res['contact']);
+                return contact;
+            }
+        );
+    }
+
+    private formatItem(contact: Contact, res): Contact{
+        contact.id = res['id'];
+        contact.full_name = res['full_name'];
+        contact.surname = res['surname'];
+        contact.middle_name = res['middle_name'];
+        contact.forename = res['forename'];
+        contact.nickname = res['nickname'];
+        contact.phone = res['phone'];
+        contact.email = res['email'];
+        contact.company = res['companies'];
+        contact.project = res['projects'];
+        return contact;
     }
 
     getStartingdatas(): void{
@@ -76,8 +123,8 @@ export class ContactService extends BaseService{
         this.contacts.find(oldContact => oldContact.id === contact.id)[0] = contact;
     }
 
-    getCertainItems(item: Company | Project | Task, rank?: number): Contact[]{
-        if(this.contacts){
+    getCertainItems(item: Company | Project | Task, rank?: number): any{
+        /* if(this.contacts){
             let contacts: Contact[] = [];
             if(item.hasOwnProperty('deadline')){
                 item = (item as Project);
@@ -133,11 +180,11 @@ export class ContactService extends BaseService{
                 this.getCertainItems(item, rank);
             else
                 this.getCertainItems(item);
-        }
+        } */
     }
 
     modifyItems(item: Company | Project | Task): void{
-        if(this.contacts){
+        /* if(this.contacts){
             if(item.hasOwnProperty('taxnumber')){
                 let contactToBeModified = this.contacts
                     .filter(x => x.company.includes(item.id))
@@ -197,7 +244,7 @@ export class ContactService extends BaseService{
                         }
                     });
                 }
-            } else /*if(tasknak különleges property)*/if(!(item instanceof Project)) {
+            } else if(tasknak különleges property)if(!(item instanceof Project)) {
                 let contactToBeModified = this.contacts
                     .filter(x => x.task.includes(item.id))
                     .filter(contact => !item.contact.includes(contact.id));
@@ -219,11 +266,11 @@ export class ContactService extends BaseService{
                 continue;
             }
             this.modifyItems(item);
-        }
+        } */
     }
 
     deleteItems(item: Company | Project | Task): void{
-        if(this.contacts){
+        /* if(this.contacts){
             if(item.hasOwnProperty('taxnumber')){
                 this.contacts.filter(contacts => contacts.company.includes(item.id))
                 .forEach(contact => {
@@ -236,7 +283,7 @@ export class ContactService extends BaseService{
                     contact.project.splice(contact.project.indexOf(item.id), 1);
                     this.update(contact);
                 });
-            } else /*if(tasknak különleges property)*/ {
+            } else if(tasknak különleges property) {
                 this.contacts.filter(contacts => contacts.task.includes(item.id))
                 .forEach(contact => {
                     contact.task.splice(contact.task.indexOf(item.id), 1);
@@ -248,7 +295,7 @@ export class ContactService extends BaseService{
                 continue;
             }
             this.deleteItems(item);
-        }
+        } */
     }
     
     //Hibakezelő

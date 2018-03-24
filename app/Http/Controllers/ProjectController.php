@@ -41,6 +41,13 @@ class ProjectController extends Controller{
     //HUN: Ez a funkció megtalálja az összes projektet az adatbázisban és visszaadja néhány plusz információval.
     public function getProjects(){
         $projects = Project::all();
+        foreach($projects as $project){
+            $companies = $project->companies;
+            $contacts = $project->contacts;
+            $status = $project->status;
+            $priority = $project->priority;
+            $currency = $project->currency;
+        }
         $response = [
             'projects' => $projects
         ];

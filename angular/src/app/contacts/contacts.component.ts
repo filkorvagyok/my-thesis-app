@@ -14,6 +14,8 @@ import { Contact } from './contact';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent extends BaseComponent implements OnInit {
+  contacts: Contact[];
+  contact: Contact;
 
   constructor(
     private companyService: CompanyService,
@@ -25,10 +27,25 @@ export class ContactsComponent extends BaseComponent implements OnInit {
     super(dialog);
     this.subscription = this.contactService.checkedArray.subscribe(
 			(array: number[]) => this.checkedArray = array
-		);
+    );
+    
   }
 
   ngOnInit() {
+    this.contactService.getContacts().subscribe(
+      (contacts: Contact[]) => {
+        this.contacts = contacts;
+        console.log(this.contacts);
+      },
+      (error: Response) => console.log(error)
+    );
+    this.contactService.getContact(1).subscribe(
+      (contact: Contact) => {
+        this.contact = contact;
+        console.log(this.contact);
+      },
+      (error: Response) => console.log(error)
+    );
   }
 
   /*Tölés esetén a céggel összekapcsolt projekt(ek) és névjegy(ek) közül is ki kell törölnünk az adott céget,

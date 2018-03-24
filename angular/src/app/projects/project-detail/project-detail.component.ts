@@ -54,11 +54,11 @@ export class ProjectDetailComponent extends BaseDetailComponent implements OnIni
 	delete(project: Project): void{
 		if(project.company.length > 0)
 			this.companyService.deleteItems(project);
-    if(project.accountable.length > 0 || project.observer.length > 0 ||
+    /* if(project.accountable.length > 0 || project.observer.length > 0 ||
       project.owner.length > 0 || project.participant.length > 0)
 			this.contactService.deleteItems(project);
 		if(project.task.length > 0)
-			this.taskService.deleteItems(project);
+			this.taskService.deleteItems(project); */
 		this.projectService.delete(project);
 		this.router.navigate(['project/list']);
 	}

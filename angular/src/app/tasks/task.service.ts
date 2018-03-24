@@ -73,8 +73,8 @@ export class TaskService extends BaseService{
         this.tasks.find(oldTask => oldTask.id === task.id)[0] = task;
     }
 
-    getCertainItems(item: Company | Contact | Project): Task[]{
-        if(this.tasks){
+    getCertainItems(item: Company | Contact | Project): any{
+        /* if(this.tasks){
             let tasks: Task[];
             item.task.forEach(taskID => {
                 tasks.push(this.tasks.find(task => task.id === taskID));
@@ -85,11 +85,11 @@ export class TaskService extends BaseService{
                 continue;
             }
             this.getCertainItems(item);
-        }
+        } */
     }
 
     modifyItems(item: Company | Contact | Project): void{
-        if(this.tasks){
+        /* if(this.tasks){
             if(item.hasOwnProperty('taxnumber')){
                 let taskToBeModified = this.tasks
                     .filter(x => x.company.includes(item.id))
@@ -144,7 +144,7 @@ export class TaskService extends BaseService{
                 continue;
             }
             this.modifyItems(item);
-        }
+        } */
     }
 
     deleteItems(item: Company | Contact | Project): void{

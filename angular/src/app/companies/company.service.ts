@@ -41,64 +41,81 @@ export class CompanyService extends BaseService{
         this.getStartingdatas();
     }
 
-    getCompanies(): Observable<any>{
+    getCompanies(): Observable<Company[]>{
         const token = this.authService.getToken();
         return this.http.get('http://homestead.test/api/companies?token=' + token)
         .map(
-            res => {
-                let companies: Company[] = [];
+            (res: Response) => {
+                const companies: Company[] = [];
                 const comps = res['companies'];
                 comps.forEach(company => {
                     let c = new Company();
-                    c.id = company['id'];
-                    c.logo = company['logo'];
-                    c.name = company['name'];
-                    c.phone = company['phone'];
-                    c.email = company['email'];
-                    c.website = company['website'];
-                    c.facebook = company['facebook'];
-                    c.taxnumber = company['taxnumber'];
-                    const addresstype = company['addresstype'];
-                    addresstype.forEach(at => {
-                        switch(at['address_type']){
-                            case 'headquarter':{
-                                c.headquarter.country.id = at['address']['country']['id'];
-                                c.headquarter.country.code = at['address']['country']['code'];
-                                c.headquarter.country.name = at['address']['country']['name'];
-                                c.headquarter.zipcode = at['address']['zipcode'];
-                                c.headquarter.settlement = at['address']['settlement'];
-                                c.headquarter.address_line = at['address']['address_line'];
-                                break;
-                            }
-                            case 'billing':{
-                                c.billing.country.id = at['address']['country']['id'];
-                                c.billing.country.code = at['address']['country']['code'];
-                                c.billing.country.name = at['address']['country']['name'];
-                                c.billing.zipcode = at['address']['zipcode'];
-                                c.billing.settlement = at['address']['settlement'];
-                                c.billing.address_line = at['address']['address_line'];
-                            }
-                            case 'mail':{
-                                c.mailing.country.id = at['address']['country']['id'];
-                                c.mailing.country.code = at['address']['country']['code'];
-                                c.mailing.country.name = at['address']['country']['name'];
-                                c.mailing.zipcode = at['address']['zipcode'];
-                                c.mailing.settlement = at['address']['settlement'];
-                                c.mailing.address_line = at['address']['address_line'];
-                            }
-                        }
-                    });
-                    c.industry = company['industry'];
-                    c.employeesnumber = company['employeesnumber'];
-                    c.yearlyincome = company['yearlyincome'];
-                    c.founded = company['founded'];
-                    c.project = company['projects'];
-                    c.contact = company['contacts'];
+                    c = this.formatItem(c, company);
                     companies.push(c);
                 });
                 return companies;
             }
         );
+    }
+
+    getCompany(id: number): Observable<Company>{
+        const token = this.authService.getToken();
+        return this.http.get('http://homestead.test/api/company/' + id + '?token=' + token)
+        .map(
+            (res: Response) => {
+                let company = new Company();
+                company = this.formatItem(company, res['company']);
+                return company;
+            }
+        );
+    }
+
+    private formatItem(company: Company, res): Company{
+        company.id = res['id'];
+        company.logo = res['logo'];
+        company.name = res['name'];
+        company.phone = res['phone'];
+        company.email = res['email'];
+        company.website = res['website'];
+        company.facebook = res['facebook'];
+        company.taxnumber = res['taxnumber'];
+        const addresstype = res['addresstype'];
+        addresstype.forEach(at => {
+            switch(at['address_type']){
+                case 'headquarter':{
+                    company.headquarter.country.id = at['address']['country']['id'];
+                    company.headquarter.country.code = at['address']['country']['code'];
+                    company.headquarter.country.name = at['address']['country']['name'];
+                    company.headquarter.zipcode = at['address']['zipcode'];
+                    company.headquarter.settlement = at['address']['settlement'];
+                    company.headquarter.address_line = at['address']['address_line'];
+                    break;
+                }
+                case 'billing':{
+                    company.billing.country.id = at['address']['country']['id'];
+                    company.billing.country.code = at['address']['country']['code'];
+                    company.billing.country.name = at['address']['country']['name'];
+                    company.billing.zipcode = at['address']['zipcode'];
+                    company.billing.settlement = at['address']['settlement'];
+                    company.billing.address_line = at['address']['address_line'];
+                }
+                case 'mail':{
+                    company.mailing.country.id = at['address']['country']['id'];
+                    company.mailing.country.code = at['address']['country']['code'];
+                    company.mailing.country.name = at['address']['country']['name'];
+                    company.mailing.zipcode = at['address']['zipcode'];
+                    company.mailing.settlement = at['address']['settlement'];
+                    company.mailing.address_line = at['address']['address_line'];
+                }
+            }
+        });
+        company.industry = res['industry'];
+        company.employeesnumber = res['employeesnumber'];
+        company.yearlyincome = res['yearlyincome'];
+        company.founded = res['founded'];
+        company.project = res['projects'];
+        company.contact = res['contacts'];
+        return company;
     }
 
     getStartingdatas(): void{
@@ -236,8 +253,8 @@ export class CompanyService extends BaseService{
         ); */
     }
 
-    getCertainItems(item: Contact | Project | Task): Company[]{
-        if(this.companies){
+    getCertainItems(item: Contact | Project | Task): any{
+        /* if(this.companies){
             let companies: Company[] = [];
             if(item.company.length > 0){
                 item.company.forEach(companyID => {
@@ -250,11 +267,11 @@ export class CompanyService extends BaseService{
                 continue;
             }
             this.getCertainItems(item);
-        }
+        } */
     }
 
     modifyItems(item: Contact | Project | Task): void{
-        if(this.companies){
+        /* if(this.companies){
             if(item.hasOwnProperty('full_name')){
                 let companyToBeModified = this.companies
                     .filter(x => x.contact.includes(item.id))
@@ -287,7 +304,7 @@ export class CompanyService extends BaseService{
                         }
                     })
                 }
-            } else /*if(tasknak különleges property)*/ {
+            } else */ /*if(tasknak különleges property)*/ /* { */
                 /* let companyToBeModified = this.companies
                     .filter(x => x.task.includes(item.id))
                     .filter(company => !item.company.includes(company.id));
@@ -303,17 +320,17 @@ export class CompanyService extends BaseService{
                         }
                     })
                 } */
-            }
+            /* }
         } else {
             while(this.isLoading === true){
                 continue;
             }
             this.modifyItems(item);
-        }
+        } */
     }
 
     deleteItems(item: Contact | Project | Task): void{
-        if(this.companies){
+        /* if(this.companies){
             if(item.hasOwnProperty('full_name')){
                 this.companies.filter(companies => companies.contact.includes(item.id))
                 .forEach(company => {
@@ -326,18 +343,18 @@ export class CompanyService extends BaseService{
                     company.project.splice(company.project.indexOf(item.id), 1);
                     this.update(company);
                 });
-            } else /*if(tasknak különleges property)*/ {
-                /* this.companies.filter(companies => companies.task.includes(item.id))
+            } else if(tasknak különleges property) {
+                this.companies.filter(companies => companies.task.includes(item.id))
                 .forEach(company => {
                     company.task.splice(company.task.indexOf(item.id), 1);
                     this.update(company);
-                }); */
+                });
             }
         } else {
             while(this.isLoading === true){
                 continue;
             }
             this.deleteItems(item);
-        }
+        } */
     }
 }

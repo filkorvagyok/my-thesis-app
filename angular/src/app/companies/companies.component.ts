@@ -4,7 +4,7 @@ import { ContactService } from './../contacts/contact.service';
 import { MatDialog } from '@angular/material';
 import { CompanyService } from './company.service';
 import { Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { Company } from './company';
 import { NgForm } from '@angular/forms';
@@ -14,8 +14,9 @@ import { NgForm } from '@angular/forms';
     templateUrl: './companies.component.html',
     styleUrls: ['./companies.component.scss']
 })
-export class CompaniesComponent extends BaseComponent{
-    companies: any[];
+export class CompaniesComponent extends BaseComponent implements OnInit{
+    companies: Company[];
+    company: Company;
 
     constructor(
         private contactService: ContactService,
@@ -30,9 +31,19 @@ export class CompaniesComponent extends BaseComponent{
 			(array: number[]) => this.checkedArray = array
         );
         this.companyService.getCompanies().subscribe(
-            (data: Company[]) => {
-                this.companies = data;
+            (companies: Company[]) => {
+                this.companies = companies;
                 console.log(this.companies);
+            },
+            (error: Response) => console.log(error)
+        );
+    }
+    
+    ngOnInit(){
+        this.companyService.getCompany(1).subscribe(
+            (company: Company) => {
+                this.company = company;
+                console.log(this.company);
             },
             (error: Response) => console.log(error)
         )

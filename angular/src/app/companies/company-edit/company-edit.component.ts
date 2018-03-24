@@ -101,7 +101,7 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 
 	setNew(): void{
 		this.company = new Company();
-		switch (Number(this.route.snapshot.params['num'])) {
+		/* switch (Number(this.route.snapshot.params['num'])) {
 			case 1:
 				this.route.snapshot.params['array'].split(",").forEach(x =>
 					this.company.project.push(Number(x)));
@@ -112,7 +112,7 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 				break;
 			default:
 				break;
-		}
+		} */
 	}
 
 	setEdit(): void{
@@ -123,10 +123,11 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 	}
 
 	//TODO: átszervezni az összes országokkal kapcsolatos mezőket.
+	//CHANGE THIS
 	onChangeHqcountry(newValue){
 		const actualCountry: Country = this.countries.find((country: Country)=>country.code==newValue);
-		if(actualCountry)
-		  this.company.hq_country = actualCountry.country;
+		/* if(actualCountry)
+		  this.company.hq_country = actualCountry.country; */
 		return newValue;
 	}
 
@@ -149,22 +150,24 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 
 	/*Ha be van pipálva, hogy a számlázási adatok azonosak,
 	akkor hajtódik végre és lemásolja a székhely adatokat*/
+	//DELETE THIS
 	billing_datas(company: Company): void{
-		this.company.bi_address = company.hq_address;
+		/* this.company.bi_address = company.hq_address;
 		this.company.bi_country = company.hq_country;
 		this.company.bi_name = company.name;
 		this.company.bi_settlement = company.hq_settlement;
-		this.company.bi_zipcode = company.hq_zipcode;
+		this.company.bi_zipcode = company.hq_zipcode; */
 	}
 
 	/*Ha be van pipálva, hogy a levelezési adatok azonosak,
 	akkor hajtódik végre és lemásolja a székhely adatokat*/
+	//DELETE THIS
 	mail_datas(company: Company): void{
-		this.company.mail_address = company.hq_address;
+		/* this.company.mail_address = company.hq_address;
 		this.company.mail_country = company.hq_country;
 		this.company.mail_name = company.name;
 		this.company.mail_settlement = company.hq_settlement;
-		this.company.mail_zipcode = company.hq_zipcode;
+		this.company.mail_zipcode = company.hq_zipcode; */
 	}
 
 

@@ -1,3 +1,5 @@
+import { Contact } from './../contacts/contact';
+import { Project } from './../projects/project';
 interface Industry{
 	id: number;
 	name: string;
@@ -42,8 +44,8 @@ export class Company{
 	employeesnumber: EmployeesNumber;
 	yearlyincome: YearlyIncome;
 	founded: number;
-	project: number[];
-	contact: number[];
+	project: Project[];
+	contact: Contact[];
 
 	constructor(){
 		this.headquarter = <Address>{};

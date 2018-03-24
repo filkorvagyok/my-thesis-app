@@ -15,6 +15,8 @@ import { Project } from './project';
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent extends BaseComponent implements OnInit {
+  projects: Project[];
+  project: Project;
 
   constructor(
     private companyService: CompanyService,
@@ -27,21 +29,34 @@ export class ProjectsComponent extends BaseComponent implements OnInit {
     super(dialog);
     this.subscription = this.projectService.checkedArray.subscribe(
 			(array: number[]) => this.checkedArray = array
-		);
+    );
     }
 
     ngOnInit() {
+      this.projectService.getProjects().subscribe(
+        (projects: Project[]) => {
+          this.projects = projects;
+          console.log(this.projects);
+        },
+        (error: Response) => console.log(error)
+      );
+      this.projectService.getProject(1).subscribe(
+        (project: Project) => {
+          this.project = project;
+          console.log(project);
+        }
+      );
     }
   
     delete(project: Project | number): void {
       const actualProject = typeof project === 'number' ? this.projectService.getItem(project) : project;
       if(actualProject.company.length > 0)
         this.companyService.deleteItems(actualProject);
-      if(actualProject.accountable.length > 0 || actualProject.observer.length > 0 ||
+      /* if(actualProject.accountable.length > 0 || actualProject.observer.length > 0 ||
         actualProject.owner.length > 0 || actualProject.participant.length > 0)
         this.contactService.deleteItems(actualProject);
       if(actualProject.task.length > 0)
-        this.taskService.deleteItems(actualProject);
+        this.taskService.deleteItems(actualProject); */
       this.projectService.delete(actualProject);
     }
 

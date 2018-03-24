@@ -26,8 +26,8 @@ class CreateProjectTable extends Migration
             $table->foreign('priority_id')->references('id')->on('priorities');
             $table->integer('currency_id')->unsigned()->nullable();
             $table->foreign('currency_id')->references('id')->on('currencies');
-            $table->integer('income')->nullable();
-            $table->integer('expenditure')->nullable();
+            $table->bigInteger('income')->nullable();
+            $table->bigInteger('expenditure')->nullable();
         });
     }
 
