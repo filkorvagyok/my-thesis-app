@@ -81,7 +81,7 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
 	ha pedig 1-el egyelnő, akkor pedig a project mezőbe rakjuk az értékeket.*/
 	setNew(): void{
 		this.contact = new Contact;
-		this.rank = Number(this.route.snapshot.params['rank']);
+		/* this.rank = Number(this.route.snapshot.params['rank']);
 		switch (Number(this.route.snapshot.params['num'])) {
 			case 0:
 				this.route.snapshot.params['array'].split(",").forEach(x =>
@@ -93,7 +93,7 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
 				break;
 			default:
 				break;
-		}
+		} */
 	}
 
 	//Az url-ben kapott id alapján lekéri a webapiból a megfelelő névjegy adatokat.

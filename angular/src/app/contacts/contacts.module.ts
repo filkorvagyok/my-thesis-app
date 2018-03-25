@@ -1,3 +1,4 @@
+import { ContactApiService } from './contact.api.service';
 import { SharedModule } from './../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -35,6 +36,6 @@ import { NgModule } from '@angular/core';
     ContactDetailComponent,
     ContactEditComponent
   ],
-  providers: [ContactService]
+  providers: [ContactService, ContactApiService]
 })
 export class ContactsModule {}

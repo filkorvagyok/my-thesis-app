@@ -1,30 +1,25 @@
-import { AuthService } from './../auth/auth.service';
+import { CompanyApiService } from './company.api.service';
 import { Task } from '../tasks/task';
 import { Project } from '../projects/project';
 import { Contact } from '../contacts/contact';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Yearlyincome } from './models/yearlyincome';
-import { Employeesnum } from './models/employeesnum';
-import { Industry } from './models/industry';
-import { Country } from './models/country';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/observable/of';
 import { tap, catchError } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-import { Company, Address } from './company';
+import { Company, Country, EmployeesNumber, Industry, YearlyIncome } from './company';
 import { BaseService } from '../base/base.service';
-import 'rxjs/add/operator/map'
 
 @Injectable()
 export class CompanyService extends BaseService{
     private companies: Company[];
     private countries: Country[];
     private industries: Industry[];
-    private employeesNums: Employeesnum[];
-    private yearlyIncomes: Yearlyincome[];
+    private employeesNums: EmployeesNumber[];
+    private yearlyIncomes: YearlyIncome[];
     isLoading = true;
+    isLoadingForEdit = true;
     checkedArray = new Subject<number[]>();
 
     private companiesUrl = 'api/companies';
@@ -34,141 +29,20 @@ export class CompanyService extends BaseService{
     private yearlyincomesUrl = 'api/yearlyincomes';
 
     constructor(
-        private http: HttpClient,
-        private authService: AuthService
+        private companyApiService: CompanyApiService
     ){
         super();
-        this.getStartingdatas();
-    }
-
-    getCompanies(): Observable<Company[]>{
-        const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/companies?token=' + token)
-        .map(
-            (res: Response) => {
-                const companies: Company[] = [];
-                const comps = res['companies'];
-                comps.forEach(company => {
-                    let c = new Company();
-                    c = this.formatItem(c, company);
-                    companies.push(c);
-                });
-                return companies;
-            }
+        this.companyApiService.getCompanies().subscribe(
+            (companies: Company[]) => {
+                this.companies = companies;
+                this.isLoading = false;
+            },
+            (error: Response) => console.log(error)
         );
-    }
-
-    getCompany(id: number): Observable<Company>{
-        const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/company/' + id + '?token=' + token)
-        .map(
-            (res: Response) => {
-                let company = new Company();
-                company = this.formatItem(company, res['company']);
-                return company;
-            }
-        );
-    }
-
-    private formatItem(company: Company, res): Company{
-        company.id = res['id'];
-        company.logo = res['logo'];
-        company.name = res['name'];
-        company.phone = res['phone'];
-        company.email = res['email'];
-        company.website = res['website'];
-        company.facebook = res['facebook'];
-        company.taxnumber = res['taxnumber'];
-        const addresstype = res['addresstype'];
-        addresstype.forEach(at => {
-            switch(at['address_type']){
-                case 'headquarter':{
-                    company.headquarter.country.id = at['address']['country']['id'];
-                    company.headquarter.country.code = at['address']['country']['code'];
-                    company.headquarter.country.name = at['address']['country']['name'];
-                    company.headquarter.zipcode = at['address']['zipcode'];
-                    company.headquarter.settlement = at['address']['settlement'];
-                    company.headquarter.address_line = at['address']['address_line'];
-                    break;
-                }
-                case 'billing':{
-                    company.billing.country.id = at['address']['country']['id'];
-                    company.billing.country.code = at['address']['country']['code'];
-                    company.billing.country.name = at['address']['country']['name'];
-                    company.billing.zipcode = at['address']['zipcode'];
-                    company.billing.settlement = at['address']['settlement'];
-                    company.billing.address_line = at['address']['address_line'];
-                }
-                case 'mail':{
-                    company.mailing.country.id = at['address']['country']['id'];
-                    company.mailing.country.code = at['address']['country']['code'];
-                    company.mailing.country.name = at['address']['country']['name'];
-                    company.mailing.zipcode = at['address']['zipcode'];
-                    company.mailing.settlement = at['address']['settlement'];
-                    company.mailing.address_line = at['address']['address_line'];
-                }
-            }
-        });
-        company.industry = res['industry'];
-        company.employeesnumber = res['employeesnumber'];
-        company.yearlyincome = res['yearlyincome'];
-        company.founded = res['founded'];
-        company.project = res['projects'];
-        company.contact = res['contacts'];
-        return company;
     }
 
     getStartingdatas(): void{
-        this.http.get<Company[]>(this.companiesUrl)
-            .pipe(
-                tap(companies => (`fetched companies`)),
-                catchError(this.handleError('getCompanies', []))
-            )
-            .subscribe(
-                (companies: Company[]) => {
-                    this.companies = companies;
-                    this.http.get<Country[]>(this.countriesUrl)
-                        .pipe(
-                            tap(countries => (`fetched countries`)),
-                            catchError(this.handleError('getCountries', []))
-                        )
-                        .subscribe(
-                            (countries: Country[]) => {
-                                this.countries = countries;
-                                this.http.get<Industry[]>(this.industriesUrl)
-                                .pipe(
-                                    tap(industries => (`fetched industries`)),
-                                    catchError(this.handleError('getIndustries', []))
-                                )
-                                .subscribe(
-                                    (industries: Industry[])=> {
-                                        this.industries = industries;
-                                        this.http.get<Employeesnum[]>(this.employeesnumsUrl)
-                                        .pipe(
-                                            tap(employeesnums => (`fetched employeesnums`)),
-                                            catchError(this.handleError('getEmployeesnums', []))
-                                        )
-                                        .subscribe(
-                                            (employeesnums: Employeesnum[]) => {
-                                                this.employeesNums = employeesnums;
-                                                this.http.get<Yearlyincome[]>(this.yearlyincomesUrl)
-                                                .pipe(
-                                                    tap(yearlyincomes => (`fetched yearlyincomes`)),
-                                                    catchError(this.handleError('getYearlyincomes', []))
-                                                )
-                                                .subscribe(
-                                                    (yearlyIncomes: Yearlyincome[]) => {
-                                                        this.yearlyIncomes = yearlyIncomes;
-                                                        this.isLoading = false;
-                                                    }
-                                                )
-                                            }
-                                        )
-                                    }
-                                )
-                            }
-                        )
-            });
+        
     }
 
     getItems (): Company[] {
@@ -180,17 +54,12 @@ export class CompanyService extends BaseService{
         if(this.companies)
             return this.companies.find((company: Company) => company.id === id);
         else{
-            const url = `${this.companiesUrl}/${id}`;
-            this.http.get<Company>(url).pipe(
-                tap(_ => (`fetched company id=${id}`)),
-                catchError(this.handleError<Company>(`getCompany id=${id}`))
-            )
-            .subscribe(
+            this.companyApiService.getCompany(id).subscribe(
                 (company: Company) => {
                     this.isLoading = false;
                     return company;
                 }
-            )
+            );
         }
     }
 
@@ -202,55 +71,57 @@ export class CompanyService extends BaseService{
         return this.industries;
     }
 
-    getEmployeesNums(): Employeesnum[]{
+    getEmployeesNums(): EmployeesNumber[]{
         return this.employeesNums;
     }
 
-    getYearlyIncomes(): Yearlyincome[]{
+    getYearlyIncomes(): YearlyIncome[]{
         return this.yearlyIncomes;
     }
 
     delete(company: Company | number): void {
         const id = typeof company === 'number' ? company : company.id;
-        /*const url = `${this.companiesUrl}/${id}`;
-    
-        this.http.delete<Company>(url, httpOptions).pipe(
-          tap(_ => (`deleted company id=${id}`)),
-          catchError(this.handleError<Company>('delete'))
-        )
-        .subscribe(
-            () => { */
-                this.companies.splice(this.companies.indexOf(
-                    this.companies.find(deletedCompany => deletedCompany.id === id)), 1
-                );
-            /* }
-        ); */
+        this.companies.splice(this.companies.indexOf(
+            this.companies.find(deletedCompany => deletedCompany.id === id)), 1
+        );
+        this.companyApiService.deleteCompany(id).subscribe();
     }
 
     add(company: Company): void{
-        /* this.http.post<Company>(this.companiesUrl, company, httpOptions).pipe(
-        catchError(this.handleError<Company>('addCompany'))
-        )
-        .subscribe(
-            (addedCompany: Company) => { */
-                company.id = this.companies[this.companies.length - 1].id + 1;
-                this.companies.push(company);
-            /* }
-        ); */
+        this.companies.push(company);
+        console.log(this.companies);
+        this.companyApiService.addCompany(company).subscribe();
     }
 
     /*A paraméterben kapott cég alapján azonosítja a módosítani kívánt
     céget és küld egy kérést a http.put segítségével az apinak.*/
     update (company: Company): void{
-        /* this.http.put(this.companiesUrl, company, httpOptions).pipe(
-            tap(_ => (`updated company id=${company.id}`)),
-            catchError(this.handleError<any>('updateCompany'))
-        )
-        .subscribe(
-            (updatedCompany: Company) => { */
-                this.companies.find(oldCompany => oldCompany.id === company.id)[0] = company;
-           /*  }
-        ); */
+        this.companies.find(oldCompany => oldCompany.id === company.id)[0] = company;
+        this.companyApiService.updateCompany(company).subscribe();
+    }
+
+    getEditItems() {
+        this.companyApiService.getCountries().subscribe(
+            (countries: Country[]) => {
+                this.countries = countries;
+                this.companyApiService.getIndustries().subscribe(
+                    (industries: Industry[]) => {
+                        this.industries = industries;
+                        this.companyApiService.getEmployeesnumbers().subscribe(
+                            (employeesNums: EmployeesNumber[]) => {
+                                this.employeesNums = employeesNums;
+                                this.companyApiService.getYearlyincomes().subscribe(
+                                    (yearlyIncomes: YearlyIncome[]) => {
+                                        this.yearlyIncomes = yearlyIncomes;
+                                        this.isLoadingForEdit = false;
+                                    }
+                                );
+                            }
+                        );
+                    }
+                );
+            }
+        );
     }
 
     getCertainItems(item: Contact | Project | Task): any{

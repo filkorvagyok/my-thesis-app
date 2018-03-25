@@ -2,12 +2,12 @@
   <td rowspan="2">
     <mat-checkbox color="accent" value={{company.id}} (change)="showChbox()"></mat-checkbox>
   </td>
-  <td rowspan="2" class="td-md" *ngIf="company.logo!=''">
+  <td rowspan="2" class="td-lg" *ngIf="company.logo!='' && company.logo">
     <div class="circle text-center text-white">
       <img src={{company.logo}} class="logo" alt="logo">
     </div>
   </td>
-  <td rowspan="2" class="td-md" *ngIf="company.logo==''">
+  <td rowspan="2" class="td-lg" *ngIf="company.logo==='' || !company.logo">
     <div class="circle text-center text-white">
       <h3 class="m-0 p-0">{{company.name.slice(0,1)}}</h3>
     </div>
@@ -32,9 +32,9 @@
 <tr>
   <td class="td-md pt-0 no-border-td">
     <span>
-      {{company.country_code}}<span *ngIf="company.country_code && company.hq_zipcode">-</span>{{company.hq_zipcode}} 
-      {{company.hq_settlement}}<span *ngIf="company.hq_settlement && company.hq_address">, </span>
-      {{company.hq_address}}
+      {{company.headquarter.country.code}}<span *ngIf="company.headquarter.country.code && (company.headquarter.zipcode || company.headquarter.settlement || company.headquarter.address_line)">-</span>{{company.headquarter.zipcode}} 
+      {{company.headquarter.settlement}}<span *ngIf="(company.headquarter.zipcode || company.headquarter.settlement) && company.headquarter.address_line">, </span>
+      {{company.headquarter.address_line}}
     </span>
   </td>
 </tr>

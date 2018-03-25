@@ -13,18 +13,16 @@ class CompanyController extends Controller{
     public function postCompany(Request $request){
         $company = new Company();
         $company = $this->setCompany($company, $request);
-        $hq = new Address();
-        $hq = $this->setHeadquarter($hq, $request);
-        $hqtype = new Addresstype();
-        $hqtype->company_id = $company->id;
-        $hqtype->address_id = $hq->id;
-        $hqtype->address_type = 'headquarter';
-        $hqtype->save();
-        if($request->input('bi_zipcode') || $request->input('bi_settlement') || $request->input('bi_address'))
+        $hq = null;
+        if($request->input('hq_country') || $request->input('hq_zipcode') || $request->input('hq_settlement') || $request->input('hq_address'))
+        {
+            $this->setHeadquarterAddress($hq, $request, $company);
+        }
+        if($request->input('bi_country') || $request->input('bi_zipcode') || $request->input('bi_settlement') || $request->input('bi_address'))
         {
             $this->setBillingAddress(null, $request, $company);
         }
-        if($request->input('mail_zipcode') || $request->input('mail_settlement') || $request->input('mail_address'))
+        if($request->input('mail_country') || $request->input('mail_zipcode') || $request->input('mail_settlement') || $request->input('mail_address'))
         {
             $this->setMailAddress(null, $request, $company);
         }
@@ -57,7 +55,7 @@ class CompanyController extends Controller{
         return response()->json($response, 200);
     }
 
-    //ENG: This function is find all the companies in the database and return it with some informations.
+    //ENG: This function is find all the companies in the database and return them with some informations.
     //HUN: Ez a funkció megtalálja az összes céget az adatbázisban és visszaadja néhány plusz információval.
     public function getCompanies(){
         $companies = Company::all();
@@ -105,8 +103,23 @@ class CompanyController extends Controller{
             return response()->json(['message' => 'Document not found'], 404);
         }
         $company = $this->setCompany($company, $request);
-        $hq = $this->setHeadquarter($hq, $request);
-        if($request->input('bi_zipcode') || $request->input('bi_settlement') || $request->input('bi_address'))
+        if($request->input('hq_country') || $request->input('hq_zipcode') || $request->input('hq_settlement') || $request->input('hq_address'))
+        {
+            $this->setHeadquarterAddress($hq, $request, $company);
+        }
+        else{
+            if(isset($hq)){
+                foreach($addresstypes as $addresstype)
+                {
+                    if($addresstype->address_id == $hq->id)
+                    {
+                        $addresstype->delete();
+                    }
+                }
+                $hq->delete();
+            }
+        }
+        if($request->input('bi_country') || $request->input('bi_zipcode') || $request->input('bi_settlement') || $request->input('bi_address'))
         {
             $this->setBillingAddress($bi, $request, $company);
         }
@@ -122,7 +135,7 @@ class CompanyController extends Controller{
                 $bi->delete();
             }
         }
-        if($request->input('mail_zipcode') || $request->input('mail_settlement') || $request->input('mail_address'))
+        if($request->input('mail_country') || $request->input('mail_zipcode') || $request->input('mail_settlement') || $request->input('mail_address'))
         {
             $this->setMailAddress($mail, $request, $company);
         }
@@ -185,13 +198,27 @@ class CompanyController extends Controller{
 
     //ENG: Assistans method, that set the headquarter from the requested datas.
     //HUN: Segédmetódus, ami beállítja a székhelyet a kérés adatai alapján.
-    private function setHeadquarter(Address $hq, Request $request){
-        $hq->country_id = $request->input('hq_country');
-        $hq->zipcode = $request->input('hq_zipcode');
-        $hq->settlement = $request->input('hq_settlement');
-        $hq->address_line = $request->input('hq_address');
-        $hq->save();
-        return $hq;
+    private function setHeadquarterAddress(Address $hq, Request $request){
+        if(!isset($hq)){
+            $hq = new Address();
+            $hq->country_id = $request->input('hq_country');
+            $hq->zipcode = $request->input('hq_zipcode');
+            $hq->settlement = $request->input('hq_settlement');
+            $hq->address_line = $request->input('hq_address');
+            $hq->save();
+            $hqtype = new Addresstype();
+            $hqtype->company_id = $company->id;
+            $hqtype->address_id = $hq->id;
+            $hqtype->address_type = 'headquarter';
+            $hqtype->save();
+        }
+        else{
+            $hq->country_id = $request->input('hq_country');
+            $hq->zipcode = $request->input('hq_zipcode');
+            $hq->settlement = $request->input('hq_settlement');
+            $hq->address_line = $request->input('hq_address');
+            $hq->save();
+        }
     }
 
     //ENG: Assistans method, that set the billind address from the requested datas.

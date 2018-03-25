@@ -26,7 +26,8 @@ export class ProjectItemComponent extends BaseItemComponent implements OnInit {
 
   //Kiszámoljuk, hogy a határidő és a mai nap között hány nap különbség van.
 	count(project: Project): number{
-		let num: number;
+    let num: number;
+    project.deadline = new Date(project.deadline);
 		project.deadline.setHours(0,0,0,0);
 		let newDate = new Date();
 		newDate.setHours(0,0,0,0);

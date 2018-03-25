@@ -95,3 +95,33 @@ Route::delete('/contact/{id}', [
     'uses' => 'ContactController@deleteContact',
     'middleware' => 'jwt.auth'
 ]);
+
+Route::get('/countries', [
+    'uses' => 'CountryController@getCountries',
+    'middleware' => 'jwt.auth'
+]);
+
+Route::get('/currencies', [
+    'uses' => 'CurrencyController@getCurrencies',
+    'middleware' => 'jwt.auth'
+]);
+
+Route::get('/employeesnumbers', [
+    'uses' => 'EmployeesnumberController@getEmployeesnumbers',
+    'middleware' => 'jwt.auth'
+]);
+
+Route::get('/industries', [
+    'uses' => 'IndustryController@getIndustries',
+    'middleware' => 'jwt.auth'
+]);
+
+Route::get('/priorities', [
+    'uses' => 'PriorityController@getPriorities',
+    'middleware' => 'jwt.auth'
+]);
+
+Route::get('/yearlyincomes', [
+    'uses' => 'YearlyincomeController@getYearlyincomes',
+    'middleware' => 'jwt.auth'
+]);

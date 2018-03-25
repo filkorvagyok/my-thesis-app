@@ -1,87 +1,34 @@
-import { AuthService } from './../auth/auth.service';
 import { Task } from '../tasks/task';
 import { Project } from '../projects/project';
 import { Company } from '../companies/company';
 import { Subject } from 'rxjs/Subject';
 import { Contact } from './contact';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseService } from '../base/base.service';
+import { ContactApiService } from './contact.api.service';
 
 @Injectable()
 export class ContactService extends BaseService{
     contacts: Contact[];
     isLoading: boolean = true;
     checkedArray = new Subject<number[]>();
-    private contactsUrl = 'api/contacts';
 
     constructor(
-        private http: HttpClient,
-        private authService: AuthService
+        private contactApiService: ContactApiService
     ){
         super();
-        this.getStartingdatas();
-    }
-
-    getContacts(): Observable<Contact[]>{
-        const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/contacts?token=' + token)
-        .map(
-            (res: Response) => {
-                let contacts: Contact[] = [];
-                const conts = res['contacts'];
-                conts.forEach(contact => {
-                    let c = new Contact();
-                    c = this.formatItem(c, contact);
-                    contacts.push(c);
-                });
-                return contacts;
+        this.contactApiService.getContacts().subscribe(
+            (contacts: Contact[]) => {
+                this.contacts = contacts;
+                this.isLoading = false;
             }
         );
     }
 
-    getContact(id: number): Observable<Contact>{
-        const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/contact/' + id + '?token=' + token)
-        .map(
-            (res: Response) => {
-                let contact = new Contact();
-                contact = this.formatItem(contact, res['contact']);
-                return contact;
-            }
-        );
-    }
-
-    private formatItem(contact: Contact, res): Contact{
-        contact.id = res['id'];
-        contact.full_name = res['full_name'];
-        contact.surname = res['surname'];
-        contact.middle_name = res['middle_name'];
-        contact.forename = res['forename'];
-        contact.nickname = res['nickname'];
-        contact.phone = res['phone'];
-        contact.email = res['email'];
-        contact.company = res['companies'];
-        contact.project = res['projects'];
-        return contact;
-    }
-
-    getStartingdatas(): void{
-        this.http.get<Contact[]>(this.contactsUrl)
-			.pipe(
-				tap(contacts => (`fetched projects`)),
-        		catchError(this.handleError('getContacts', []))
-            )
-            .subscribe(
-                (contacts: Contact[]) => {
-                    this.contacts = contacts;
-                    this.isLoading = false;
-                }
-            );
-    }
+    getStartingdatas(){}
 
     getItems(): Contact[] {
 		return this.contacts;
@@ -93,17 +40,12 @@ export class ContactService extends BaseService{
             return this.contacts.find((contact: Contact) => contact.id === id);
         }
         else{
-            const url = `${this.contactsUrl}/${id}`;
-            this.http.get<Contact>(url).pipe(
-                tap(_ => (`fetched contact id=${id}`)),
-                catchError(this.handleError<Contact>(`getContact id=${id}`))
-            )
-            .subscribe(
+            this.contactApiService.getContact(id).subscribe(
                 (contact: Contact) => {
                     this.isLoading = false;
                     return contact;
                 }
-            )
+            );
         }
     }
     
@@ -112,15 +54,18 @@ export class ContactService extends BaseService{
         this.contacts.splice(this.contacts.indexOf(
             this.contacts.find(deletedContact => deletedContact.id === id)), 1
         );
+        this.contactApiService.deleteContact(id).subscribe();
     }
 
     add(contact: Contact): void{
         contact.id = this.contacts[this.contacts.length - 1].id + 1;
         this.contacts.push(contact);
+        this.contactApiService.addContact(contact).subscribe();
     }
 
     update (contact: Contact): void{
         this.contacts.find(oldContact => oldContact.id === contact.id)[0] = contact;
+        this.contactApiService.updateContact(contact).subscribe();
     }
 
     getCertainItems(item: Company | Project | Task, rank?: number): any{

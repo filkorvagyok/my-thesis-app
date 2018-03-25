@@ -24,7 +24,6 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 	company: Company;
 	billing = true;
 	mail = true;
-	countries: Country[];
 
 
 	constructor(
@@ -38,6 +37,7 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 	}
 
 	ngOnInit() {
+		this.companyService.getEditItems();
 		this.initform();
 		if(this.companyService.getItems() && !this.company){
 			this.setThis();
@@ -96,7 +96,6 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 		{
 			this.setEdit();
 		}
-		this.countries = this.companyService.getCountries();
 	}
 
 	setNew(): void{
@@ -124,12 +123,12 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 
 	//TODO: átszervezni az összes országokkal kapcsolatos mezőket.
 	//CHANGE THIS
-	onChangeHqcountry(newValue){
-		const actualCountry: Country = this.countries.find((country: Country)=>country.code==newValue);
+	/* onChangeHqcountry(newValue){
+		const actualCountry: Country = this.countries.find((country: Country)=>country.code==newValue); */
 		/* if(actualCountry)
 		  this.company.hq_country = actualCountry.country; */
-		return newValue;
-	}
+		/* return newValue;
+	} */
 
 	onChange(newValue){
 		return newValue;

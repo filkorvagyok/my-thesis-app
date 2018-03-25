@@ -1,9 +1,8 @@
-import { AuthService } from './../auth/auth.service';
 import { Task } from './../tasks/task';
 import { Contact } from './../contacts/contact';
 import { Company } from './../companies/company';
 import { Subject } from 'rxjs/Subject';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Project } from './project';
 import { Observable } from 'rxjs/Observable';
@@ -11,6 +10,7 @@ import { of } from 'rxjs/observable/of';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseService } from '../base/base.service';
 import 'rxjs/add/operator/map'
+import { ProjectApiService } from './project.api.service';
 
 export class ProjectForContact{
 	project: Project;
@@ -25,71 +25,18 @@ export class ProjectService extends BaseService{
     private projectsUrl = 'api/projects';
 
     constructor(
-        private http: HttpClient,
-        private authService: AuthService
+        private projectApiService: ProjectApiService
     ){
         super();
-        this.getStartingdatas();
-    }
-
-    getProjects(): Observable<Project[]>{
-        const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/projects?token=' + token)
-        .map(
-            (res: Response) => {
-                let projects: Project[] = [];
-                const projs = res['projects'];
-                projs.forEach(project => {
-                    let p = new Project();
-                    p = this.formatItem(p, project);
-                    projects.push(p);
-                });
-                return projects;
+        this.projectApiService.getProjects().subscribe(
+            (projects: Project[]) => {
+                this.projects = projects;
+                this.isLoading = false;
             }
         );
-    }
-
-    getProject(id: number): Observable<Project>{
-        const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/project/' + id + '?token=' + token)
-        .map(
-            (res: Response) => {
-                let project = new Project();
-                project = this.formatItem(project, res['project']);
-                return project;
-            }
-        );
-    }
-
-    private formatItem(project: Project, res): Project{
-        project.id = res['id'];
-        project.name = res['name'];
-        project.description = res['description'];
-        project.file = res['file'];
-        project.deadline = res['deadline'];
-        project.status = res['status'];
-        project.priority = res['priority'];
-        project.currency = res['currency'];
-        project.income = res['income'];
-        project.expenditure = res['expenditure'];
-        project.company = res['companies'];
-        project.contact = res['contacts'];
-        return project;
     }
 
     getStartingdatas(): void{
-        this.http.get<Project[]>(this.projectsUrl)
-			.pipe(
-				tap(projects => (`fetched projects`)),
-        		catchError(this.handleError('getProjects', []))
-            )
-            .subscribe(
-                (projects: Project[]) => {
-                    projects.forEach(project => project.deadline = new Date(project.deadline));
-                    this.projects = projects;
-                    this.isLoading = false;
-                }
-            );
     }
 
 	getItems(): Project[] {
@@ -101,17 +48,12 @@ export class ProjectService extends BaseService{
         if(this.projects)
             return this.projects.find((project: Project) => project.id === id);
         else{
-            const url = `${this.projectsUrl}/${id}`;
-            this.http.get<Project>(url).pipe(
-                tap(_ => (`fetched project id=${id}`)),
-                catchError(this.handleError<Project>(`getProject id=${id}`))
-            )
-            .subscribe(
+            this.projectApiService.getProject(id).subscribe(
                 (project: Project) => {
                     this.isLoading = false;
                     return project;
                 }
-            )
+            );
         }
     }
 
@@ -120,15 +62,18 @@ export class ProjectService extends BaseService{
         this.projects.splice(this.projects.indexOf(
             this.projects.find(deletedProject => deletedProject.id === id)), 1
         );
+        this.projectApiService.deleteProject(id).subscribe();
     }
 
     add(project: Project): void{
         project.id = this.projects[this.projects.length - 1].id + 1;
         this.projects.push(project);
+        this.projectApiService.addProject(project).subscribe();
     }
 
     update (project: Project): void{
         this.projects.find(oldProject => oldProject.id === project.id)[0] = project;
+        this.projectApiService.updateProject(project).subscribe();
     }
 
     getCertainItems(item: Company | Contact | Task): any {

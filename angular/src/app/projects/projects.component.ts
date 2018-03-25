@@ -33,19 +33,6 @@ export class ProjectsComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
-      this.projectService.getProjects().subscribe(
-        (projects: Project[]) => {
-          this.projects = projects;
-          console.log(this.projects);
-        },
-        (error: Response) => console.log(error)
-      );
-      this.projectService.getProject(1).subscribe(
-        (project: Project) => {
-          this.project = project;
-          console.log(project);
-        }
-      );
     }
   
     delete(project: Project | number): void {

@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card my-5">
-          <div class="card-header bg-teal-darken-1 text-white">
+          <div class="card-header bg-teal-darken-2 text-white">
             <h3 *ngIf="!contactService.isLoading && contact; else noheader" class="card-header-h3">{{contact.full_name}} részletei</h3>
             <ng-template #noheader><h3 class="card-header-h3">...</h3></ng-template>
           </div>
@@ -32,7 +32,7 @@
                 <div class="col-md-6">
                   <h3>Cégek</h3>
                   <ul>
-                    <li *ngFor="let company of companyService.getCertainItems(contact)">
+                    <li *ngFor="let company of contact.company">
                       <a mat-list-item routerLink="/company/shown/{{company.id}}">
                         {{company.name}}
                       </a>
@@ -42,11 +42,10 @@
                 <div class="col-md-6">
                   <h3>Projektek</h3>
                   <ul>
-                    <li *ngFor="let pfc of projectService.getCertainItems(contact)">
-                      <a href="/project/shown/{{pfc.project.id}}">{{pfc.project.name}}</a> - 
-                      <span *ngFor="let rank of pfc.ranks; let isLast = last">
-                        {{rank}}{{isLast ? '' : ', '}}
-                      </span>
+                    <li *ngFor="let project of contact.project">
+                      <a mat-list-item routerLink="/project/shown/{{project.id}}">
+                        {{project.name}}
+                      </a>
                     </li>
                   </ul>
                 </div>
@@ -55,7 +54,7 @@
           </div>
           <div class="card-footer bg-teal-lighten-5">
             <div class="row">
-              <div class="col-lg-2 col-6 col-sm-4 col-md-3">
+              <div class="col-lg-2 col-6 col-sm-4 col-md-3 px-2">
                 <a routerLink="../../" class="btn deep-orange deep-orange darken-4 btn-block">Vissza</a>
               </div>
             </div>

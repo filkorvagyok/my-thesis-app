@@ -32,20 +32,6 @@ export class ContactsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.contactService.getContacts().subscribe(
-      (contacts: Contact[]) => {
-        this.contacts = contacts;
-        console.log(this.contacts);
-      },
-      (error: Response) => console.log(error)
-    );
-    this.contactService.getContact(1).subscribe(
-      (contact: Contact) => {
-        this.contact = contact;
-        console.log(this.contact);
-      },
-      (error: Response) => console.log(error)
-    );
   }
 
   /*Tölés esetén a céggel összekapcsolt projekt(ek) és névjegy(ek) közül is ki kell törölnünk az adott céget,

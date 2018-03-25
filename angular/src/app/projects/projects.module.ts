@@ -1,3 +1,4 @@
+import { ProjectApiService } from './project.api.service';
 import { HungarianDecimalPipe } from './../hungarian-decimal.pipe';
 import { SharedModule } from './../shared/shared.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
@@ -41,6 +42,6 @@ import { NgModule } from '@angular/core';
     ProjectItemComponent,
     HungarianDecimalPipe
   ],
-  providers: [ProjectService, {provide: MAT_DATE_LOCALE, useValue: 'hu-HU'}]
+  providers: [ProjectService, ProjectApiService, {provide: MAT_DATE_LOCALE, useValue: 'hu-HU'}]
 })
 export class ProjectsModule {}

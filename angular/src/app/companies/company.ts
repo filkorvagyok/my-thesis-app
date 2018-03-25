@@ -1,16 +1,17 @@
 import { Contact } from './../contacts/contact';
 import { Project } from './../projects/project';
-interface Industry{
+
+export interface Industry{
 	id: number;
 	name: string;
 }
 
-interface EmployeesNumber{
+export interface EmployeesNumber{
 	id: number;
 	range: string;
 }
 
-interface YearlyIncome{
+export interface YearlyIncome{
 	id: number;
 	range: string;
 }
@@ -54,6 +55,9 @@ export class Company{
 		this.billing.country = <Country>{};
 		this.mailing = <Address>{};
 		this.mailing.country = <Country>{};
+		this.industry = <Industry>{};
+		this.employeesnumber = <EmployeesNumber>{};
+		this.yearlyincome = <YearlyIncome>{};
 		this.contact = [];
 		this.project = [];
 	}

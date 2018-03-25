@@ -100,6 +100,16 @@ td{
     }
 }
 
+.td-lg{
+    display: none;
+}
+
+@media(min-width: $screen-size-lg){
+    .td-lg{
+        display: table-cell;
+    }
+}
+
 .no-border-td{
     border-top: none;
     vertical-align: top;

@@ -40,12 +40,15 @@ export class ProjectDetailComponent extends BaseDetailComponent implements OnIni
 		if(!this.project){
 			this.project = this.projectService.getItem(+this.route.snapshot.params['id'])
     }
+    else{
+      this.project.deadline = new Date(this.project.deadline);
+    }
     this.changeDetector.detectChanges();
 	}
 
   navigateToEdit(): void{
 		this.router.navigate(['/project/edit', this.project.id]);
-	}
+  }
 
 
 	/*Ha van(nak) hozzátartozó cég(ek) vagy névjegy(ek), akkor először

@@ -55,8 +55,8 @@ export class ContactDetailComponent extends BaseDetailComponent implements OnIni
 			this.companyService.deleteItems(contact);
 		if(contact.project.length > 0)
 			this.projectService.deleteItems(contact);
-		if(contact.task.length > 0)
-			this.taskService.deleteItems(contact);
+		/* if(contact.task.length > 0)
+			this.taskService.deleteItems(contact); */
     this.contactService.delete(contact);
     this.router.navigate(['people/list']);
   }

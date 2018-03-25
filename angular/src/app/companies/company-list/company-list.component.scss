@@ -2,11 +2,12 @@
 @import "../../../default-styles.scss";
 
 .th-lg{
-    width: 0px;
+    display: none;
 }
 
 @media (min-width: $screen-size-lg) {
     .th-lg{
+        display: table-cell;
         min-width: 8%;
     }
 }

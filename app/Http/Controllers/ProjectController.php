@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 
 class ProjectController extends Controller{
@@ -88,7 +89,7 @@ class ProjectController extends Controller{
         $project->name = $request->input('name');
         $project->description = $request->input('description');
         $project->file = $request->input('file');
-        $project->deadline = $request->input('deadline');
+        $project->deadline = Carbon::parse($request->input('deadline'))->format('Y-m-d');
         $project->status_id = $request->input('status_id');
         $project->priority_id = $request->input('priority_id');
         $project->currency_id = $request->input('currency_id');

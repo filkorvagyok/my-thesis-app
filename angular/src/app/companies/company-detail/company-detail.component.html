@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="card my-5">
-					<div class="card-header bg-teal-darken-1 text-white">
+					<div class="card-header bg-teal-darken-2 text-white">
 						<h3 *ngIf="!companyService.isLoading && company; else noheader" class="card-header-h3">{{company.name}} részletei</h3>
 						<ng-template #noheader><h3 class="card-header-h3">...</h3></ng-template>
 					</div>
@@ -11,13 +11,11 @@
 						<mat-spinner [diameter]="40" *ngIf="companyService.isLoading || !company; else elseBlock"></mat-spinner>
 						<ng-template #elseBlock>
 							<div class="row">
-								<div class="col-md-3 text-center">
-									<img *ngIf="company.logo!=''" src={{company.logo}} alt="logo" width="135" height="135">
-									<h3 class="card-title pt-3">{{company.name}}</h3>
-								</div>
-								<div class="col"></div>
-								<div class="col-md-8">
-									<p>
+								<div class="col-md-4 text-center">
+									<img *ngIf="company.logo!='' && company.logo" src={{company.logo}} alt="logo" width="135" height="135">
+									<h3 class="card-title pt-3 mb-0">{{company.name}}</h3>
+									<p>({{company.founded}})</p>
+									<p class="mb-1">
 										<a href="tel:{{company.phone}}" class="text-dark">
 											<span><i class="fa fa-phone"></i></span> {{company.phone}}
 										</a>
@@ -27,20 +25,46 @@
 											<span><i class="fa fa-envelope"></i></span> {{company.email}}
 										</a>
 									</p>
+								</div>
+								<div class="col-md-7 my-auto ml-3">
+									<p>
+										<a href="{{company.website}}" class="text-dark">
+										{{company.website}}
+										</a>
+									</p>
+									<p>
+										<a href="{{company.facebook}}" class="text-dark">
+											<span><i class="fa fa-facebook-square"></i></span> {{company.facebook}}
+										</a>
+									</p>
 									<p>
 										<i class="fa fa-map-marker"></i>
-										{{company.hq_country}} {{company.hq_zipcode}} {{company.hq_settlement}}<span *ngIf="(company.hq_country || company.hq_zipcode || company.hq_settlement) || company.hq_address">, </span>
-										{{company.hq_address}}
+										<span>
+											{{company.headquarter.country.name}}<span *ngIf="company.headquarter.country.code && (company.headquarter.zipcode || company.headquarter.settlement || company.headquarter.address_line)">, </span>{{company.headquarter.zipcode}} 
+											{{company.headquarter.settlement}}<span *ngIf="(company.headquarter.zipcode || company.headquarter.settlement) && company.headquarter.address_line">, </span>
+											{{company.headquarter.address_line}}
+										</span>
+										<ng-template #headquarter>
+											{{company.headquarter.country.name}}<span *ngIf="company.headquarter.country.code && (company.headquarter.zipcode || company.headquarter.settlement || company.headquarter.address_line)">, </span>{{company.headquarter.zipcode}} 
+											{{company.headquarter.settlement}}<span *ngIf="(company.headquarter.zipcode || company.headquarter.settlement) && company.headquarter.address_line">, </span>
+											{{company.headquarter.address_line}}
+										</ng-template>
 									</p>
 									<p>
 										<i class="fa fa-usd"></i>
-										{{company.bi_country}} {{company.bi_zipcode}} {{company.bi_settlement}}<span *ngIf="(company.hq_country || company.hq_zipcode || company.hq_settlement) || company.hq_address">, </span> 
-										{{company.bi_address}}
+										<span *ngIf="(company.billing.country.id || company.billing.zipcode || company.billing.settlement || company.billing.address_line); else headquarter">
+											{{company.billing.country.name}}<span *ngIf="company.billing.country.code && (company.billing.zipcode || company.billing.settlement || company.billing.address_line)">, </span>{{company.billing.zipcode}} 
+											{{company.billing.settlement}}<span *ngIf="(company.billing.zipcode || company.billing.settlement) && company.billing.address_line">, </span>
+											{{company.billing.address_line}}
+										</span>
 									</p>
 									<p>
 										<i class="fa fa-envelope"></i>
-										{{company.mail_country}} {{company.mail_zipcode}} {{company.mail_settlement}}<span *ngIf="(company.hq_country || company.hq_zipcode || company.hq_settlement) || company.hq_address">, </span>
-										{{company.mail_address}}
+										<span *ngIf="(company.mailing.country.id || company.mailing.zipcode || company.mailing.settlement || company.mailing.address_line); else headquarter">
+											{{company.mailing.country.name}}<span *ngIf="company.mailing.country.code && (company.mailing.zipcode || company.mailing.settlement || company.mailing.address_line)">-</span>{{company.mailing.zipcode}} 
+											{{company.mailing.settlement}}<span *ngIf="(company.mailing.zipcode || company.mailing.settlement) && company.mailing.address_line">, </span>
+											{{company.mailing.address_line}}
+										</span>
 									</p>
 								</div>
 							</div>
@@ -49,7 +73,7 @@
 								<div class="col-md-6">
 									<h3>Projektek</h3>
 									<ul>
-										<li *ngFor="let project of projectService.getCertainItems(company)">
+										<li *ngFor="let project of company.project">
 											<a mat-list-item routerLink="/project/shown/{{project.id}}">
 												{{project.name}}
 											</a>
@@ -59,7 +83,7 @@
 								<div class="col-md-6">
 									<h3>Névjegyek</h3>
 									<ul>
-										<li *ngFor="let contact of contactService.getCertainItems(company)">
+										<li *ngFor="let contact of company.contact">
 											<a mat-list-item routerLink="/people/shown/{{contact.id}}">
 												{{contact.full_name}}
 											</a>
@@ -71,7 +95,7 @@
 					</div>
 					<div class="card-footer bg-teal-lighten-5">
 						<div class="row">
-							<div class="col-lg-2 col-6 col-sm-4 col-md-3">
+							<div class="col-lg-2 col-6 col-sm-4 col-md-3 px-2">
 								<a routerLink="../../" class="btn btn-deep-orange deep-orange darken-4 btn-block">Vissza</a>
 							</div>
 						</div>

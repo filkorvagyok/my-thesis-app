@@ -37,5 +37,6 @@ export class Project{
 		this.status = <Status>{};
 		this.priority = <Priority>{};
 		this.currency = <Currency>{};
+		this.deadline = new Date();
 	}
 }

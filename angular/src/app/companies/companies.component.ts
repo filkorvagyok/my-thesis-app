@@ -1,3 +1,4 @@
+import { CompanyApiService } from './company.api.service';
 import { TaskService } from './../tasks/task.service';
 import { ProjectService } from './../projects/project.service';
 import { ContactService } from './../contacts/contact.service';
@@ -6,8 +7,10 @@ import { CompanyService } from './company.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
-import { Company } from './company';
+import { Company, Industry, EmployeesNumber, YearlyIncome, Address, Country } from './company';
 import { NgForm } from '@angular/forms';
+import { Project } from '../projects/project';
+import { Contact } from '../contacts/contact';
 
 @Component({
     selector: 'app-companies',
@@ -15,8 +18,6 @@ import { NgForm } from '@angular/forms';
     styleUrls: ['./companies.component.scss']
 })
 export class CompaniesComponent extends BaseComponent implements OnInit{
-    companies: Company[];
-    company: Company;
 
     constructor(
         private contactService: ContactService,
@@ -24,29 +25,21 @@ export class CompaniesComponent extends BaseComponent implements OnInit{
         private taskService: TaskService,
         protected companyService: CompanyService,
         private router: Router,
-        protected dialog: MatDialog
+        protected dialog: MatDialog,
+        private companyApiService: CompanyApiService
     ){
         super(dialog);
         this.subscription = this.companyService.checkedArray.subscribe(
 			(array: number[]) => this.checkedArray = array
         );
-        this.companyService.getCompanies().subscribe(
-            (companies: Company[]) => {
-                this.companies = companies;
-                console.log(this.companies);
-            },
-            (error: Response) => console.log(error)
-        );
     }
     
     ngOnInit(){
-        this.companyService.getCompany(1).subscribe(
-            (company: Company) => {
-                this.company = company;
-                console.log(this.company);
-            },
-            (error: Response) => console.log(error)
-        )
+        this.companyApiService.getCountries().subscribe(
+            (countries) => {
+                console.log(countries);
+            }
+        );
     }
 
     /*Tölés esetén a céggel összekapcsolt projekt(ek) és névjegy(ek) közül is ki kell törölnünk az adott céget,
@@ -77,9 +70,11 @@ export class CompaniesComponent extends BaseComponent implements OnInit{
     /*A lista nézetben egy név mező kitöltésével tudunk létrehozni
   	egy új céget. A cég további mezőit alaphelyzetbe állítjuk.*/
   	onSubmit(form: NgForm): void{
+          console.log('Ez el se indul?');
 		let company = new Company();
 		company.name = form.value.companyName.trim();
         if (!form.value.companyName) { return; }
-    	this.companyService.add(company);
+        console.log(company);
+        this.companyService.add(company);
 	}
 }

@@ -1,3 +1,4 @@
+import { CompanyApiService } from './company.api.service';
 import { SharedModule } from './../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -34,6 +35,6 @@ import { NgModule } from '@angular/core';
     CompanyListComponent,
     CompanyItemComponent
   ],
-  providers: [CompanyService]
+  providers: [CompanyService, CompanyApiService]
 })
 export class CompaniesModule {}

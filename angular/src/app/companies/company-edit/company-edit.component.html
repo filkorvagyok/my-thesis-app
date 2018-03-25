@@ -6,12 +6,12 @@
 					<div class="card-header bg-teal-darken-1 text-white">
 					<h3 class="card-header-h3" *ngIf="!edit; else editblock">Új Cég</h3>
 					<ng-template #editblock>
-					<h3 class="card-header-h3" *ngIf="!companyService.isLoading && company; else noheader">{{company.name}} Szerkesztése</h3>
+					<h3 class="card-header-h3" *ngIf="!companyService.isLoading && company && !companyService.isLoadingForEdit; else noheader">{{company.name}} Szerkesztése</h3>
 					<ng-template #noheader><h3 class="card-header-h3">...</h3></ng-template>
 					</ng-template>
 					</div>
 					<div class="card-body">
-						<mat-spinner [diameter]="40" *ngIf="companyService.isLoading || !company; else elseBlock">
+						<mat-spinner [diameter]="40" *ngIf="companyService.isLoading || !company || companyService.isLoadingForEdit; else elseBlock">
 						</mat-spinner>
 						<ng-template #elseBlock>
 							<div class="row">
@@ -49,9 +49,9 @@
 									<hr>
 									<h4 class="pb-4">Székhely adatok</h4>
 									<mat-form-field>
-										<mat-select formControlName="companyHqCountry" placeholder="Ország" [ngModel]="company.country_code" (ngModelChange)="company.country_code = onChange($event)">
-											<mat-option *ngFor="let country of companyService.getCountries()" [value]="country.code">
-												{{country.country}}
+										<mat-select formControlName="companyHqCountry" placeholder="Ország" [(ngModel)]="company.headquarter.country" (ngModelChange)="company.country_code = onChange($event)">
+											<mat-option *ngFor="let country of companyService.countries" [value]="country">
+												{{country.name}}
 											</mat-option>
 										</mat-select>
 									</mat-form-field>
