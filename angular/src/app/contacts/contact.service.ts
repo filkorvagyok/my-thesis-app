@@ -59,12 +59,18 @@ export class ContactService extends BaseService{
 
     add(contact: Contact): void{
         contact.id = this.contacts[this.contacts.length - 1].id + 1;
-        this.contacts.push(contact);
-        this.contactApiService.addContact(contact).subscribe();
+        this.contactApiService.addContact(contact).subscribe(
+            (res: Response) => {
+                contact.id = res['contact']['id'];
+                console.log(contact, res['contact']['id']);
+                this.contacts.push(contact);
+            }
+        );
     }
 
     update (contact: Contact): void{
-        this.contacts.find(oldContact => oldContact.id === contact.id)[0] = contact;
+        const oldContactIndex = this.contacts.indexOf(this.contacts.find(oldContact => oldContact.id === contact.id));
+        this.contacts[oldContactIndex] = contact;
         this.contactApiService.updateContact(contact).subscribe();
     }
 

@@ -6,19 +6,19 @@
           <div class="card-header bg-teal-darken-1 text-white">
             <h3 class="card-header-h3" *ngIf="!edit; else editblock">Új Névjegy</h3>
             <ng-template #editblock>
-              <h3 class="card-header-h3" *ngIf="!contactService.isLoading && contact; else noheader">{{contact.full_name}} Szerkesztése</h3>
+              <h3 class="card-header-h3" *ngIf="!contactService.isLoading && contact && !companyService.isLoading; else noheader">{{contact.full_name}} Szerkesztése</h3>
               <ng-template #noheader><h3 class="card-header-h3">...</h3></ng-template>
             </ng-template>
           </div>
           <div class="card-body">
-            <mat-spinner [diameter]="40" *ngIf="contactService.isLoading || !contact; else elseBlock">
+            <mat-spinner [diameter]="40" *ngIf="contactService.isLoading || !contact || companyService.isLoading; else elseBlock">
             </mat-spinner>
             <ng-template #elseBlock>
               <div class="row">
                 <form class="edit-form" [formGroup]="contactForm" (ngSubmit)="onSubmit(contact)">
                   <mat-form-field>
-                    <mat-select [(ngModel)]="contact.company" (change)="companyChanged = true" formControlName="contactCompany" placeholder="Cég" multiple>
-                      <mat-option *ngFor="let company of companyService.getItems()" [value]="company.id">{{company.name}}</mat-option>
+                    <mat-select [compareWith]="compareFn" [(ngModel)]="contact.company" (selectionChange)="companyChanged = true" formControlName="contactCompany" placeholder="Cég" multiple>
+                      <mat-option *ngFor="let company of companyService.companies" [value]="company">{{company.name}}</mat-option>
                     </mat-select>
                   </mat-form-field>
                   <mat-form-field>
@@ -51,15 +51,6 @@
                   <mat-error *ngIf="!contactForm.controls['contactEmail'].valid && contactForm.controls['contactEmail'].touched">
                     Nem megfelelő e-mail-cím!
                   </mat-error>
-                  <mat-form-field>
-                    <input matInput type="text" [(ngModel)]="contact.primary_communication_chanel" formControlName="contactPrimComChan" placeholder="Elsődleges kommunikációs csatorna">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput type="text" [(ngModel)]="contact.rank" formControlName="contactRank" placeholder="Beosztás">
-                  </mat-form-field>
-                  <mat-form-field>
-                      <input matInput type="text" [(ngModel)]="contact.greeting" formControlName="contactGreeting" placeholder="Köszönés">
-                  </mat-form-field>
                   <div class="row mx-2 mt-5">
                     <div class="col-md-6 col-sm-4 col-0"></div>
                     <div class="col-md-3 col-sm-4 col-6">

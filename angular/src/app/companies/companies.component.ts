@@ -35,11 +35,6 @@ export class CompaniesComponent extends BaseComponent implements OnInit{
     }
     
     ngOnInit(){
-        this.companyApiService.getCountries().subscribe(
-            (countries) => {
-                console.log(countries);
-            }
-        );
     }
 
     /*Tölés esetén a céggel összekapcsolt projekt(ek) és névjegy(ek) közül is ki kell törölnünk az adott céget,
@@ -70,11 +65,9 @@ export class CompaniesComponent extends BaseComponent implements OnInit{
     /*A lista nézetben egy név mező kitöltésével tudunk létrehozni
   	egy új céget. A cég további mezőit alaphelyzetbe állítjuk.*/
   	onSubmit(form: NgForm): void{
-          console.log('Ez el se indul?');
 		let company = new Company();
 		company.name = form.value.companyName.trim();
         if (!form.value.companyName) { return; }
-        console.log(company);
         this.companyService.add(company);
 	}
 }

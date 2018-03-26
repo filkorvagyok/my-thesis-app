@@ -198,7 +198,7 @@ class CompanyController extends Controller{
 
     //ENG: Assistans method, that set the headquarter from the requested datas.
     //HUN: Segédmetódus, ami beállítja a székhelyet a kérés adatai alapján.
-    private function setHeadquarterAddress(Address $hq, Request $request){
+    private function setHeadquarterAddress($hq, Request $request, Company $company){
         if(!isset($hq)){
             $hq = new Address();
             $hq->country_id = $request->input('hq_country');
@@ -223,7 +223,7 @@ class CompanyController extends Controller{
 
     //ENG: Assistans method, that set the billind address from the requested datas.
     //HUN: Segédmetódus, ami beállítja a számlázási címet a kérés adatai alapján.
-    private function setBillingAddress($bi, Request $request, $company){
+    private function setBillingAddress($bi, Request $request, Company $company){
         if(!isset($bi)){
             $bi = new Address();
             $bi->country_id = $request->input('bi_country');
@@ -248,7 +248,7 @@ class CompanyController extends Controller{
 
     //ENG: Assistans method, that set the mail address from the requested datas.
     //HUN: Segédmetódus, ami beállítja a levelezési címet a kérés adatai alapján.
-    private function setMailAddress($mail, Request $request, $company){
+    private function setMailAddress($mail, Request $request, Company $company){
         if(!isset($mail)){
             $mail = new Address();
             $mail->country_id = $request->input('mail_country');

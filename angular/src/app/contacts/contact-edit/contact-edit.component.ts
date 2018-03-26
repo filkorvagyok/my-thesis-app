@@ -31,7 +31,8 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
     super(route, router);
   }
 
-  ngOnInit() {
+  	ngOnInit() {
+		this.companyService.getItems();
 		this.initform();
 		if(this.contactService.getItems() && !this.contact){
 			this.setThis();
@@ -98,9 +99,17 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
 
 	//Az url-ben kapott id alapján lekéri a webapiból a megfelelő névjegy adatokat.
 	setEdit(): void{
-		this.contact = this.contactService.getItem(+this.route.snapshot.params['id'])
+		this.contact = Object.assign({}, this.contactService.getItem(+this.route.snapshot.params['id']));
 		this.edit = true;
   }
+
+  compareFn(c1: any, c2: any): boolean {
+	return c1 && c2 ? c1.id === c2.id : c1 === c2;
+}
+
+asd(event){
+	console.log(event)
+}
 
 	add(contact: Contact): void{
 		this.contactService.add(contact)
@@ -121,7 +130,7 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
   }
 
   save(): void {
-    this.contactService.update(this.contact)
+    this.contactService.update(this.contact);
     /* if(this.contact.company.length > 0)
 			this.sharedAddDataHandler.addContactToCompany(this.contact); */
 		//TODO: megvalósítani a contact projekthez adását.

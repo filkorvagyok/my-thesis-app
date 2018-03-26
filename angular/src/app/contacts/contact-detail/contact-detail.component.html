@@ -13,7 +13,7 @@
               <div class="row">
                 <div class="col-12 text-center">
                   <h3 class="py-3">
-                    {{contact.full_name}} '{{contact.nickname}}'
+                    {{contact.full_name}} <span *ngIf="contact.nickname && contact.nickname !== ''">'{{contact.nickname}}'</span>
                   </h3>
                   <p>
                     <a href="tel:{{contact.phone}}" class="text-dark">

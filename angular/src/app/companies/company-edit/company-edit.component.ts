@@ -1,7 +1,6 @@
-import { Country } from './../models/country';
 import { FormGroup, Validators, FormBuilder, FormControl, AbstractControl } from '@angular/forms';
 import { CompanyService } from './../company.service';
-import { Company } from './../company';
+import { Company, Country, Address } from './../company';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Component, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { BaseEditComponent } from '../../base/base-edit.component';
@@ -24,6 +23,7 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 	company: Company;
 	billing = true;
 	mail = true;
+	country: Country;
 
 
 	constructor(
@@ -34,6 +34,11 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 		private changeDetector: ChangeDetectorRef
 		) {
 		super(route, router);
+	}
+
+	onValueCahnged(country: Country, event){
+		country = this.companyService.countries.find(x => x.id === event.value);
+		return country;
 	}
 
 	ngOnInit() {
@@ -71,9 +76,7 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 		  'companyHqAddress': [],
 		  'companyBiAddress': [],
 		  'companyMailAddress': [],
-		  'companyBiname': [],
 		  'companyTaxnumber': [null, Validators.pattern(TAX_REGEX)],
-		  'companyMailname': [],
 		  'companyIndustry': [],
 		  'companyEmployeesnum': [],
 		  'companyYearlyincome': [],
@@ -117,8 +120,28 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 	setEdit(): void{
 		this.company = this.companyService.getItem(+this.route.snapshot.params['id'])
 		this.edit = true;	//Ezen mező alapján tudja a company-edit.component, hogy szerkeszteni kell vagy új céget létrehozni
-		this.billing = false;
-		this.mail = false;
+		if(this.company){
+			const bill = this.company.billing;
+			const ma = this.company.mailing;
+			if(bill.country.id || bill.zipcode || bill.settlement || bill.address_line)
+				this.billing = false;
+			if(ma.country.id || ma.zipcode || ma.settlement || ma.address_line)
+				this.mail = false;
+		}
+	}
+
+	compareFn(c1: any, c2: any): boolean {
+		return c1 && c2 ? c1.id === c2.id : c1 === c2;
+	}
+
+	sameAsHeadquarter(address: Address){
+		address.country.id = null;
+		address.country.code = null;
+		address.country.name = null;
+		address.zipcode = null;
+		address.settlement = null;
+		address.address_line = null;
+		return address;
 	}
 
 	//TODO: átszervezni az összes országokkal kapcsolatos mezőket.
@@ -130,10 +153,6 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 		/* return newValue;
 	} */
 
-	onChange(newValue){
-		return newValue;
-	}
-
 	save(): void {
 		this.companyService.update(this.company)
 		this.navigateBack();
@@ -143,6 +162,7 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 	akkor ez a metódus a sharedAddDataHandler segítségével rögzíti a megfelelő
 	projekt company mezőjében ennek a cégnek az id-ját.*/
 	add(company: Company): void{
+		/* this.company.headquarter.country = this.companyService.countries.find(x => x.id === company.headquarter.country.id); */
 		this.companyService.add(company)
 		this.navigateBack();
 	}

@@ -29,28 +29,10 @@
 										<mat-select [(ngModel)]="project.company" (change)="companyChanged = true" [ngModelOptions]="{standalone: true}" name="projectCompany" placeholder="Cég" multiple>
 											<mat-option *ngFor="let company of companyService.getItems()" [value]="company.id">{{company.name}}</mat-option>
 										</mat-select>
-									</mat-form-field>	
-									<mat-form-field color="accent">
-										<input matInput [(ngModel)]="project.file" formControlName="projectFile" placeholder="Fájlok">
 									</mat-form-field>
 									<mat-form-field color="accent">
-										<mat-select [(ngModel)]="project.accountable" (change)="contactChanged = true" [ngModelOptions]="{standalone: true}" name="projectAccountable" placeholder="Felelős" multiple>
-											<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
-										</mat-select>
-									</mat-form-field>
-									<mat-form-field color="accent">
-										<mat-select [(ngModel)]="project.owner" (change)="contactChanged = true" [ngModelOptions]="{standalone: true}" name="projectOwner" placeholder="Tulajdonos" multiple>
-											<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
-										</mat-select>
-									</mat-form-field>
-									<mat-form-field color="accent">
-										<mat-select [(ngModel)]="project.observer" (change)="contactChanged = true" [ngModelOptions]="{standalone: true}" name="projectObserver" placeholder="Megfigyelő" multiple>
-											<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
-										</mat-select>
-									</mat-form-field>
-									<mat-form-field color="accent">
-										<mat-select [(ngModel)]="project.participant" (change)="contactChanged = true" [ngModelOptions]="{standalone: true}" name="projectParticipant" placeholder="Résztvevő" multiple>
-											<mat-option *ngFor="let contact of contactService.getItems()" [value]="contact.id">{{contact.full_name}}</mat-option>
+										<mat-select [(ngModel)]="project.contact" name="projectCompany" placeholder="Névjegy" multiple>
+											<mat-option *ngFor="let company of companyService.getItems()" [value]="company">{{company.name}}</mat-option>
 										</mat-select>
 									</mat-form-field>
 									<input class="owl-date-input my-2" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Dátum beállítása">
@@ -60,9 +42,6 @@
 									</mat-form-field>	
 									<mat-form-field color="accent">
 										<input matInput [(ngModel)]="project.priority" formControlName="projectPriority" placeholder="Prioritás">
-									</mat-form-field>
-									<mat-form-field color="accent">
-										<input matInput [(ngModel)]="project.stickers" formControlName="projectStickers" placeholder="Cimkék">
 									</mat-form-field>
 									<mat-form-field color="accent">
 										<input matInput [(ngModel)]="project.currency" formControlName="projectCurrency" placeholder="Pénznem">

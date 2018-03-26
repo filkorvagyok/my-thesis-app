@@ -66,9 +66,13 @@ export class ProjectService extends BaseService{
     }
 
     add(project: Project): void{
-        project.id = this.projects[this.projects.length - 1].id + 1;
-        this.projects.push(project);
-        this.projectApiService.addProject(project).subscribe();
+        this.projectApiService.addProject(project).subscribe(
+            (res: Response) => {
+                project.id = res['project']['id'];
+                console.log(project, res['project']['id']);
+                this.projects.push(project);
+            }
+        );
     }
 
     update (project: Project): void{

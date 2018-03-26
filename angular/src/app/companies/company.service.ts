@@ -13,20 +13,14 @@ import { BaseService } from '../base/base.service';
 
 @Injectable()
 export class CompanyService extends BaseService{
-    private companies: Company[];
-    private countries: Country[];
-    private industries: Industry[];
-    private employeesNums: EmployeesNumber[];
-    private yearlyIncomes: YearlyIncome[];
+    companies: Company[];
+    countries: Country[];
+    industries: Industry[];
+    employeesNums: EmployeesNumber[];
+    yearlyIncomes: YearlyIncome[];
     isLoading = true;
     isLoadingForEdit = true;
     checkedArray = new Subject<number[]>();
-
-    private companiesUrl = 'api/companies';
-    private countriesUrl = 'api/countries';
-    private industriesUrl = 'api/industries';
-    private employeesnumsUrl = 'api/employeesnums';
-    private yearlyincomesUrl = 'api/yearlyincomes';
 
     constructor(
         private companyApiService: CompanyApiService
@@ -88,9 +82,13 @@ export class CompanyService extends BaseService{
     }
 
     add(company: Company): void{
-        this.companies.push(company);
-        console.log(this.companies);
-        this.companyApiService.addCompany(company).subscribe();
+        this.companyApiService.addCompany(company).subscribe(
+            (res: Response) => {
+                company.id = res['company']['id'];
+                console.log(company, res['company']['id']);
+                this.companies.push(company);
+            }
+        );
     }
 
     /*A paraméterben kapott cég alapján azonosítja a módosítani kívánt
@@ -141,63 +139,45 @@ export class CompanyService extends BaseService{
         } */
     }
 
-    modifyItems(item: Contact | Project | Task): void{
-        /* if(this.companies){
+    modifyItems(item: Contact | Project): void{
+        if(this.companies){
             if(item.hasOwnProperty('full_name')){
                 let companyToBeModified = this.companies
-                    .filter(x => x.contact.includes(item.id))
-                    .filter(company => !item.company.includes(company.id));
+                    .filter(x => x.contact.find(x => x.id === item.id))
+                    .filter(company => !item.company.includes(company));
                 companyToBeModified.forEach(company => {
-                    company.contact.splice(company.contact.indexOf(item.id), 1);
+                    company.contact.splice(company.contact.indexOf(item as Contact), 1);
                 });
                 if(item.company.length > 0){
-                    item.company.forEach(companyID => {
-                        const actualCompany = this.companies.find(company => company.id === companyID);
-                        if(!actualCompany.contact.includes(item.id)){
-                            actualCompany.contact.push(item.id);
-                            this.update(actualCompany);
+                    item.company.forEach((company: Company) => {
+                        const actualCompany = this.companies.find(comp => comp.id === company.id);
+                        if(actualCompany.contact.filter(cont => cont.id === item.id).length === 0 ){
+                            actualCompany.contact.push(item as Contact);
                         }
                     })
                 }
             } else if(item.hasOwnProperty('deadline')) {
                 let companyToBeModified = this.companies
-                    .filter(x => x.project.includes(item.id))
-                    .filter(company => !item.company.includes(company.id));
+                    .filter(x => x.project.includes(item as Project))
+                    .filter(company => !item.company.includes(company));
                 companyToBeModified.forEach(company => {
-                    company.project.splice(company.project.indexOf(item.id), 1);
+                    company.project.splice(company.project.indexOf(item as Project), 1);
                 });
                 if(item.company.length > 0){
-                    item.company.forEach(companyID => {
-                        const actualCompany = this.companies.find(company => company.id === companyID);
-                        if(!actualCompany.project.includes(item.id)){
-                            actualCompany.project.push(item.id);
-                            this.update(actualCompany);
+                    item.company.forEach(company => {
+                        const actualCompany = this.companies.find(comp => comp === company);
+                        if(!actualCompany.project.includes(item as Project)){
+                            actualCompany.project.push(item as Project);
                         }
                     })
                 }
-            } else */ /*if(tasknak különleges property)*/ /* { */
-                /* let companyToBeModified = this.companies
-                    .filter(x => x.task.includes(item.id))
-                    .filter(company => !item.company.includes(company.id));
-                companyToBeModified.forEach(company => {
-                    company.task.splice(company.task.indexOf(item.id), 1);
-                });
-                if(item.company.length > 0){
-                    item.company.forEach(companyID => {
-                        const actualCompany = this.companies.find(company => company.id === companyID);
-                        if(!actualCompany.task.includes(item.id)){
-                            actualCompany.task.push(item.id);
-                            this.update(actualCompany);
-                        }
-                    })
-                } */
-            /* }
+            }
         } else {
             while(this.isLoading === true){
                 continue;
             }
             this.modifyItems(item);
-        } */
+        }
     }
 
     deleteItems(item: Contact | Project | Task): void{
