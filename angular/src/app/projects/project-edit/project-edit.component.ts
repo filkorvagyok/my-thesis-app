@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs/Subscription';
 import { ContactService } from './../../contacts/contact.service';
 import { CompanyService } from './../../companies/company.service';
 import { Project } from './../project';
@@ -6,6 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProjectService } from './../project.service';
 import { Component, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { BaseEditComponent } from '../../base/base-edit.component';
+import { Company } from '../../companies/company';
 
 
 const MONEY_REGEX = /^(0|[1-9][0-9]*)$/;
@@ -20,6 +22,8 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 	project: Project;
 	companyChanged: boolean = false;
 	contactChanged: boolean = false;
+	subscription: Subscription;
+	companyArray: Company[];
 
   constructor(
 		protected companyService: CompanyService,
@@ -30,7 +34,7 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 		private fb: FormBuilder,
 		private changeDetector: ChangeDetectorRef
 	) {
-      super(route, router);
+	  super(route, router);
     }
 
   //Form validitás beállítása
@@ -51,6 +55,7 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 	}
 
   ngOnInit() {
+	this.projectService.getEditItems();
     this.initform();
     if(this.projectService.getItems() && !this.project)
     {
@@ -61,6 +66,14 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 	ngAfterViewChecked(){
 		if(!this.project){
 			this.setThis();
+		} else {
+			if(this.route.snapshot.params['array']){
+				if(this.project.company.length === 0 && this.companyService.getItems()){
+					this.route.snapshot.params['array'].split(",").forEach((x: number) =>{
+						const company = this.companyService.getItem(+x);
+						this.project.company.push(company)});
+				}
+			}
 		}
 		this.changeDetector.detectChanges();
 	}
@@ -71,8 +84,6 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 			//Ha az url "company/new"-val egyenlő, akkor teljesül
 			this.setNew();
 		}
-		/*TODO: mivel így nem csak "company/new/:id" esetén hajtja ezt végre,
-		ezért ki kell javítani*/
 		else
 		{
 			this.setEdit();
@@ -81,77 +92,33 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 
 	setNew(): void{
 		this.project = new Project();
-		/* switch (Number(this.route.snapshot.params['num'])) {
-			case 0:
-				this.route.snapshot.params['array'].split(",").forEach(x =>
-					this.project.company.push(Number(x)));
-				break;
-			case 2:
-				switch (Number(this.route.snapshot.params['rank'])) {
-					case 0:
-						this.route.snapshot.params['array'].split(",").forEach(x =>
-							this.project.accountable.push(Number(x)));
-						break;
-					case 1:
-						this.route.snapshot.params['array'].split(",").forEach(x =>
-							this.project.owner.push(Number(x)));
-						break;
-					case 2:
-						this.route.snapshot.params['array'].split(",").forEach(x =>
-							this.project.observer.push(Number(x)));
-						break;
-					case 3:
-						this.route.snapshot.params['array'].split(",").forEach(x =>
-							this.project.participant.push(Number(x)));
-						break;
-					default:
-						break;
-				}
-				break;
-			default:
-				break;
-		} */
 	}
 
 	setEdit(): void{
     this.project = this.projectService.getItem(+this.route.snapshot.params['id'])
-		this.edit = true;	//Ezen mező alapján tudja a company-edit.component, hogy szerkeszteni kell vagy új céget létrehozni
+	this.edit = true;	//Ezen mező alapján tudja a company-edit.component, hogy szerkeszteni kell vagy új céget létrehozni
   }
+
+  compareFn(c1: any, c2: any): boolean {
+	return c1 && c2 ? c1.id === c2.id : c1 === c2;
+}
 
   save(): void{
 		console.log("SAVE");
 		this.projectService.update(this.project);
-		/* if(this.project.company.length > 0)
-			this.sharedAddDataHandler.addProjectToCompany(this.project);
-		if(this.project.accountable.length > 0 || this.project.owner.length > 0 ||
-			this.project.observer.length > 0 || this.project.participant.length > 0)
-			this.sharedAddDataHandler.addProjectToContact(this.project); */
 		if(this.companyChanged){
-			console.log("COMPANY CHANGED!");
 			this.companyService.modifyItems(this.project);
-		}
-		if(this.contactChanged){
-			this.contactService.modifyItems(this.project);
 		}
     this.navigateBack();
 	}
 
 	add(project: Project): void{
 		this.projectService.add(project)
-		/* if(project.company.length > 0)
-			this.sharedAddDataHandler.addProjectToCompany(project);
-		if(project.accountable.length > 0 || project.owner.length > 0 ||
-			project.observer.length > 0 || project.participant.length > 0)
-			this.sharedAddDataHandler.addProjectToContact(project); */
 		if(project.company.length > 0){
 			this.companyService.modifyItems(project);
 		}
-		/* if(project.accountable.length > 0 || project.owner.length > 0 ||
-			project.observer.length > 0 || project.participant.length > 0){
-				this.contactService.modifyItems(project);
-			} */
-    this.navigateBack();
-  }
+    	this.navigateBack();
+	}
 
   /*Ha a project company mezőjében letároltunk 1 vagy több cég id-ját,
 	akkor ez a metódus a sharedAddDataHandler segítségével rögzíti a megfelelő

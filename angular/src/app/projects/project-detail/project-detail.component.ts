@@ -56,36 +56,18 @@ export class ProjectDetailComponent extends BaseDetailComponent implements OnIni
 	  a projectsApiService.delete metódusát hajtjuk végre*/
 	delete(project: Project): void{
 		if(project.company.length > 0)
-			this.companyService.deleteItems(project);
-    /* if(project.accountable.length > 0 || project.observer.length > 0 ||
-      project.owner.length > 0 || project.participant.length > 0)
+      this.companyService.deleteItems(project);
+    if(project.contact.length > 0)
 			this.contactService.deleteItems(project);
-		if(project.task.length > 0)
-			this.taskService.deleteItems(project); */
 		this.projectService.delete(project);
 		this.router.navigate(['project/list']);
 	}
 
 	/*Átadjuk a projektet az új névjegy létrehozásához.*/
-    createNewContact(rank: number): void{
+    createNewContact(): void{
       let projectsArray: number[] = [];
       projectsArray.push(this.project.id);
-      this.navigateToNewContact(projectsArray, rank);
-    }
-
-    navigateToNewContact(array: number[], rank: number): void{
-      this.router.navigate(['/people/new/', {array:array, num:1, rank:rank}]);
-    }
-
-    //Lásd.: createNewProject, csak itt névjegy helyett cégre alkalmazzuk
-    createNewCompany(): void {
-      let projectsArray: number[] = [];
-      projectsArray.push(this.project.id);
-      this.navigateToNewCompany(projectsArray);
-    }
-
-    navigateToNewCompany(array: number[]): void{
-      this.router.navigate(['/company/new/', {array:array, num:1}]);
+      this.router.navigate(['/people/new/', {array:projectsArray, num:1}]);
     }
 
 }

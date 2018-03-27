@@ -14,8 +14,7 @@ const companyRoutes: Routes = [
     { path: 'list', component:CompaniesComponent },
     { path: 'shown/:id', component:CompanyDetailComponent },
     { path: 'edit/:id', component:CompanyEditComponent },
-    { path: 'new',  component:CompanyEditComponent },
-    { path: 'new/:array[]:num',  component:CompanyEditComponent },
+    { path: 'new',  component:CompanyEditComponent }
   ] },
 ];
 

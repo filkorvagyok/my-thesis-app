@@ -40,13 +40,11 @@ export class CompaniesComponent extends BaseComponent implements OnInit{
     /*Tölés esetén a céggel összekapcsolt projekt(ek) és névjegy(ek) közül is ki kell törölnünk az adott céget,
 	tehát ezzel kezdünk és csak ezután hívjuk meg a companiesApiService delete metódusát*/
 	delete(company: Company | number): void {
-		const actualCompany = typeof company === 'number' ? this.companyService.getItem(company) : company;
+        const actualCompany = typeof company === 'number' ? this.companyService.getItem(company) : company;
 		if(actualCompany.contact.length > 0)
 			this.contactService.deleteItems(actualCompany);
 		if(actualCompany.project.length > 0)
 			this.projectService.deleteItems(actualCompany);
-		/* if(actualCompany.task.length > 0)
-			this.taskService.deleteItems(actualCompany); */
 		this.companyService.delete(actualCompany);
     }
     
@@ -54,12 +52,12 @@ export class CompaniesComponent extends BaseComponent implements OnInit{
         this.router.navigate(['/company/edit', this.checkedArray[0]]);
     }
 
-    navigateToNewProject(): void{
-        this.router.navigate(['/project/new/', {array: this.checkedArray, num: 0, rank: -1}]);
+    createNewProject(): void{
+        this.router.navigate(['/project/new/', {array: this.checkedArray}]);
     }
 
-    navigateToNewContact(): void{
-        this.router.navigate(['/people/new/', {array: this.checkedArray, num: 0, rank: -1}]);
+    createNewContact(): void{
+        this.router.navigate(['/people/new/', {array: this.checkedArray, num: 0}]);
     }
 
     /*A lista nézetben egy név mező kitöltésével tudunk létrehozni

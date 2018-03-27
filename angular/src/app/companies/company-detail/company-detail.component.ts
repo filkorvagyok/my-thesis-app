@@ -54,8 +54,6 @@ export class CompanyDetailComponent extends BaseDetailComponent implements OnIni
         this.contactService.deleteItems(company);
       if(company.project.length > 0)
         this.projectService.deleteItems(company);
-      /* if(company.task.length > 0)
-        this.taskService.deleteItems(company); */
       this.companyService.delete(company);
       this.router.navigate(['company/list']);
   }
@@ -65,21 +63,13 @@ export class CompanyDetailComponent extends BaseDetailComponent implements OnIni
   createNewProject(): void{
     let companiesArray: number[] = [];
     companiesArray.push(this.company.id);
-    this.navigateToNewProject(companiesArray);
-  }
-
-  navigateToNewProject(array: number[]): void{
-    this.router.navigate(['/project/new/', {array:array, num:0, rank:-1}]);
+    this.router.navigate(['/project/new/', {array:companiesArray}]);
   }
 
   //Lásd.: createNewProject, csak itt projekt helyett névjegyre alkalmazzuk
   createNewContact(): void {
     let companiesArray: number[] = [];
     companiesArray.push(this.company.id);
-    this.navigateToNewContact(companiesArray);
-  }
-
-  navigateToNewContact(array: number[]): void{
-    this.router.navigate(['/people/new/', {array:array, num:0, rank:-1}]);
+    this.router.navigate(['/people/new/', {array:companiesArray, num:0}]);
   }
 }

@@ -10,7 +10,7 @@ const EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+
   styleUrls: ['./signin.component.scss']
 })
 export class SigninComponent implements OnInit {
-
+  error: string = '';
   hide: boolean = true;
 	loginForm: FormGroup;
 	constructor(
@@ -31,8 +31,15 @@ export class SigninComponent implements OnInit {
     this.authService.signin(this.loginForm.controls['loginEmail'].value,
       this.loginForm.controls['loginPassword'].value)
       .subscribe(
-        tokenData => console.log(tokenData),
-        error => console.log(error)
+        tokenData => {
+          this.error = '';
+          console.log(tokenData);
+        },
+        error => {
+          if(error.error['error']==='Invalid Credentials!'){
+            this.error ='Hibás felhasználónév vagy jelszó!';
+          }
+        }
       );
   }
 

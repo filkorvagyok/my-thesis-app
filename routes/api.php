@@ -121,6 +121,11 @@ Route::get('/priorities', [
     'middleware' => 'jwt.auth'
 ]);
 
+Route::get('/statuses', [
+    'uses' => 'StatusController@getStatuses',
+    'middleware' => 'jwt.auth'
+]);
+
 Route::get('/yearlyincomes', [
     'uses' => 'YearlyincomeController@getYearlyincomes',
     'middleware' => 'jwt.auth'

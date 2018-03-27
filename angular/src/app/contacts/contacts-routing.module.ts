@@ -13,7 +13,7 @@ const contactRoutes: Routes = [
     { path: 'list', component:ContactsComponent },
     { path: 'shown/:id', component:ContactDetailComponent },
     { path: 'edit/:id', component:ContactEditComponent },
-    { path: 'new/:array[]:num:rank',  component:ContactEditComponent },
+    { path: 'new/:array[]:num',  component:ContactEditComponent },
     { path: 'new',  component:ContactEditComponent }
   ]}
 ];

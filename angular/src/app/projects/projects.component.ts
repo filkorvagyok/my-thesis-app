@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs/Subscription';
 import { NgForm } from '@angular/forms';
 import { TaskService } from './../tasks/task.service';
 import { ContactService } from './../contacts/contact.service';
@@ -17,6 +18,8 @@ import { Project } from './project';
 export class ProjectsComponent extends BaseComponent implements OnInit {
   projects: Project[];
   project: Project;
+  hasDone: Subscription;
+  checkedProjectStatus: boolean;
 
   constructor(
     private companyService: CompanyService,
@@ -27,40 +30,46 @@ export class ProjectsComponent extends BaseComponent implements OnInit {
     protected dialog: MatDialog
   ) {
     super(dialog);
+    this.projectService.getEditItems();
     this.subscription = this.projectService.checkedArray.subscribe(
 			(array: number[]) => this.checkedArray = array
+    );
+    this.hasDone = this.projectService.haveDone.subscribe(
+      (bool: boolean) => {
+        this.checkedProjectStatus = bool;
+      }
     );
     }
 
     ngOnInit() {
     }
-  
+
     delete(project: Project | number): void {
       const actualProject = typeof project === 'number' ? this.projectService.getItem(project) : project;
       if(actualProject.company.length > 0)
         this.companyService.deleteItems(actualProject);
-      /* if(actualProject.accountable.length > 0 || actualProject.observer.length > 0 ||
-        actualProject.owner.length > 0 || actualProject.participant.length > 0)
+      if(actualProject.contact.length > 0)
         this.contactService.deleteItems(actualProject);
-      if(actualProject.task.length > 0)
-        this.taskService.deleteItems(actualProject); */
       this.projectService.delete(actualProject);
-    }
+  }
 
     navigateToEdit(): void{
       this.router.navigate(['/project/edit', this.checkedArray[0]]);
     }
   
-    navigateToNewItem(): void{
-      this.router.navigate(["/project/new"]);
+    createNewContact(): void{
+      this.router.navigate(['/people/new/', {array: this.checkedArray, num: 1}]);
     }
-  
-    navigateToNewCompany(): void{
-      this.router.navigate(['/company/new/', {array: this.checkedArray, num: 1}]);
-    }
-  
-    navigateToNewContact(rank: number): void{
-      this.router.navigate(['/people/new/', {array: this.checkedArray, num: 1, rank: rank}]);
+
+    doneProject(): void{
+      const status = this.projectService.getStatuses().find(status => status.state === 'Kész');
+      this.checkedArray.forEach(
+        (id: number) => {
+          const project = this.projectService.getItem(id);
+          project.status = status;
+          this.projectService.update(project);
+        }
+      )
     }
 
     /*A lista nézetben egy név mező kitöltésével tudunk létrehozni

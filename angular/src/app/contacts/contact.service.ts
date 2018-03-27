@@ -12,7 +12,7 @@ import { ContactApiService } from './contact.api.service';
 
 @Injectable()
 export class ContactService extends BaseService{
-    contacts: Contact[];
+    private contacts: Contact[];
     isLoading: boolean = true;
     checkedArray = new Subject<number[]>();
 
@@ -134,111 +134,21 @@ export class ContactService extends BaseService{
         } */
     }
 
-    modifyItems(item: Company | Project | Task): void{
-        /* if(this.contacts){
-            if(item.hasOwnProperty('taxnumber')){
-                let contactToBeModified = this.contacts
-                    .filter(x => x.company.includes(item.id))
-                    .filter(contact => !(item as Company).contact.includes(contact.id));
-                contactToBeModified.forEach(contact => {
-                    contact.company.splice(contact.company.indexOf(item.id), 1);
-                });
-                if((item as Company).contact.length > 0){
-                    (item as Company).contact.forEach(contactID => {
-                        const actualContact = this.contacts.find(contact => contact.id === contactID);
-                        if(!actualContact.company.includes(item.id)){
-                            actualContact.company.push(item.id);
-                            this.update(actualContact);
-                        }
-                    });
-                }
-            } else if(item.hasOwnProperty('deadline')) {
-                let contactToBeModified = this.contacts
-                    .filter(x => x.project.includes(item.id))
-                    .filter(contact => (!(item as Project).accountable.includes(contact.id) &&
-                    !(item as Project).observer.includes(contact.id) &&
-                    !(item as Project).owner.includes(contact.id) &&
-                    (item as Project).participant.includes(contact.id)));
-                contactToBeModified.forEach(contact => {
-                    contact.project.splice(contact.project.indexOf(item.id), 1);
-                });
-                if((item as Project).accountable.length > 0){
-                    (item as Project).accountable.forEach(contactID => {
-                        const actualContact = this.contacts.find(contact => contact.id === contactID);
-                        if(!actualContact.project.includes(item.id)){
-                            actualContact.project.push(item.id);
-                            this.update(actualContact);
-                        }
-                    });
-                } else if((item as Project).observer.length > 0){
-                    (item as Project).observer.forEach(contactID => {
-                        const actualContact = this.contacts.find(contact => contact.id === contactID);
-                        if(!actualContact.project.includes(item.id)){
-                            actualContact.project.push(item.id);
-                            this.update(actualContact);
-                        }
-                    });
-                } else if((item as Project).owner.length > 0){
-                    (item as Project).owner.forEach(contactID => {
-                        const actualContact = this.contacts.find(contact => contact.id === contactID);
-                        if(!actualContact.project.includes(item.id)){
-                            actualContact.project.push(item.id);
-                            this.update(actualContact);
-                        }
-                    });
-                } else if((item as Project).participant.length > 0){
-                    (item as Project).participant.forEach(contactID => {
-                        const actualContact = this.contacts.find(contact => contact.id === contactID);
-                        if(!actualContact.project.includes(item.id)){
-                            actualContact.project.push(item.id);
-                            this.update(actualContact);
-                        }
-                    });
-                }
-            } else if(tasknak különleges property)if(!(item instanceof Project)) {
-                let contactToBeModified = this.contacts
-                    .filter(x => x.task.includes(item.id))
-                    .filter(contact => !item.contact.includes(contact.id));
-                contactToBeModified.forEach(contact => {
-                    contact.task.splice(contact.task.indexOf(item.id), 1);
-                });
-                if(item.contact.length > 0){
-                    item.contact.forEach(contactID => {
-                        const actualContact = this.contacts.find(contact => contact.id === contactID);
-                        if(!actualContact.task.includes(item.id)){
-                            actualContact.task.push(item.id);
-                            this.update(actualContact);
-                        }
-                    })
-                }
-            }
-        } else {
-            while(this.isLoading === true){
-                continue;
-            }
-            this.modifyItems(item);
-        } */
+    modifyItems(item: Company | Project): void{
+        
     }
 
-    deleteItems(item: Company | Project | Task): void{
-        /* if(this.contacts){
+    deleteItems(item: Company | Project): void{
+        if(this.contacts){
             if(item.hasOwnProperty('taxnumber')){
-                this.contacts.filter(contacts => contacts.company.includes(item.id))
+                this.contacts.filter(contacts => contacts.company.find(company => company.id === item.id))
                 .forEach(contact => {
-                    contact.company.splice(contact.company.indexOf(item.id), 1);
-                    this.update(contact);
+                    contact.company.splice(contact.company.indexOf(item as Company), 1);
                 });
             } else if(item.hasOwnProperty('deadline')) {
-                this.contacts.filter(contacts => contacts.project.includes(item.id))
+                this.contacts.filter(contacts => contacts.project.find(project => project.id === item.id))
                 .forEach(contact => {
-                    contact.project.splice(contact.project.indexOf(item.id), 1);
-                    this.update(contact);
-                });
-            } else if(tasknak különleges property) {
-                this.contacts.filter(contacts => contacts.task.includes(item.id))
-                .forEach(contact => {
-                    contact.task.splice(contact.task.indexOf(item.id), 1);
-                    this.update(contact);
+                    contact.project.splice(contact.project.indexOf(item as Project), 1);
                 });
             }
         } else {
@@ -246,7 +156,7 @@ export class ContactService extends BaseService{
                 continue;
             }
             this.deleteItems(item);
-        } */
+        }
     }
     
     //Hibakezelő

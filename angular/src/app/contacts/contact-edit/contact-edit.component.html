@@ -6,19 +6,24 @@
           <div class="card-header bg-teal-darken-1 text-white">
             <h3 class="card-header-h3" *ngIf="!edit; else editblock">Új Névjegy</h3>
             <ng-template #editblock>
-              <h3 class="card-header-h3" *ngIf="!contactService.isLoading && contact && !companyService.isLoading; else noheader">{{contact.full_name}} Szerkesztése</h3>
+              <h3 class="card-header-h3" *ngIf="!contactService.isLoading && contact && !companyService.isLoading && !projectService.isLoading; else noheader">{{contact.full_name}} Szerkesztése</h3>
               <ng-template #noheader><h3 class="card-header-h3">...</h3></ng-template>
             </ng-template>
           </div>
           <div class="card-body">
-            <mat-spinner [diameter]="40" *ngIf="contactService.isLoading || !contact || companyService.isLoading; else elseBlock">
+            <mat-spinner [diameter]="40" *ngIf="contactService.isLoading || !contact || companyService.isLoading || projectService.isLoading; else elseBlock">
             </mat-spinner>
             <ng-template #elseBlock>
               <div class="row">
                 <form class="edit-form" [formGroup]="contactForm" (ngSubmit)="onSubmit(contact)">
                   <mat-form-field>
                     <mat-select [compareWith]="compareFn" [(ngModel)]="contact.company" (selectionChange)="companyChanged = true" formControlName="contactCompany" placeholder="Cég" multiple>
-                      <mat-option *ngFor="let company of companyService.companies" [value]="company">{{company.name}}</mat-option>
+                      <mat-option *ngFor="let company of companyService.getItems()" [value]="company">{{company.name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-select [compareWith]="compareFn" [(ngModel)]="contact.project" (selectionChange)="projectChanged = true" formControlName="contactProject" placeholder="Projekt" multiple>
+                      <mat-option *ngFor="let project of projectService.getItems()" [value]="project">{{project.name}}</mat-option>
                     </mat-select>
                   </mat-form-field>
                   <mat-form-field>
@@ -40,13 +45,13 @@
                     <input matInput type="text" [(ngModel)]="contact.nickname" formControlName="contactNickname" placeholder="Bencenév">
                   </mat-form-field>
                   <mat-form-field>
-                    <input matInput type="tel" [(ngModel)]="contact.phone" formControlName="contactPhone" placeholder="Telefon">
+                    <input matInput type="tel" [(ngModel)]="contact.phone" formControlName="contactPhone" placeholder="Telefon" required>
                   </mat-form-field>
                   <mat-error *ngIf="!contactForm.controls['contactPhone'].valid && contactForm.controls['contactPhone'].touched">
                     Nem megfelelő telefonszám!
                   </mat-error>
                   <mat-form-field>
-                    <input matInput type="email" [(ngModel)]="contact.email" formControlName="contactEmail" placeholder="E-mail-cím">
+                    <input matInput type="email" [(ngModel)]="contact.email" formControlName="contactEmail" placeholder="E-mail-cím" required>
                   </mat-form-field>
                   <mat-error *ngIf="!contactForm.controls['contactEmail'].valid && contactForm.controls['contactEmail'].touched">
                     Nem megfelelő e-mail-cím!

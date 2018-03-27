@@ -34,6 +34,20 @@ export class ProjectItemComponent extends BaseItemComponent implements OnInit {
 		return Math.round((project.deadline.getTime() - newDate.getTime())/86400000);
   }
 
+  protected showChbox(): void{
+    this.projectService.haveDone.next(false);
+    const checkedProjects: number [] = $('input[type=checkbox]:checked').map(function(_, el) {
+			return $(el).val();
+    }).get().map(Number);
+		this.projectService.checkedArray.next(checkedProjects);
+    checkedProjects.forEach(
+      (id: number) => {
+        if(this.projectService.getItem(id).status && this.projectService.getItem(id).status.state === 'Kész')
+        this.projectService.haveDone.next(true);
+      }
+    )
+  }
+
   //Átírjuk a határidőt a kapott napok számával növelt mai dátumra.
   changeDate(project: Project, days:number)
   {

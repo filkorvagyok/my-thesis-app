@@ -50,7 +50,7 @@
 									<h4 class="pb-4">Székhely adatok</h4>
 									<mat-form-field>
 										<mat-select formControlName="companyHqCountry" placeholder="Ország" [compareWith]="compareFn" [(ngModel)]="company.headquarter.country">
-											<mat-option *ngFor="let country of companyService.countries" [value]="country">
+											<mat-option *ngFor="let country of companyService.getCountries()" [value]="country">
 												{{country.name}}
 											</mat-option>
 										</mat-select>
@@ -80,7 +80,7 @@
 									<div *ngIf="!billing; else billingBlock">
 										<mat-form-field>
 											<mat-select formControlName="companyBiCountry" placeholder="Ország" [compareWith]="compareFn" [(ngModel)]="company.billing.country">
-												<mat-option *ngFor="let country of companyService.countries" [value]="country">
+												<mat-option *ngFor="let country of companyService.getCountries()" [value]="country">
 													{{country.name}}
 												</mat-option>
 											</mat-select>
@@ -112,7 +112,7 @@
 										<h4>Levelezési adatok</h4>
 										<mat-form-field>
 											<mat-select formControlName="companyMailCountry" placeholder="Ország" [compareWith]="compareFn" [(ngModel)]="company.mailing.country">
-												<mat-option *ngFor="let country of companyService.countries" [value]="country">
+												<mat-option *ngFor="let country of companyService.getCountries()" [value]="country">
 													{{country.name}}
 												</mat-option>
 											</mat-select>
@@ -137,21 +137,21 @@
 									<h4>Statisztikai adatok</h4>
 									<mat-form-field>
 										<mat-select formControlName="companyIndustry" placeholder="Iparág" [compareWith]="compareFn" [(ngModel)]="company.industry">
-											<mat-option *ngFor="let industry of companyService.industries" [value]="industry">
+											<mat-option *ngFor="let industry of companyService.getIndustries()" [value]="industry">
 												{{industry.name}}
 											</mat-option>
 										</mat-select>
 									</mat-form-field>
 									<mat-form-field>
 										<mat-select formControlName="companyEmployeesnum" placeholder="Alkalmazottak száma" [compareWith]="compareFn" [(ngModel)]="company.employeesnumber">
-											<mat-option *ngFor="let employeesnum of companyService.employeesNums" [value]="employeesnum">
+											<mat-option *ngFor="let employeesnum of companyService.getEmployeesNums()" [value]="employeesnum">
 												{{employeesnum.range}}
 											</mat-option>
 										</mat-select>
 									</mat-form-field>
 									<mat-form-field>
 										<mat-select formControlName="companyYearlyincome" placeholder="Éves bevétel" [compareWith]="compareFn" [(ngModel)]="company.yearlyincome">
-											<mat-option *ngFor="let yearlyincome of companyService.yearlyIncomes" [value]="yearlyincome">
+											<mat-option *ngFor="let yearlyincome of companyService.getYearlyIncomes()" [value]="yearlyincome">
 												{{yearlyincome.range}}
 											</mat-option>
 										</mat-select>

@@ -7,7 +7,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Contact } from '../contact';
 import { MatDialog } from '@angular/material';
 import { BaseDetailComponent } from '../../base/base-detail.component';
-import { ProjectForContact } from '../../projects/project.service';
 
 @Component({
   selector: 'app-contact-detail',
@@ -55,33 +54,8 @@ export class ContactDetailComponent extends BaseDetailComponent implements OnIni
 			this.companyService.deleteItems(contact);
 		if(contact.project.length > 0)
 			this.projectService.deleteItems(contact);
-		/* if(contact.task.length > 0)
-			this.taskService.deleteItems(contact); */
     this.contactService.delete(contact);
     this.router.navigate(['people/list']);
-  }
-
-  /*Átadjuk a céget az új projekt létrehozásához, így
-  automatikusan belekerül a projekt company mezőjébe.*/
-  createNewProject(rank: number): void{
-    let contactsArray: number[] = [];
-    contactsArray.push(this.contact.id);
-    this.navigateToNewProject(contactsArray, rank);
-  }
-
-  navigateToNewProject(array: number[], rank: number): void{
-    this.router.navigate(['/project/new/', {array:array, num:2, rank:rank}]);
-  }
-
-  //Lásd.: createNewProject, csak itt projekt helyett névjegyre alkalmazzuk
-  createNewCompany(): void {
-    let contactsArray: number[] = [];
-    contactsArray.push(this.contact.id);
-    this.navigateToNewCompany(contactsArray);
-  }
-
-  navigateToNewCompany(array: number[]): void{
-    this.router.navigate(['/company/new/', {array:array, num:2}]);
   }
 
 }

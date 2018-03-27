@@ -13,11 +13,11 @@ import { BaseService } from '../base/base.service';
 
 @Injectable()
 export class CompanyService extends BaseService{
-    companies: Company[];
-    countries: Country[];
-    industries: Industry[];
-    employeesNums: EmployeesNumber[];
-    yearlyIncomes: YearlyIncome[];
+    private companies: Company[];
+    private countries: Country[];
+    private industries: Industry[];
+    private employeesNums: EmployeesNumber[];
+    private yearlyIncomes: YearlyIncome[];
     isLoading = true;
     isLoadingForEdit = true;
     checkedArray = new Subject<number[]>();
@@ -143,7 +143,7 @@ export class CompanyService extends BaseService{
         if(this.companies){
             if(item.hasOwnProperty('full_name')){
                 let companyToBeModified = this.companies
-                    .filter(x => x.contact.find(x => x.id === item.id))
+                    .filter(comp => comp.contact.find(contact => contact.id === item.id))
                     .filter(company => !item.company.includes(company));
                 companyToBeModified.forEach(company => {
                     company.contact.splice(company.contact.indexOf(item as Contact), 1);
@@ -151,22 +151,22 @@ export class CompanyService extends BaseService{
                 if(item.company.length > 0){
                     item.company.forEach((company: Company) => {
                         const actualCompany = this.companies.find(comp => comp.id === company.id);
-                        if(actualCompany.contact.filter(cont => cont.id === item.id).length === 0 ){
+                        if(actualCompany.contact.filter(contact => contact.id === item.id).length === 0 ){
                             actualCompany.contact.push(item as Contact);
                         }
                     })
                 }
             } else if(item.hasOwnProperty('deadline')) {
                 let companyToBeModified = this.companies
-                    .filter(x => x.project.includes(item as Project))
+                    .filter(comp => comp.project.find(project => project.id === item.id))
                     .filter(company => !item.company.includes(company));
                 companyToBeModified.forEach(company => {
                     company.project.splice(company.project.indexOf(item as Project), 1);
                 });
                 if(item.company.length > 0){
-                    item.company.forEach(company => {
-                        const actualCompany = this.companies.find(comp => comp === company);
-                        if(!actualCompany.project.includes(item as Project)){
+                    item.company.forEach((company: Company) => {
+                        const actualCompany = this.companies.find(comp => comp.id === company.id);
+                        if(actualCompany.project.filter(project => project.id === item.id).length === 0){
                             actualCompany.project.push(item as Project);
                         }
                     })
@@ -180,25 +180,17 @@ export class CompanyService extends BaseService{
         }
     }
 
-    deleteItems(item: Contact | Project | Task): void{
-        /* if(this.companies){
+    deleteItems(item: Contact | Project): void{
+        if(this.companies){
             if(item.hasOwnProperty('full_name')){
-                this.companies.filter(companies => companies.contact.includes(item.id))
+                this.companies.filter(companies => companies.contact.find(contact => contact.id === item.id))
                 .forEach(company => {
-                    company.contact.splice(company.contact.indexOf(item.id), 1);
-                    this.update(company);
+                    company.contact.splice(company.contact.indexOf(item as Contact), 1);
                 });
             } else if(item.hasOwnProperty('deadline')) {
-                this.companies.filter(companies => companies.project.includes(item.id))
+                this.companies.filter(companies => companies.project.find(project => project.id === item.id))
                 .forEach(company => {
-                    company.project.splice(company.project.indexOf(item.id), 1);
-                    this.update(company);
-                });
-            } else if(tasknak különleges property) {
-                this.companies.filter(companies => companies.task.includes(item.id))
-                .forEach(company => {
-                    company.task.splice(company.task.indexOf(item.id), 1);
-                    this.update(company);
+                    company.project.splice(company.project.indexOf(item as Project), 1);
                 });
             }
         } else {
@@ -206,6 +198,6 @@ export class CompanyService extends BaseService{
                 continue;
             }
             this.deleteItems(item);
-        } */
+        }
     }
 }

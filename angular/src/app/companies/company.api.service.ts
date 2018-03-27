@@ -155,8 +155,8 @@ export class CompanyApiService{
         .map(
             (res: Response) => {
                 const countries: Country[] = [];
-                const comps = res['countries'];
-                comps.forEach(country => {
+                const x = res['countries'];
+                x.forEach(country => {
                     const c: Country = <Country>{
                         id: country['id'],
                         code: country['code'],
@@ -175,8 +175,8 @@ export class CompanyApiService{
         .map(
             (res: Response) => {
                 const employeesnumbers: EmployeesNumber[] = [];
-                const comps = res['employeesnumbers'];
-                comps.forEach(employeesnumber => {
+                const x = res['employeesnumbers'];
+                x.forEach(employeesnumber => {
                     const en: EmployeesNumber = <EmployeesNumber>{
                         id: employeesnumber['id'],
                         range: employeesnumber['range']
@@ -194,8 +194,8 @@ export class CompanyApiService{
         .map(
             (res: Response) => {
                 const industries: Industry[] = [];
-                const comps = res['industries'];
-                comps.forEach(industry => {
+                const x = res['industries'];
+                x.forEach(industry => {
                     const i: Industry = <Industry>{
                         id: industry['id'],
                         name: industry['name']
@@ -213,8 +213,8 @@ export class CompanyApiService{
         .map(
             (res: Response) => {
                 const yearlyincomes: YearlyIncome[] = [];
-                const comps = res['yearlyincomes'];
-                comps.forEach(yearlyincome => {
+                const x = res['yearlyincomes'];
+                x.forEach(yearlyincome => {
                     const yi: YearlyIncome = <YearlyIncome>{
                         id: yearlyincome['id'],
                         range: yearlyincome['range']

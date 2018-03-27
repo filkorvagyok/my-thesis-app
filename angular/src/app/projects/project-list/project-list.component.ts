@@ -32,6 +32,28 @@ export class ProjectListComponent implements OnInit {
   ngOnInit() {
   }
 
+  getBackgroundColor(project: Project): string{
+    if(project.status && project.status.state === 'Kész'){
+      return '#eee';
+    } else if(project.priority) {
+      switch (project.priority.value){
+        case 'nagyon fontos':
+          return '#ffe6e6';
+        case 'fontos':
+          return 'lightgoldenrodyellow';
+        default:
+          return 'none';
+      }
+    }
+  }
+
+  getColor(project: Project): string{
+    if(project.status && project.status.state === 'Kész'){
+      return '#aaa'
+    }
+    return 'none';
+  }
+
   /* delete(project: Project | number): void {
 		const actualProject = typeof project === 'number' ? this.projectService.getItem(project) : project;
 		if(actualProject.company.length > 0)

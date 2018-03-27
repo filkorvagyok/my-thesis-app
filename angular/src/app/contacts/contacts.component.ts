@@ -35,26 +35,18 @@ export class ContactsComponent extends BaseComponent implements OnInit {
   }
 
   /*Tölés esetén a céggel összekapcsolt projekt(ek) és névjegy(ek) közül is ki kell törölnünk az adott céget,
-	tehát ezzel kezdünk és csak ezután hívjuk meg a companiesApiService delete metódusát*/
-	delete(contact: Contact | number): void {
+  tehát ezzel kezdünk és csak ezután hívjuk meg a companiesApiService delete metódusát*/
+  delete(contact: Contact | number): void {
     const actualContact = typeof contact === 'number' ? this.contactService.getItem(contact) : contact;
 		if(actualContact.company.length > 0)
 			this.companyService.deleteItems(actualContact);
 		if(actualContact.project.length > 0)
 			this.projectService.deleteItems(actualContact);
 		this.contactService.delete(actualContact);
-    }
+  }
   
     navigateToEdit(): void{
       this.router.navigate(['/people/edit', this.checkedArray[0]]);
-    }
-
-    navigateToNewCompany(): void{
-      this.router.navigate(['/company/new/', {array: this.checkedArray, num: 2}]);
-    }
-  
-    navigateToNewProject(rank: number): void{
-      this.router.navigate(['/project/new/', {array: this.checkedArray, num: 2, rank: rank}]);
     }
 
   /*A lista nézetben egy név mező kitöltésével tudunk létrehozni

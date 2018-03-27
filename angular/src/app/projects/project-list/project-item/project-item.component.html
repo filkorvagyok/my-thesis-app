@@ -6,7 +6,7 @@
     <h6><strong>{{project.name}}</strong></h6>
   </td>
   <td class="pb-0 padding-td-xs">
-    <p [ngStyle]="{'color': count(project) < 1 ? 'red' : 'black'}">
+    <p [ngStyle]="{'color': count(project) < 1 ? 'red' : 'none'}">
       <input #projectCount matInput [ngModel]="count(project)" name="{{'projectCount' + project.id}}" (focusout)="changeDate(project, projectCount.value)" (keyup.enter)="projectCount.blur()" style="width: 32px; text-align: right;">
       <span> nap</span> <span *ngIf="count(project) < 1"><i class="fa fa-exclamation"></i></span>
     </p>

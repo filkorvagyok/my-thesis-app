@@ -10,7 +10,7 @@
         <th></th>
       </tr>
     </thead>
-    <tbody *ngFor="let project of projectService.getItems()" app-project-item [project]="project">
+    <tbody *ngFor="let project of projectService.getItems()" [ngStyle]="{'background-color': getBackgroundColor(project), 'color': getColor(project)}" app-project-item [project]="project">
     </tbody>
   </table>
 </div>

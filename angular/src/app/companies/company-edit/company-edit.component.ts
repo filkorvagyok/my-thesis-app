@@ -36,11 +36,6 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 		super(route, router);
 	}
 
-	onValueCahnged(country: Country, event){
-		country = this.companyService.countries.find(x => x.id === event.value);
-		return country;
-	}
-
 	ngOnInit() {
 		this.companyService.getEditItems();
 		this.initform();
@@ -103,18 +98,6 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 
 	setNew(): void{
 		this.company = new Company();
-		/* switch (Number(this.route.snapshot.params['num'])) {
-			case 1:
-				this.route.snapshot.params['array'].split(",").forEach(x =>
-					this.company.project.push(Number(x)));
-				break;
-			case 2:
-				this.route.snapshot.params['array'].split(",").forEach(x =>
-					this.company.contact.push(Number(x)));
-				break;
-			default:
-				break;
-		} */
 	}
 
 	setEdit(): void{

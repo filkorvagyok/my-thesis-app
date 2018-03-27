@@ -1,4 +1,3 @@
-import { ProjectForContact } from './../projects/project.service';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { Company } from './../companies/company';
@@ -15,7 +14,7 @@ export abstract class BaseService{
     abstract delete (item: any | number): void;
     abstract add(item: any): void;
     abstract update (item: any): void;
-    abstract getCertainItems (item: any): Company[] | Contact[] | Project[] | ProjectForContact[] | Task[];
+    abstract getCertainItems (item: any): Company[] | Contact[] | Project[];
     abstract modifyItems (item: any): void;
     abstract deleteItems (item: any): void;
 

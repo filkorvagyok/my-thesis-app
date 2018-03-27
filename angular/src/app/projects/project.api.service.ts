@@ -1,4 +1,4 @@
-import { Project } from './project';
+import { Project, Status, Priority, Currency } from './project';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './../auth/auth.service';
@@ -100,5 +100,63 @@ export class ProjectApiService{
         const id = typeof project === 'number' ? project : project.id;
         const token = this.authService.getToken();
         return this.http.delete('http://homestead.test/api/project/' + id + '?token=' + token);
+    }
+
+    getStatuses(): Observable<Status[]>{
+        const token = this.authService.getToken();
+        return this.http.get('http://homestead.test/api/statuses?token=' + token)
+        .map(
+            (res: Response) => {
+                const statuses: Status[] = [];
+                const x = res['statuses'];
+                x.forEach(status => {
+                    const s: Status = <Status>{
+                        id: status['id'],
+                        state: status['state']
+                    };
+                    statuses.push(s);
+                });
+                return statuses;
+            }
+        );
+    }
+
+    getPriorities(): Observable<Priority[]>{
+        const token = this.authService.getToken();
+        return this.http.get('http://homestead.test/api/priorities?token=' + token)
+        .map(
+            (res: Response) => {
+                const priorities: Priority[] = [];
+                const x = res['priorities'];
+                x.forEach(priority => {
+                    const p: Priority = <Priority>{
+                        id: priority['id'],
+                        value: priority['value']
+                    };
+                    priorities.push(p);
+                });
+                return priorities;
+            }
+        );
+    }
+
+    getCurrencies(): Observable<Currency[]>{
+        const token = this.authService.getToken();
+        return this.http.get('http://homestead.test/api/currencies?token=' + token)
+        .map(
+            (res: Response) => {
+                const currencies: Currency[] = [];
+                const x = res['currencies'];
+                x.forEach(currency => {
+                    const c: Currency = <Currency>{
+                        id: currency['id'],
+                        code: currency['code'],
+                        name: currency['name']
+                    };
+                    currencies.push(c);
+                });
+                return currencies;
+            }
+        );
     }
 }

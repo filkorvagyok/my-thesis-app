@@ -72,15 +72,11 @@
             <mat-icon aria-hidden="true">clear</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-            <button style="outline: none;" mat-menu-item>
-                <mat-icon class="fa fa-file"></mat-icon>
-                <span>Új feladat</span>
-            </button>
-            <button mat-menu-item (click)="navigateToNewProject()">
+            <button mat-menu-item (click)="createNewProject()">
                 <mat-icon class="fa fa-folder"></mat-icon>
                 <span>Új projekt</span>
             </button>
-            <button mat-menu-item (click)="navigateToNewContact()">
+            <button mat-menu-item (click)="createNewContact()">
                 <mat-icon class="fa fa-user-plus"></mat-icon>
                 <span>Új felhasználó</span>
             </button>

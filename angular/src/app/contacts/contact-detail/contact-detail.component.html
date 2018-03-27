@@ -72,14 +72,6 @@
     <mat-icon aria-hidden="true">clear</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item [matMenuTriggerFor]="project">
-      <mat-icon class="fa fa-folder"></mat-icon>
-      <span>Új projekt</span>
-    </button>
-    <button mat-menu-item (click)="createNewCompany()">
-      <mat-icon class="fa fa-industry"></mat-icon>
-      <span>Új cég</span>
-    </button>
     <button mat-menu-item (click)="navigateToEdit()">
       <mat-icon class="fa fa-pencil"></mat-icon>
       <span>Szerkesztés</span>
@@ -87,24 +79,6 @@
     <button mat-menu-item data-toggle="modal" data-target="#deleteItemModal">
       <mat-icon class="fa fa-trash"></mat-icon>
       <span>Törlés</span>
-    </button>
-  </mat-menu>
-  <mat-menu #project="matMenu">
-    <button mat-menu-item (click)="createNewProject(0)">
-      <mat-icon class="fa fa-folder"></mat-icon>
-      <span>Mint felelős</span>
-    </button>
-    <button mat-menu-item (click)="createNewProject(1)">
-      <mat-icon class="fa fa-folder"></mat-icon>
-      <span>Mint tulajdonos</span>
-    </button>
-    <button mat-menu-item (click)="createNewProject(2)">
-      <mat-icon class="fa fa-folder"></mat-icon>
-      <span>Mint megfigyelő</span>
-    </button>
-    <button mat-menu-item (click)="createNewProject(3)">
-      <mat-icon class="fa fa-folder"></mat-icon>
-      <span>Mint résztvevő</span>
     </button>
   </mat-menu>
 </section>

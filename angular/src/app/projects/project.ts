@@ -1,17 +1,17 @@
 import { Contact } from './../contacts/contact';
 import { Company } from './../companies/company';
 
-interface Status{
+export interface Status{
 	id: number;
 	state: string;
 }
 
-interface Priority{
+export interface Priority{
 	id: number;
 	value: string;
 }
 
-interface Currency{
+export interface Currency{
 	id: number;
 	code: string;
 	name: string;

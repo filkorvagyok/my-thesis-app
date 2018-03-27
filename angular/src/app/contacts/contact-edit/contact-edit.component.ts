@@ -1,3 +1,4 @@
+import { ProjectService } from './../../projects/project.service';
 import { CompanyService } from './../../companies/company.service';
 import { Contact } from './../contact';
 import { ContactService } from './../contact.service';
@@ -19,9 +20,11 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
 	contact: Contact;
 	rank: number;
 	companyChanged: boolean = false;
+	projectChanged: boolean = false;
 
   constructor(
 		protected companyService: CompanyService,
+		protected projectService: ProjectService,
 		protected route: ActivatedRoute,
 		protected router: Router,
 		protected contactService: ContactService,
@@ -33,6 +36,7 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
 
   	ngOnInit() {
 		this.companyService.getItems();
+		this.projectService.getItems();
 		this.initform();
 		if(this.contactService.getItems() && !this.contact){
 			this.setThis();
@@ -42,6 +46,25 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
 	ngAfterViewChecked(){
 		if(!this.contact){
 			this.setThis();
+		} else {
+			if(this.route.snapshot.params['num']){
+				if(this.contact.company.length === 0 && this.companyService.getItems()){
+					switch (Number(this.route.snapshot.params['num'])) {
+						case 0:
+							this.route.snapshot.params['array'].split(",").forEach((x: number) =>{
+								const company = this.companyService.getItem(+x);
+								this.contact.company.push(company)});
+							break;
+						case 1:
+							this.route.snapshot.params['array'].split(",").forEach((x: number) =>{
+								const project = this.projectService.getItem(+x);
+								this.contact.project.push(project)});
+							break;
+						default:
+							break;
+					}
+				}
+			}
 		}
 		this.changeDetector.detectChanges();
   }
@@ -50,14 +73,12 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
 	initform(): void{
 		this.contactForm = this.fb.group({
 			'contactCompany': [],
+			'contactProject': [],
 			'contactFullName': [null, Validators.required],
 			'contactForename': [],
 			'contactNickname': [],
 			'contactSurename': [],
 			'contactMiddlename': [],
-			'contactPrimComChan': [],
-			'contactRank': [],
-			'contactGreeting': [],
 			'contactPhone': [null, Validators.pattern(TEL_REGEX)],
 			'contactEmail': [null, Validators.pattern(EMAIL_REGEX)],
 		});
@@ -69,8 +90,6 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
 			//Ha az url "people/new"-val egyenlő, akkor teljesül
 			this.setNew();
 		}
-		/*TODO: mivel így nem csak "people/new/:id" esetén hajtja ezt végre,
-		ezért ki kell javítani*/
 		else
 		{
 			this.setEdit();
@@ -82,19 +101,6 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
 	ha pedig 1-el egyelnő, akkor pedig a project mezőbe rakjuk az értékeket.*/
 	setNew(): void{
 		this.contact = new Contact;
-		/* this.rank = Number(this.route.snapshot.params['rank']);
-		switch (Number(this.route.snapshot.params['num'])) {
-			case 0:
-				this.route.snapshot.params['array'].split(",").forEach(x =>
-					this.contact.company.push(Number(x)));
-				break;
-			case 1:
-				this.route.snapshot.params['array'].split(",").forEach(x =>
-					this.contact.project.push(Number(x)));
-				break;
-			default:
-				break;
-		} */
 	}
 
 	//Az url-ben kapott id alapján lekéri a webapiból a megfelelő névjegy adatokat.
@@ -113,36 +119,22 @@ asd(event){
 
 	add(contact: Contact): void{
 		this.contactService.add(contact)
-		/* if(contact.company.length > 0)
-			this.sharedAddDataHandler.addContactToCompany(contact); */
-		//TODO: megvalósítani a contact projekthez adását.
-		/*if(contact.project.length > 0 || project.owner.length > 0 ||
-			project.observer.length > 0 || project.participant.length > 0)
-			this.sharedAddDataHandler.addProjectToContact(project);*/
-		/* if(contact.project.length > 0)
-		{
-			this.sharedAddDataHandler.addContactToProject(contact, this.rank);
-		} */
 		if(contact.company.length > 0){
 			this.companyService.modifyItems(contact);
+		}
+		if(contact.project.length > 0){
+			this.projectService.modifyItems(contact);
 		}
 		this.navigateBack();
   }
 
   save(): void {
     this.contactService.update(this.contact);
-    /* if(this.contact.company.length > 0)
-			this.sharedAddDataHandler.addContactToCompany(this.contact); */
-		//TODO: megvalósítani a contact projekthez adását.
-		/*if(contact.project.length > 0 || project.owner.length > 0 ||
-			project.observer.length > 0 || project.participant.length > 0)
-			this.sharedAddDataHandler.addProjectToContact(project);*/
-		/* if(this.contact.project.length > 0)
-		{
-			this.sharedAddDataHandler.addContactToProject(this.contact, this.rank);
-		} */
 		if(this.companyChanged){
 			this.companyService.modifyItems(this.contact);
+		}
+		if(this.projectChanged){
+			this.projectService.modifyItems(this.contact);
 		}
 		this.navigateBack();
 	}

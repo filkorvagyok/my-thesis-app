@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
 export abstract class BaseComponent{
-    checkedArray: number[] = [];
+    checkedArray: any[] = [];
     subscription: Subscription;
     
     constructor(
@@ -21,7 +21,7 @@ export abstract class BaseComponent{
         this.checkedArray = [];
     }
     
-	abstract delete(item: any | number): void;
+	abstract delete(item: any): void;
 	
 	abstract onSubmit(form: NgForm): void;
 

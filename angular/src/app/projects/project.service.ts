@@ -4,7 +4,7 @@ import { Company } from './../companies/company';
 import { Subject } from 'rxjs/Subject';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Project } from './project';
+import { Project, Status, Priority, Currency } from './project';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, tap } from 'rxjs/operators';
@@ -12,17 +12,16 @@ import { BaseService } from '../base/base.service';
 import 'rxjs/add/operator/map'
 import { ProjectApiService } from './project.api.service';
 
-export class ProjectForContact{
-	project: Project;
-	ranks: string[] = [];
-}
-
 @Injectable()
 export class ProjectService extends BaseService{
     private projects: Project[];
+    private statuses: Status[];
+    private priorities: Priority[];
+    private currencies: Currency[];
     isLoading = true;
+    isLoadingForEdit = true;
     checkedArray = new Subject<number[]>();
-    private projectsUrl = 'api/projects';
+    haveDone = new Subject<boolean>();
 
     constructor(
         private projectApiService: ProjectApiService
@@ -57,6 +56,18 @@ export class ProjectService extends BaseService{
         }
     }
 
+    getStatuses(): Status[] {
+        return this.statuses;
+    }
+
+    getPriorities(): Priority[] {
+        return this.priorities;
+    }
+
+    getCurrencies(): Currency[]{
+        return this.currencies;
+    }
+
     delete(project: Project | number): void{
         const id = typeof project === 'number' ? project : project.id;
         this.projects.splice(this.projects.indexOf(
@@ -78,6 +89,25 @@ export class ProjectService extends BaseService{
     update (project: Project): void{
         this.projects.find(oldProject => oldProject.id === project.id)[0] = project;
         this.projectApiService.updateProject(project).subscribe();
+    }
+
+    getEditItems() {
+        this.projectApiService.getStatuses().subscribe(
+            (statuses: Status[]) => {
+                this.statuses = statuses;
+                this.projectApiService.getPriorities().subscribe(
+                    (priorities: Priority[]) => {
+                        this.priorities = priorities;
+                        this.projectApiService.getCurrencies().subscribe(
+                            (currencies: Currency[]) => {
+                                this.currencies = currencies;
+                                this.isLoadingForEdit = false;
+                            }
+                        );
+                    }
+                );
+            }
+        );
     }
 
     getCertainItems(item: Company | Contact | Task): any {
@@ -116,83 +146,41 @@ export class ProjectService extends BaseService{
         } */
     }
 
-    modifyItems(item: Company | Task): void{
-        /* if(this.projects){
-            if(item.hasOwnProperty('taxnumber')){
-                let projectToBeModified = this.projects
-                    .filter(x => x.company.includes(item.id))
-                    .filter(project => !item.project.includes(project.id));
-                projectToBeModified.forEach(project => {
-                    project.company.splice(project.company.indexOf(item.id), 1);
+    modifyItems(contact: Contact): void{
+        if(this.projects){
+            let projectToBeModified = this.projects
+                .filter(x => x.contact.find(cont => cont.id === contact.id))
+                .filter(project => !contact.project.includes(project));
+            projectToBeModified.forEach(project => {
+                project.contact.splice(project.contact.indexOf(contact), 1);
+            });
+            if(contact.project.length > 0){
+                contact.project.forEach((project: Project) => {
+                    const actualProject = this.projects.find(proj => proj.id === project.id);
+                    if(actualProject.contact.filter(cont => cont.id === contact.id).length === 0){
+                        actualProject.contact.push(contact);
+                    }
                 });
-                if(item.project.length > 0){
-                    item.project.forEach(projectID => {
-                        const actualProject = this.projects.find(project => project.id === projectID);
-                        if(!actualProject.company.includes(item.id)){
-                            actualProject.company.push(item.id);
-                            this.update(actualProject);
-                        }
-                    });
-                }
-            } else if(tasknak különleges property) {
-                let projectToBeModified = this.projects
-                    .filter(x => x.task.includes(item.id))
-                    .filter(project => !item.project.includes(project.id));
-                    projectToBeModified.forEach(project => {
-                    project.task.splice(project.task.indexOf(item.id), 1);
-                });
-                if(item.project.length > 0){
-                    item.project.forEach(projectID => {
-                        const actualProject = this.projects.find(project => project.id === projectID);
-                        if(!actualProject.task.includes(item.id)){
-                            actualProject.task.push(item.id);
-                            this.update(actualProject);
-                        }
-                    })
-                }
             }
         } else {
             while(this.isLoading === true){
                 continue;
             }
-            this.modifyItems(item);
-        } */
+            this.modifyItems(contact);
+        }
     }
 
     deleteItems(item: Company | Contact | Task): void{
-        /* if(this.projects){
+        if(this.projects){
             if(item.hasOwnProperty('taxnumber')){
-                this.projects.filter(projects => projects.company.includes(item.id))
+                this.projects.filter(projects => projects.company.find(company => company.id === item.id))
                 .forEach(project => {
-                    project.company.splice(project.company.indexOf(item.id), 1);
-                    this.update(project);
+                    project.company.splice(project.company.indexOf(item as Company), 1);
                 });
             } else if(item.hasOwnProperty('full_name')) {
-                this.projects.filter(projects => projects.accountable.includes(item.id))
+                this.projects.filter(projects => projects.contact.find(contact => contact.id === item.id))
                 .forEach(project => {
-                    project.accountable.splice(project.accountable.indexOf(item.id), 1);
-                    this.update(project);
-                });
-                this.projects.filter(projects => projects.observer.includes(item.id))
-                .forEach(project => {
-                    project.observer.splice(project.observer.indexOf(item.id), 1);
-                    this.update(project);
-                });
-                this.projects.filter(projects => projects.owner.includes(item.id))
-                .forEach(project => {
-                    project.owner.splice(project.owner.indexOf(item.id), 1);
-                    this.update(project);
-                });
-                this.projects.filter(projects => projects.participant.includes(item.id))
-                .forEach(project => {
-                    project.participant.splice(project.participant.indexOf(item.id), 1);
-                    this.update(project);
-                });
-            } else if(tasknak különleges property) {
-                this.projects.filter(projects => projects.task.includes(item.id))
-                .forEach(project => {
-                    project.task.splice(project.task.indexOf(item.id), 1);
-                    this.update(project);
+                    project.contact.splice(project.contact.indexOf(item as Contact), 1);
                 });
             }
         } else {
@@ -200,7 +188,7 @@ export class ProjectService extends BaseService{
                 continue;
             }
             this.deleteItems(item);
-        } */
+        }
     }
     
     //Hibakezelő

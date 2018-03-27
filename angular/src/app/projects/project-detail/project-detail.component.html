@@ -94,14 +94,10 @@
 			</button>
 			<mat-menu #menu="matMenu">
 				<button mat-menu-item>
-					<mat-icon class="fa fa-file"></mat-icon>
-					<span>Új feladat</span>
+					<mat-icon class="fa fa-check"></mat-icon>
+					<span>Kész</span>
 				</button>
-				<button mat-menu-item (click)="createNewCompany()">
-					<mat-icon class="fa fa-industry"></mat-icon>
-					<span>Új cég</span>
-				</button>
-				<button mat-menu-item [matMenuTriggerFor]="contact">
+				<button mat-menu-item (click)="createNewContact()">
 					<mat-icon class="fa fa-user-plus"></mat-icon>
 					<span>Új felhasználó</span>
 				</button>
@@ -114,22 +110,4 @@
 					<span>Törlés</span>
 				</button>
 			</mat-menu>
-			<mat-menu #contact="matMenu">
-			<button mat-menu-item (click)="createNewContact(0)">
-				<mat-icon class="fa fa-user-plus"></mat-icon>
-				<span>Felelős</span>
-			</button>
-			<button mat-menu-item (click)="createNewContact(1)">
-				<mat-icon class="fa fa-user-plus"></mat-icon>
-				<span>Tulajdonos</span>
-			</button>
-			<button mat-menu-item (click)="createNewContact(2)">
-				<mat-icon class="fa fa-user-plus"></mat-icon>
-				<span>Megfigyelő</span>
-			</button>
-			<button mat-menu-item (click)="createNewContact(3)">
-				<mat-icon class="fa fa-user-plus"></mat-icon>
-				<span>Résztvevő</span>
-			</button>
-		</mat-menu>
 	</section>
