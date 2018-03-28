@@ -1,4 +1,3 @@
-import { TaskService } from './../../tasks/task.service';
 import { ProjectService } from './../../projects/project.service';
 import { ContactService } from './../../contacts/contact.service';
 import { CompanyService } from './../company.service';
@@ -23,8 +22,7 @@ export class CompanyDetailComponent extends BaseDetailComponent implements OnIni
     protected companyService: CompanyService,
     private changeDetector: ChangeDetectorRef,
     protected contactService: ContactService,
-    protected projectService: ProjectService,
-    private taskService: TaskService
+    protected projectService: ProjectService
   ) {
     super(route, router, dialog);
   }

@@ -1,6 +1,3 @@
-import { TaskService } from './../../tasks/task.service';
-import { CompanyService } from './../../companies/company.service';
-import { ProjectService } from './../../projects/project.service';
 import { Contact } from './../contact';
 import { Subscription } from 'rxjs/Subscription';
 import { MatDialog } from '@angular/material';

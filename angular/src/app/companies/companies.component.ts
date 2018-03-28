@@ -1,5 +1,4 @@
 import { CompanyApiService } from './company.api.service';
-import { TaskService } from './../tasks/task.service';
 import { ProjectService } from './../projects/project.service';
 import { ContactService } from './../contacts/contact.service';
 import { MatDialog } from '@angular/material';
@@ -22,7 +21,6 @@ export class CompaniesComponent extends BaseComponent implements OnInit{
     constructor(
         private contactService: ContactService,
         private projectService: ProjectService,
-        private taskService: TaskService,
         protected companyService: CompanyService,
         private router: Router,
         protected dialog: MatDialog,

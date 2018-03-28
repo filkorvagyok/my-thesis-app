@@ -1,6 +1,5 @@
 import { Subscription } from 'rxjs/Subscription';
 import { NgForm } from '@angular/forms';
-import { TaskService } from './../tasks/task.service';
 import { ContactService } from './../contacts/contact.service';
 import { CompanyService } from './../companies/company.service';
 import { MatDialog } from '@angular/material';
@@ -24,7 +23,6 @@ export class ProjectsComponent extends BaseComponent implements OnInit {
   constructor(
     private companyService: CompanyService,
     private contactService: ContactService,
-    private taskService: TaskService,
     protected projectService: ProjectService,
     private router: Router,
     protected dialog: MatDialog

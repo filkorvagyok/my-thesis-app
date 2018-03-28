@@ -45,7 +45,6 @@ export class ProjectApiService{
         project.id = res['id'];
         project.name = res['name'];
         project.description = res['description'];
-        project.file = res['file'];
         project.deadline = res['deadline'];
         project.status = res['status'];
         project.priority = res['priority'];
@@ -83,7 +82,6 @@ export class ProjectApiService{
         const body = JSON.stringify({
             name: project.name,
             description: project.description,
-            file: project.file,
             deadline: project.deadline,
             status_id: project.status.id,
             priority_id: project.priority.id,

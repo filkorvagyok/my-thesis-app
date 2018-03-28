@@ -22,7 +22,6 @@ export class Project{
 	name: string;
 	description: string;
 	company: Company[];
-	file: string;
 	contact: Contact[];
 	deadline: Date;
 	status: Status;

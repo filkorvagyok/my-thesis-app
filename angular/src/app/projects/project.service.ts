@@ -1,4 +1,3 @@
-import { Task } from './../tasks/task';
 import { Contact } from './../contacts/contact';
 import { Company } from './../companies/company';
 import { Subject } from 'rxjs/Subject';
@@ -110,7 +109,7 @@ export class ProjectService extends BaseService{
         );
     }
 
-    getCertainItems(item: Company | Contact | Task): any {
+    getCertainItems(item: Company | Contact): any {
         /* if(this.projects){
             if(item.project.length > 0){
                 if(item.hasOwnProperty('full_name')){
@@ -170,7 +169,7 @@ export class ProjectService extends BaseService{
         }
     }
 
-    deleteItems(item: Company | Contact | Task): void{
+    deleteItems(item: Company | Contact): void{
         if(this.projects){
             if(item.hasOwnProperty('taxnumber')){
                 this.projects.filter(projects => projects.company.find(company => company.id === item.id))

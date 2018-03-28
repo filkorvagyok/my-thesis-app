@@ -1,6 +1,3 @@
-import { TaskService } from './../../tasks/task.service';
-import { ProjectService } from './../../projects/project.service';
-import { ContactService } from './../../contacts/contact.service';
 import { CompanyService } from './../company.service';
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';

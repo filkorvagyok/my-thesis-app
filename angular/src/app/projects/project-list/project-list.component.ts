@@ -1,6 +1,3 @@
-import { TaskService } from './../../tasks/task.service';
-import { ContactService } from './../../contacts/contact.service';
-import { CompanyService } from './../../companies/company.service';
 import { Project } from './../project';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';

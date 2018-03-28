@@ -3,14 +3,13 @@ import { of } from 'rxjs/observable/of';
 import { Company } from './../companies/company';
 import { Contact } from './../contacts/contact';
 import { Project } from './../projects/project';
-import { Task } from './../tasks/task';
 
 export abstract class BaseService{
     constructor(){}
 
     abstract getStartingdatas (): void;
-    abstract getItems (): Company[] | Contact[] | Project[] | Task[];
-    abstract getItem (item: any | number): Company | Contact | Project | Task;
+    abstract getItems (): Company[] | Contact[] | Project[];
+    abstract getItem (item: any | number): Company | Contact | Project;
     abstract delete (item: any | number): void;
     abstract add(item: any): void;
     abstract update (item: any): void;

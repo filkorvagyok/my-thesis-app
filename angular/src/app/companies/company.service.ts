@@ -1,5 +1,4 @@
 import { CompanyApiService } from './company.api.service';
-import { Task } from '../tasks/task';
 import { Project } from '../projects/project';
 import { Contact } from '../contacts/contact';
 import { Injectable } from '@angular/core';
@@ -122,7 +121,7 @@ export class CompanyService extends BaseService{
         );
     }
 
-    getCertainItems(item: Contact | Project | Task): any{
+    getCertainItems(item: Contact | Project): any{
         /* if(this.companies){
             let companies: Company[] = [];
             if(item.company.length > 0){

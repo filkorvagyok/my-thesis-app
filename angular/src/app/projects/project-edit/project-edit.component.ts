@@ -3,7 +3,7 @@ import { ContactService } from './../../contacts/contact.service';
 import { CompanyService } from './../../companies/company.service';
 import { Project } from './../project';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ProjectService } from './../project.service';
 import { Component, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { BaseEditComponent } from '../../base/base-edit.component';
@@ -49,7 +49,6 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 			'projectCompany': [],
 			'projectStatus': [],
 			'projectPriority': [],
-			'projectStickers': [],
 			'projectCurrency': []
 		});
 	}
@@ -96,15 +95,25 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 
 	setEdit(): void{
     this.project = this.projectService.getItem(+this.route.snapshot.params['id'])
-	this.edit = true;	//Ezen mező alapján tudja a company-edit.component, hogy szerkeszteni kell vagy új céget létrehozni
-  }
+		this.edit = true;	//Ezen mező alapján tudja a company-edit.component, hogy szerkeszteni kell vagy új céget létrehozni
+	}
+	
+	date(){
+		if(this.project){
+			return new FormControl(this.project.deadline);
+		}
+		return new FormControl(new Date());
+	}
+
+	updateDeadline(event){
+		console.log(event);
+	}
 
   compareFn(c1: any, c2: any): boolean {
 	return c1 && c2 ? c1.id === c2.id : c1 === c2;
 }
 
   save(): void{
-		console.log("SAVE");
 		this.projectService.update(this.project);
 		if(this.companyChanged){
 			this.companyService.modifyItems(this.project);

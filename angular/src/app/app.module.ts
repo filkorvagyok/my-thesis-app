@@ -3,7 +3,6 @@ import { MatSidenavModule } from '@angular/material';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import { TasksModule } from './tasks/tasks.module';
 import { ContactsModule } from './contacts/contacts.module';
 import { ProjectsModule } from './projects/projects.module';
 import { CompaniesModule } from './companies/companies.module';
@@ -12,10 +11,12 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api'; */
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { NgModule } from "@angular/core";
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +25,6 @@ import { NgModule } from "@angular/core";
     CompaniesModule,
     ProjectsModule,
     ContactsModule,
-    TasksModule,
     SharedModule,
     CoreModule,
     AuthModule

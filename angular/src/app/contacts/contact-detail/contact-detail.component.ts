@@ -1,4 +1,3 @@
-import { TaskService } from './../../tasks/task.service';
 import { ProjectService } from './../../projects/project.service';
 import { CompanyService } from './../../companies/company.service';
 import { ContactService } from './../contact.service';
@@ -19,7 +18,6 @@ export class ContactDetailComponent extends BaseDetailComponent implements OnIni
   constructor(
     protected companyService: CompanyService,
     protected projectService: ProjectService,
-    private taskService: TaskService,
     protected route: ActivatedRoute,
     protected router: Router,
     protected dialog: MatDialog,

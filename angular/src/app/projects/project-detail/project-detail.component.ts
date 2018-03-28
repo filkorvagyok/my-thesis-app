@@ -1,4 +1,3 @@
-import { TaskService } from './../../tasks/task.service';
 import { ContactService } from './../../contacts/contact.service';
 import { CompanyService } from './../../companies/company.service';
 import { Component, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
@@ -20,7 +19,6 @@ export class ProjectDetailComponent extends BaseDetailComponent implements OnIni
   constructor(
     protected companyService: CompanyService,
     protected contactService: ContactService,
-    protected taskService: TaskService,
     protected route: ActivatedRoute,
     protected router: Router,
     protected dialog: MatDialog,

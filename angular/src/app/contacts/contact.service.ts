@@ -1,4 +1,3 @@
-import { Task } from '../tasks/task';
 import { Project } from '../projects/project';
 import { Company } from '../companies/company';
 import { Subject } from 'rxjs/Subject';
@@ -74,7 +73,7 @@ export class ContactService extends BaseService{
         this.contactApiService.updateContact(contact).subscribe();
     }
 
-    getCertainItems(item: Company | Project | Task, rank?: number): any{
+    getCertainItems(item: Company | Project, rank?: number): any{
         /* if(this.contacts){
             let contacts: Contact[] = [];
             if(item.hasOwnProperty('deadline')){

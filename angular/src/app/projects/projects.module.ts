@@ -1,7 +1,6 @@
 import { ProjectApiService } from './project.api.service';
 import { HungarianDecimalPipe } from './../hungarian-decimal.pipe';
 import { SharedModule } from './../shared/shared.module';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ProjectRoutingModule } from './projects-routing.module';
@@ -11,8 +10,7 @@ import { ProjectDetailComponent } from './project-detail/project-detail.componen
 import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectItemComponent } from './project-list/project-item/project-item.component';
-import { MAT_DATE_LOCALE, MatSelectModule, MatMenuModule,
-  MatButtonModule, MatCheckboxModule, MatInputModule, MatIconModule } from '@angular/material';
+import { MAT_DATE_LOCALE, MatSelectModule, MatMenuModule, MatDatepickerModule, MatNativeDateModule, MatButtonModule, MatCheckboxModule, MatInputModule, MatIconModule } from '@angular/material';
 import { ProjectService } from './project.service';
 import { NgModule } from '@angular/core';
 //import * as $ from 'jquery';
@@ -27,11 +25,11 @@ import { NgModule } from '@angular/core';
     MatCheckboxModule,
     MatButtonModule,
     MatMenuModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatSelectModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    OwlDateTimeModule, 
-    OwlNativeDateTimeModule,
     SharedModule
   ],
   declarations: [
