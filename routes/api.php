@@ -130,3 +130,8 @@ Route::get('/yearlyincomes', [
     'uses' => 'YearlyincomeController@getYearlyincomes',
     'middleware' => 'jwt.auth'
 ]);
+
+Route::post('/logo', [
+    'uses' => 'LogoController@postLogo',
+    'middleware' => 'jwt.auth'
+]);

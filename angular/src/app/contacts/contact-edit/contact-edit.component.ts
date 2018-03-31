@@ -7,6 +7,7 @@ import { BaseEditComponent } from '../../base/base-edit.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+//reguláris kifejezések:
 const TEL_REGEX = /^\s*(?:\+?\d{1,3})?[- (]*\d{3}(?:[- )]*\d{3})?[- ]*\d{4}(?: *[x/#]\d+)?\s*$/;
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -23,18 +24,18 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
 	projectChanged: boolean = false;
 
   constructor(
-		protected companyService: CompanyService,
-		protected projectService: ProjectService,
+		public companyService: CompanyService,
+		public projectService: ProjectService,
 		protected route: ActivatedRoute,
 		protected router: Router,
-		protected contactService: ContactService,
+		public contactService: ContactService,
 		private fb: FormBuilder,
 		private changeDetector: ChangeDetectorRef
   ) {
     super(route, router);
   }
 
-  	ngOnInit() {
+  	ngOnInit(): void{
 		this.companyService.getItems();
 		this.projectService.getItems();
 		this.initform();
@@ -43,22 +44,30 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
 		}
 	}
 
-	ngAfterViewChecked(){
+	ngAfterViewChecked(): void{
+		/*Mivel előbb tölt be a view, mint az adatok ezért szükségvel az alábbi metódusra, hogy ne kapjunk hibaüzenetet.*/
 		if(!this.contact){
 			this.setThis();
 		} else {
-			if(this.route.snapshot.params['num']){
+			/*A router url-ének paraméterei alapján először is megvizsgáljuk a num értékét. Ez alapján, ha 0 az 
+			érték akkor az array-ben cég id-k lesznek találhatóak, így a CompanyService segítségével kinyerjük
+			a megfelelő cégeket és belerakjuk a névjegy company mezőjébe. Ha az érték 1, akkor pedig az
+			array-ben projektek lesznek találhatók, melyek értékeit a ProjectService nyeri ki nekünk és így el
+			tudjuk tárolni a névjegy project mezőjében.*/
+			if(this.route.snapshot.params['num'] && this.route.snapshot.params['array']){
 				if(this.contact.company.length === 0 && this.companyService.getItems()){
 					switch (Number(this.route.snapshot.params['num'])) {
 						case 0:
 							this.route.snapshot.params['array'].split(",").forEach((x: number) =>{
 								const company = this.companyService.getItem(+x);
-								this.contact.company.push(company)});
+								this.contact.company.push(company);
+							});
 							break;
 						case 1:
 							this.route.snapshot.params['array'].split(",").forEach((x: number) =>{
 								const project = this.projectService.getItem(+x);
-								this.contact.project.push(project)});
+								this.contact.project.push(project)
+							});
 							break;
 						default:
 							break;
@@ -67,10 +76,10 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
 			}
 		}
 		this.changeDetector.detectChanges();
-  }
+	}
 
-  //Form validitás beállítása
 	initform(): void{
+		/*Létrehozzunk egy formgroupot, amiben az input mezők és a rájuk vonatkozó jogosultsági szabályok találhatók.*/
 		this.contactForm = this.fb.group({
 			'contactCompany': [],
 			'contactProject': [],
@@ -84,38 +93,29 @@ export class ContactEditComponent extends BaseEditComponent implements OnInit, A
 		});
 	}
 
-  setThis(): void{
-    if(this.route.snapshot.routeConfig.path == "new")
-		{
-			//Ha az url "people/new"-val egyenlő, akkor teljesül
+	setThis(): void{
+		if(this.route.snapshot.routeConfig.path == "new"){
+			//Ha az url "new"-val egyenlő, akkor teljesül
 			this.setNew();
-		}
-		else
-		{
+		} else {
+			//Itt az url minden esetben "edit/:id" lesz és :id helyén, pedig a névjegy id-je.
 			this.setEdit();
 		}
-  }
+	}
 
-  /*Létrehozunk egy üres contact példányt és alaphelyzetbe állítjuk, ha van tömb az url-ben, akkor
-	megnézzük a num értékét is és ha egyenlő 0-val, akkor a tömbben lévő id-kat belerakjuk a company mezőbe,
-	ha pedig 1-el egyelnő, akkor pedig a project mezőbe rakjuk az értékeket.*/
 	setNew(): void{
 		this.contact = new Contact;
 	}
 
-	//Az url-ben kapott id alapján lekéri a webapiból a megfelelő névjegy adatokat.
 	setEdit(): void{
 		this.contact = Object.assign({}, this.contactService.getItem(+this.route.snapshot.params['id']));
-		this.edit = true;
-  }
+		this.edit = true; //Ezen mező alapján tudja a company-edit.component, hogy szerkeszteni kell vagy új céget létrehozni
+	}
 
-  compareFn(c1: any, c2: any): boolean {
-	return c1 && c2 ? c1.id === c2.id : c1 === c2;
-}
-
-asd(event){
-	console.log(event)
-}
+	//Megvizsgál két objektet, hogy azonosak-e.
+	compareFn(c1: any, c2: any): boolean {
+		return c1 && c2 ? c1.id === c2.id : c1 === c2;
+	}
 
 	add(contact: Contact): void{
 		this.contactService.add(contact)
@@ -126,10 +126,10 @@ asd(event){
 			this.projectService.modifyItems(contact);
 		}
 		this.navigateBack();
-  }
+	}
 
-  save(): void {
-    this.contactService.update(this.contact);
+	save(): void {
+		this.contactService.update(this.contact);
 		if(this.companyChanged){
 			this.companyService.modifyItems(this.contact);
 		}
@@ -139,21 +139,10 @@ asd(event){
 		this.navigateBack();
 	}
 
-	/*Ha a contact company mezőjében letároltunk 1 vagy több cég id-ját,
-	akkor ez a metódus a sharedAddDataHandler segítségével rögzíti a megfelelő
-	cég contact mezőjében ennek a névjegynek az id-ját. Hasonlóan működik, ha
-	a contact project mezőjében lárolunk legalább 1 projekt id-t, csak ott a projekt
-	megfelő mezőjébe szúrjuk be a contact id-ját.*/
-
 	//Submit lenyomásakor hívódik meg
 	onSubmit(contact: Contact){
 		if(this.contactForm.valid)  //Ha a validitás megfelelő
 			this.edit? this.save() : this.add(contact);  //Ha az edit true, akkor a save hívódik meg, különben az add
-		else
-		{
-			$(document.getElementById('maindiv')).animate({ scrollTop: 0 }, 1000); //Felgörger az oldal tetejére
-			this.validateAllFormFields(this.contactForm);
-		}
 	}
 
 }

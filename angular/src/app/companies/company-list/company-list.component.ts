@@ -1,10 +1,5 @@
 import { CompanyService } from './../company.service';
-import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { Company } from '../company';
-import { MatDialog } from '@angular/material';
-import { Subscription } from 'rxjs/Subscription';
-import { BaseListComponent } from '../../base/base-list.component';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
 	selector: 'app-company-list',
@@ -15,7 +10,7 @@ import { BaseListComponent } from '../../base/base-list.component';
 export class CompanyListComponent implements OnInit{
 
 	constructor(
-		protected companyService: CompanyService
+		public companyService: CompanyService
 	){
   }
 

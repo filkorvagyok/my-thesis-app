@@ -6,6 +6,7 @@ use App\Addresstype;
 use App\Address;
 use Illuminate\Http\Request;
 
+
 class CompanyController extends Controller{
 
     //ENG: If the api takes a company post request, then this function will start. This method set up a new Company with Addresstype and Address from the datas you get from request and connect with projects and contacts.

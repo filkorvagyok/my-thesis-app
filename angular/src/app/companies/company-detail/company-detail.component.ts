@@ -19,7 +19,7 @@ export class CompanyDetailComponent extends BaseDetailComponent implements OnIni
     protected route: ActivatedRoute,
     protected router: Router,
     protected dialog: MatDialog,
-    protected companyService: CompanyService,
+    public companyService: CompanyService,
     private changeDetector: ChangeDetectorRef,
     protected contactService: ContactService,
     protected projectService: ProjectService
@@ -44,9 +44,8 @@ export class CompanyDetailComponent extends BaseDetailComponent implements OnIni
     this.router.navigate(['/company/edit', this.company.id]);
   }
 
-  /*Ha van(nak) hozzátartozó projekt(ek) vagy névjegy(ek), akkor először
-  onnan kitöröljük a céget a SharedDeleteDataHandler segítségével, majd
-  a companiesApiService.delete metódusát hajtjuk végre*/
+  /*Ha van(nak) hozzátartozó projekt(ek) vagy névjegy(ek), akkor a saját service-ük segítségével kitöröljük a 
+  céget a megjelenítéshez tárolt több-ből. Ezután ténylegesen elvégezzük a törlést.*/
   delete(company: Company): void {
       if(company.contact.length > 0)
         this.contactService.deleteItems(company);

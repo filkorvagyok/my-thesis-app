@@ -17,3 +17,5 @@
 
 Route::get('/','AngularController@serve');
 Route::get('/{fileName}','AngularController@serveFile');
+Route::get('/{fileName}/{all}','AngularController@serveFile');
+Route::get('/{fileName}/{all}/{id}','AngularController@serveFile');

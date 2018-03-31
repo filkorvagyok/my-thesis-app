@@ -12,7 +12,7 @@ import { BaseItemComponent } from '../../../base/base-item.component';
 export class ProjectItemComponent extends BaseItemComponent implements OnInit {
   @Input() project: Project;
 
-  constructor(protected projectService: ProjectService,
+  constructor(public projectService: ProjectService,
     private router: Router) {
       super(projectService);
     }
@@ -34,7 +34,10 @@ export class ProjectItemComponent extends BaseItemComponent implements OnInit {
 		return Math.round((project.deadline.getTime() - newDate.getTime())/86400000);
   }
 
-  protected showChbox(): void{
+  /*Azon felül, hogy mint a base-item koponensben elküldjük a servicenek a kijelölt elemek id-jai, azt is 
+  elküldjük a haveDone subject-nek, hogy van-e a kijelölt elemek között olyan, amelynek státusza 'Kész', mivel 
+  ekkor ezekre a projektekre már nem hajthatjuk végre a kész metódust.*/
+  public showChbox(): void{
     this.projectService.haveDone.next(false);
     const checkedProjects: number [] = $('input[type=checkbox]:checked').map(function(_, el) {
 			return $(el).val();
@@ -59,18 +62,5 @@ export class ProjectItemComponent extends BaseItemComponent implements OnInit {
   {
     this.projectService.update(project);
   }
-
-  //Dátumválasztó beállítása
-  datepickerOpts = {
-    autoclose: true,
-    todayBtn: 'linked',
-    todayHighlight: true,
-    assumeNearbyYear: true,
-    format: 'yyyy. MM d.',
-    showMeridian : false,
-    maxHours: 24,
-    language: 'hu'
-}
-
 
 }

@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card my-5">
-          <div class="card-header bg-teal-darken-1 text-white">
+          <div class="card-header bg-teal-darken-4 text-white">
             <h3 class="card-header-h3" *ngIf="!edit; else editblock">Új Névjegy</h3>
             <ng-template #editblock>
               <h3 class="card-header-h3" *ngIf="!contactService.isLoading && contact && !companyService.isLoading && !projectService.isLoading; else noheader">{{contact.full_name}} Szerkesztése</h3>
@@ -45,7 +45,7 @@
                     <input matInput type="text" [(ngModel)]="contact.nickname" formControlName="contactNickname" placeholder="Bencenév">
                   </mat-form-field>
                   <mat-form-field>
-                    <input matInput type="tel" [(ngModel)]="contact.phone" formControlName="contactPhone" placeholder="Telefon" required>
+                    <input matInput type="tel" [(ngModel)]="contact.phone" formControlName="contactPhone" placeholder="Telefonszám (minta: +36201234567 vagy 06201234567)" required>
                   </mat-form-field>
                   <mat-error *ngIf="!contactForm.controls['contactPhone'].valid && contactForm.controls['contactPhone'].touched">
                     Nem megfelelő telefonszám!

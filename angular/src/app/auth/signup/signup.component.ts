@@ -22,6 +22,8 @@ export class SignupComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ){
+		/*Létrehozzunk egy formgroupot, amiben az input mezők és a rájuk vonatkozó jogosultsági szabályok 
+		találhatók.*/
 			this.registerForm = fb.group({
 				'registerName': [null, Validators.required],
 				'registerEmail': [null, Validators.compose([Validators.required,
@@ -37,7 +39,8 @@ export class SignupComponent implements OnInit {
   ngOnInit() {
   }
 
-	checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
+	//Ezzel a függvénnyel vizsgáljuk, hogy a két megadott jelszó megyegyezik-e
+	checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string){
 		return (group: FormGroup) => {
 			let passwordInput = group.controls[passwordKey],
 			passwordConfirmationInput = group.controls[passwordConfirmationKey];
@@ -50,6 +53,8 @@ export class SignupComponent implements OnInit {
 		}
 	}
 
+	/*Az authservice signup függvényének átadjuk az inputmezők adatait majd, sikeres regisztráció esetén be is
+	 jelentkezünk az authservice singin függvényével.*/
 	onSignup(): void{
     this.authService.signup(this.registerForm.controls['registerName'].value,
       this.registerForm.controls['registerEmail'].value,

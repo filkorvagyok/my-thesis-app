@@ -1,10 +1,5 @@
-import { Contact } from './../contact';
-import { Subscription } from 'rxjs/Subscription';
-import { MatDialog } from '@angular/material';
-import { Router } from '@angular/router';
 import { ContactService } from './../contact.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BaseListComponent } from '../../base/base-list.component';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-contact-list',
@@ -14,7 +9,7 @@ import { BaseListComponent } from '../../base/base-list.component';
 export class ContactListComponent implements OnInit {
 
   constructor(
-    protected contactService: ContactService,
+    public contactService: ContactService,
   ) {}
 
   ngOnInit() {}

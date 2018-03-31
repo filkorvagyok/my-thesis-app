@@ -13,12 +13,12 @@ import { ProjectApiService } from './project.api.service';
 
 @Injectable()
 export class ProjectService extends BaseService{
-    private projects: Project[];
+    private projects: Project[]; //Lokálisan is letároljuk az adatbázisból kinyert adatokat a gyorsabb működés miatt.
     private statuses: Status[];
     private priorities: Priority[];
     private currencies: Currency[];
-    isLoading = true;
-    isLoadingForEdit = true;
+    isLoading = true; //Az api-val kapcsolatos függvények lefutása ideéig true értéket tárol, majd ha végzett a függvény lefutott false-ra változik. Erre azért van szükség, mert addig a felhasználónak töltést jeleníthetünk meg.
+    isLoadingForEdit = true; //Ugyan az vonatkozik rá, mint az isLoading-ra, csak ez az edit komponensben lesz hasznunkra.
     checkedArray = new Subject<number[]>();
     haveDone = new Subject<boolean>();
 
@@ -34,13 +34,12 @@ export class ProjectService extends BaseService{
         );
     }
 
-    getStartingdatas(): void{
-    }
-
 	getItems(): Project[] {
 		return this.projects;
     }
 
+    /*Kinyerjük a lokálisan tárolt több-ből a nekünk szükséges projektet, vagy ha a tömb még nem állna 
+    rendelkezésre, akkor az api segítségével szerezzük meg az szükséges adatokat. */
     getItem(project: Project | number): Project{
         const id = typeof project === 'number' ? project : project.id;
         if(this.projects)
@@ -90,6 +89,8 @@ export class ProjectService extends BaseService{
         this.projectApiService.updateProject(project).subscribe();
     }
 
+    /*Edit komponens esetén szükségünk van az összes prioritásra, státuszra, pnznemre, ezért ezeket beszerezzük 
+    az api segítségével és ezt a metódust hívjuk meg szerkesztéskor és új projekt felvitelekor. */
     getEditItems() {
         this.projectApiService.getStatuses().subscribe(
             (statuses: Status[]) => {
@@ -109,42 +110,14 @@ export class ProjectService extends BaseService{
         );
     }
 
-    getCertainItems(item: Company | Contact): any {
-        /* if(this.projects){
-            if(item.project.length > 0){
-                if(item.hasOwnProperty('full_name')){
-                    let projectsObject: ProjectForContact[] = [];
-                    item.project.forEach(projectID => {
-                        let ranks: string[] = [];
-                        const actualProject: Project = this.projects.find(project => project.id === projectID);
-                        if(actualProject.owner.includes(item.id))
-                            ranks.push("tulajdonos");
-                        if(actualProject.observer.includes(item.id))
-                            ranks.push("megfigyelő");
-                        if(actualProject.accountable.includes(item.id))
-                            ranks.push("felelős");
-                        if(actualProject.participant.includes(item.id))
-                            ranks.push("részvevő");
-                        projectsObject.push({project: actualProject, ranks: ranks});
-                        ranks = [];
-                    });
-                    return projectsObject;
-                } else {
-                    let projects: Project[] = [];
-                    item.project.forEach(projectID => {
-                        projects.push(this.projects.find(project => project.id === projectID));
-                    });
-                    return projects;
-                }
-            }
-        } else {
-            while(this.isLoading === true){
-                continue;
-            }
-            this.getCertainItems(item);
-        } */
-    }
-
+    /* Hogy a felhasználói élmény a lehető legmegfelelőbb legyen, és ha egy névjegy módosítása esetén más 
+    projekteket rendelnénk az adott névjegyhez ne kelljen újra betölteni az alkalmazást, hogy a már módosított 
+    projektet kapjuk meg ezért van szükség erre a metódusra. Ez a metódos először is megvizsgálja, hogy a 
+    projektek között van e olyan, melyben a paraméterben kapott névjegy adatai szerepelnek, viszont annak a 
+    projekt listájában nincs benne ez a projekt, ekkor az adott projektből kitörli a feleslegesen tárolt 
+    névjegyet. Ezután megvizsgálja hogy a kapott névjegy tartalmaz-e projektet az adatai között és ha igen, 
+    akkor a projekt névjegy mezőjébe is letároljuk a névjegyet, de csak abban az esetben, ha még eddig nem volt 
+    tárolva. */
     modifyItems(contact: Contact): void{
         if(this.projects){
             let projectToBeModified = this.projects
@@ -169,6 +142,11 @@ export class ProjectService extends BaseService{
         }
     }
 
+    /* Hasonlóan a modifyItems metódushoz, ez is a megfelelő felhasználói élmény biztosítása miatt készült el.
+    Ez a metódus, akkor hajtódik végre ha a paraméterben kapott céget/névjegyet törölni szeretnénk, de nem 
+    szeretnénk hogy a projektek között továbbra is megtaálható legyen a cég/névjegy. Ekkor ahelyett, hogy
+    újra betöltenénk a friss adatokat az adatbázisból, annyit teszünk hogy a projektek közül kikeressük azokat,
+    melyekben le van tárolva a paraméterben kapott érték és egyszerűen kitöröljük ezt az értéket belőlük. */
     deleteItems(item: Company | Contact): void{
         if(this.projects){
             if(item.hasOwnProperty('taxnumber')){
@@ -189,18 +167,4 @@ export class ProjectService extends BaseService{
             this.deleteItems(item);
         }
     }
-    
-    //Hibakezelő
-	handleError<T> (operation = 'operation', result?: T) {
-		return (error: any): Observable<T> => {
-			// TODO: send the error to remote logging infrastructure
-			console.error(error); // log to console instead
-
-			// TODO: better job of transforming error for user consumption
-			(`${operation} failed: ${error.message}`);
-
-			// Let the app keep running by returning an empty result.
-			return of(result as T);
-		};
-	}
 }

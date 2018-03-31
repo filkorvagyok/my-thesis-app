@@ -12,8 +12,10 @@ export class ProjectApiService{
         private http: HttpClient
     ){}
 
+    /*A bejelentkezés után eltárolt token segítségével lekérjük a projektek adatait az adatbázisból és 
+    formázzuk a nekünk megfelelő alakra.*/
     getProjects(): Observable<Project[]>{
-        const token = this.authService.getToken();
+        const token = this.authService.getToken(); //A bejelentkezéskor eltárolt token
         return this.http.get('http://homestead.test/api/projects?token=' + token)
         .map(
             (res: Response) => {
@@ -29,6 +31,8 @@ export class ProjectApiService{
         );
     }
 
+    /*Ugyan az a folyamat hajtódik végre, mint getProjects esetén, de itt csak egy projekt adatait kérjük le az 
+    adabázisból és ehhez felhasználjuk a paraméterben kapott id-it is.*/
     getProject(id: number): Observable<Project>{
         const token = this.authService.getToken();
         return this.http.get('http://homestead.test/api/project/' + id + '?token=' + token)
@@ -41,6 +45,7 @@ export class ProjectApiService{
         );
     }
 
+    //Itt formázzuk a projektet a nekünk megfelelő alakra.
     private formatItem(project: Project, res): Project{
         project.id = res['id'];
         project.name = res['name'];
@@ -56,6 +61,7 @@ export class ProjectApiService{
         return project;
     }
 
+    //A paraméterben kapott projektet eltároljuk az adatbázisban.
     addProject(project: Project): Observable<any>{
         const token = this.authService.getToken();
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -63,6 +69,7 @@ export class ProjectApiService{
         return this.http.post('http://homestead.test/api/project?token=' + token, body, {headers: headers});
     }
 
+    //A paraméterben kapott projektet lecseréljük a korábban ezzel az id-val tárolt projekttel.
     updateProject(project: Project): Observable<any>{
         const token = this.authService.getToken();
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -70,6 +77,7 @@ export class ProjectApiService{
         return this.http.put('http://homestead.test/api/project/' + project.id + '?token=' + token, body, {headers: headers});
     }
 
+    //A kapott projektet átalakítjuk az adatvázisnak megfelelő formátumra.
     private projectToDatabase(project: Project): string{
         const company_ids: number[] = [];
         const contact_ids: number[] = [];

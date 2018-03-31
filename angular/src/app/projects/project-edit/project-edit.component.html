@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="card my-5">
-					<div class="card-header bg-teal-darken-1 text-white">
+					<div class="card-header bg-teal-darken-4 text-white">
 						<h3 class="card-header-h3" *ngIf="!edit; else editblock">Új Projekt</h3>
 						<ng-template #editblock>
 							<h3 class="card-header-h3" *ngIf="!projectService.isLoading && project && !projectService.isLoadingForEdit && !companyService.isLoading; else noheader">{{project.name}} Szerkesztése</h3>

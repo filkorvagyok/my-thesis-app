@@ -13,7 +13,7 @@ export class ContactItemComponent extends BaseItemComponent implements OnInit {
   @Input() contact: Contact;
 
   constructor(
-    protected contactService: ContactService,
+    public contactService: ContactService,
     private router: Router
   ) {
     super(contactService);

@@ -12,7 +12,7 @@ import { ContactApiService } from './contact.api.service';
 @Injectable()
 export class ContactService extends BaseService{
     private contacts: Contact[];
-    isLoading: boolean = true;
+    isLoading: boolean = true; //Az api-val kapcsolatos függvények lefutása ideéig true értéket tárol, majd ha végzett a függvény lefutott false-ra változik. Erre azért van szükség, mert addig a felhasználónak töltést jeleníthetünk meg.
     checkedArray = new Subject<number[]>();
 
     constructor(
@@ -27,12 +27,12 @@ export class ContactService extends BaseService{
         );
     }
 
-    getStartingdatas(){}
-
     getItems(): Contact[] {
 		return this.contacts;
     }
 
+    /*Kinyerjük a lokálisan tárolt több-ből a nekünk szükséges névjegyet, vagy ha a tömbb még nem állna 
+    rendelkezésre, akkor az api segítségével szerezzük meg az szükséges adatokat. */
     getItem(contact: Contact | number): Contact{
         const id = typeof contact === 'number' ? contact : contact.id;
         if(this.contacts){
@@ -73,70 +73,11 @@ export class ContactService extends BaseService{
         this.contactApiService.updateContact(contact).subscribe();
     }
 
-    getCertainItems(item: Company | Project, rank?: number): any{
-        /* if(this.contacts){
-            let contacts: Contact[] = [];
-            if(item.hasOwnProperty('deadline')){
-                item = (item as Project);
-                switch (rank){
-                    case 0:{
-                        if(item.accountable.length > 0){
-                            item.accountable.forEach(contactID => {
-                                contacts.push(this.contacts.find(contact => contact.id === contactID));
-                            });
-                        }
-                        return contacts;
-                    }
-                    case 1:{
-                        if(item.observer.length > 0){
-                            item.observer.forEach(contactID => {
-                                contacts.push(this.contacts.find(contact => contact.id === contactID));
-                            });
-                        }
-                        return contacts;
-                    }
-                    case 2:{
-                        if(item.owner.length > 0){
-                            item.owner.forEach(contactID => {
-                                contacts.push(this.contacts.find(contact => contact.id === contactID));
-                            });
-                        }
-                        return contacts;
-                    }
-                    case 3:{
-                        if(item.participant.length > 0){
-                            item.participant.forEach(contactID => {
-                                contacts.push(this.contacts.find(contact => contact.id === contactID));
-                            });
-                        }
-                        return contacts;
-                    }
-                    default:
-                        return contacts;
-                }
-
-            }
-            else if(!(item instanceof Project) && item.contact.length > 0){
-                item.contact.forEach(contactID => {
-                    contacts.push(this.contacts.find(contact => contact.id === contactID));
-                });
-            }
-            return contacts;
-        } else {
-            while(this.isLoading === true){
-                continue;
-            }
-            if(rank)
-                this.getCertainItems(item, rank);
-            else
-                this.getCertainItems(item);
-        } */
-    }
-
-    modifyItems(item: Company | Project): void{
-        
-    }
-
+    /* Ez a metódus a megfelelő felhasználói élmény biztosítása miatt készült el. Akkor hajtódik végre ha a 
+    paraméterben kapott céget/projektet törölni szeretnénk, de nem szeretnénk hogy a névjegyek között továbbra 
+    is megtaálható legyen a cég/projekt. Ekkor ahelyett, hogy újra betöltenénk a friss adatokat az adatbázisból 
+    annyit teszünk hogy a névjegyek közül kikeressük azokat, melyekben le van tárolva a paraméterben kapott 
+    érték és egyszerűen kitöröljük ezt az értéket belőlük. */
     deleteItems(item: Company | Project): void{
         if(this.contacts){
             if(item.hasOwnProperty('taxnumber')){
@@ -157,19 +98,4 @@ export class ContactService extends BaseService{
             this.deleteItems(item);
         }
     }
-    
-    //Hibakezelő
-	handleError<T> (operation = 'operation', result?: T) {
-		return (error: any): Observable<T> => {
-
-			// TODO: send the error to remote logging infrastructure
-			console.error(error); // log to console instead
-
-			// TODO: better job of transforming error for user consumption
-			(`${operation} failed: ${error.message}`);
-
-			// Let the app keep running by returning an empty result.
-			return of(result as T);
-		};
-	}
 }

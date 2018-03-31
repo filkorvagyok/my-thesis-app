@@ -18,7 +18,6 @@ class CreateProjectTable extends Migration
             $table->timestamps();
             $table->string('name')->unique();
             $table->text('description')->nullable();
-            $table->string('file')->nullable();
             $table->date('deadline')->nullable();
             $table->integer('status_id')->unsigned()->nullable();
             $table->foreign('status_id')->references('id')->on('statuses');

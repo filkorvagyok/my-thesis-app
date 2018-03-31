@@ -10,7 +10,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
     isAuthenticated: boolean = false;
     @Output() clickEvent = new EventEmitter();
 
-    constructor(protected authService: AuthService){}
+    constructor(public authService: AuthService){}
 
     ngOnInit(){
       this.isAuthenticated = this.authService.isAuthenticated();

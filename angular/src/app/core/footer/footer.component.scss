@@ -1,6 +1,11 @@
 @import "../../../default-styles.scss";
 @import "../../../variables.scss";
 
+footer{
+    position: relative;
+    width: 100%;
+}
+
 .bg-teal-darken-5{
     background-color: #002F27;
 }

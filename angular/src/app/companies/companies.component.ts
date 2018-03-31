@@ -8,8 +8,6 @@ import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { Company, Industry, EmployeesNumber, YearlyIncome, Address, Country } from './company';
 import { NgForm } from '@angular/forms';
-import { Project } from '../projects/project';
-import { Contact } from '../contacts/contact';
 
 @Component({
     selector: 'app-companies',
@@ -21,12 +19,14 @@ export class CompaniesComponent extends BaseComponent implements OnInit{
     constructor(
         private contactService: ContactService,
         private projectService: ProjectService,
-        protected companyService: CompanyService,
+        public companyService: CompanyService,
         private router: Router,
         protected dialog: MatDialog,
         private companyApiService: CompanyApiService
     ){
         super(dialog);
+        /*A CompanyService-ben található checkedArray Subject-re feliratkozva kinyertük az adatait, ez alapján 
+        tudjuk mely cégek vannak kijelölve.*/
         this.subscription = this.companyService.checkedArray.subscribe(
 			(array: number[]) => this.checkedArray = array
         );
@@ -35,8 +35,8 @@ export class CompaniesComponent extends BaseComponent implements OnInit{
     ngOnInit(){
     }
 
-    /*Tölés esetén a céggel összekapcsolt projekt(ek) és névjegy(ek) közül is ki kell törölnünk az adott céget,
-	tehát ezzel kezdünk és csak ezután hívjuk meg a companiesApiService delete metódusát*/
+    /*Ha van(nak) hozzátartozó projekt(ek) vagy névjegy(ek), akkor a saját service-ük segítségével kitöröljük a 
+    céget a megjelenítéshez tárolt tömb-ből. Ezután ténylegesen elvégezzük a törlést.*/
 	delete(company: Company | number): void {
         const actualCompany = typeof company === 'number' ? this.companyService.getItem(company) : company;
 		if(actualCompany.contact.length > 0)

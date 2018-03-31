@@ -13,8 +13,10 @@ export class CompanyApiService{
         private http: HttpClient
     ){}
 
+    /*A bejelentkezés után eltárolt token segítségével lekérjük a cégek adatait az adatbázisból és formázzuk a 
+    nekünk megfelelő alakra.*/
     getCompanies(): Observable<Company[]>{
-        const token = this.authService.getToken();
+        const token = this.authService.getToken(); //A bejelentkezéskor eltárolt token
         return this.http.get('http://homestead.test/api/companies?token=' + token)
         .map(
             (res: Response) => {
@@ -30,6 +32,8 @@ export class CompanyApiService{
         );
     }
 
+    /*Ugyan az a folyamat hajtódik végre, mint getCompanies esetén, de itt csak egy cég adatait kérjük le az 
+    adabázisból és ehhez felhasználjuk a paraméterben kapott id-it is.*/
     getCompany(id: number): Observable<Company>{
         const token = this.authService.getToken();
         return this.http.get('http://homestead.test/api/company/' + id + '?token=' + token)
@@ -42,6 +46,7 @@ export class CompanyApiService{
         );
     }
 
+    //Itt formázzuk a céget a nekünk megfelelő alakra.
     private formatItem(company: Company, res): Company{
         company.id = res['id'];
         company.logo = res['logo'];
@@ -90,6 +95,7 @@ export class CompanyApiService{
         return company;
     }
 
+    //A paraméterben kapott céget eltároljuk az adatbázisban.
     addCompany(company: Company): Observable<any>{
         const token = this.authService.getToken();
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -97,6 +103,13 @@ export class CompanyApiService{
         return this.http.post('http://homestead.test/api/company?token=' + token, body, {headers: headers});
     }
 
+    addLogo(logo: FormData): Observable<any>{
+        const token = this.authService.getToken();
+        const headers = new HttpHeaders({'Content-Type': 'application/json'});
+        return this.http.post('http://homestead.test/api/logo?token=' + token, logo, {headers: headers});
+    }
+
+    //A paraméterben kapott céget lecseréljük a korábban ezzel az id-val tárolt céggel.
     updateCompany(company: Company): Observable<any>{
         const token = this.authService.getToken();
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -104,6 +117,7 @@ export class CompanyApiService{
         return this.http.put('http://homestead.test/api/company/' + company.id + '?token=' + token, body, {headers: headers});
     }
 
+    //A kapott céget átalakítjuk az adatvázisnak megfelelő formátumra.
     private companyToDatabase(company: Company): string{
         const project_ids: number[] = [];
         const contact_ids: number[] = [];

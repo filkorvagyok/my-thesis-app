@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="card my-5">
-					<div class="card-header bg-teal-darken-1 text-white">
+					<div class="card-header bg-teal-darken-4 text-white">
 					<h3 class="card-header-h3" *ngIf="!edit; else editblock">Új Cég</h3>
 					<ng-template #editblock>
 					<h3 class="card-header-h3" *ngIf="!companyService.isLoading && company && !companyService.isLoadingForEdit; else noheader">{{company.name}} Szerkesztése</h3>
@@ -19,11 +19,12 @@
 									<mat-form-field>
 										<input matInput type="text" [(ngModel)]="company.name" formControlName="companyName" placeholder="Név*">
 									</mat-form-field>
+									<input type="file" name="logo" (change)="logo = onFileSelected($event)">
 									<mat-error *ngIf="!companyForm.controls['companyName'].valid && companyForm.controls['companyName'].touched">
 										A név mező megadása <strong>kötelező</strong>!
 									</mat-error>
 									<mat-form-field>
-										<input matInput type="tel" [(ngModel)]="company.phone" formControlName="companyPhone" placeholder="Telefonszám">
+										<input matInput type="tel" [(ngModel)]="company.phone" formControlName="companyPhone" placeholder="Telefonszám (minta: +36201234567 vagy 06201234567)">
 									</mat-form-field>
 									<mat-error *ngIf="!companyForm.controls['companyPhone'].valid && companyForm.controls['companyPhone'].touched">
 										Nem megfelelő telefonszám!
@@ -77,7 +78,7 @@
 									</div>
 									<hr>
 									<h4 class="pb-4">Számlázási adatok</h4>
-									<div *ngIf="!billing; else billingBlock">
+									<div *ngIf="!billing">
 										<mat-form-field>
 											<mat-select formControlName="companyBiCountry" placeholder="Ország" [compareWith]="compareFn" [(ngModel)]="company.billing.country">
 												<mat-option *ngFor="let country of companyService.getCountries()" [value]="country">
@@ -98,9 +99,6 @@
 											<input matInput type="text" [(ngModel)]="company.billing.address_line" formControlName="companyBiAddress" placeholder="Cím">
 										</mat-form-field>
 									</div>
-									<ng-template #billingBlock>
-										{{billing_datas(company)}}
-									</ng-template>
 									<mat-form-field>
 										<input matInput [(ngModel)]="company.taxnumber" formControlName="companyTaxnumber" placeholder="Adószám">
 									</mat-form-field>
@@ -108,7 +106,7 @@
 										Nem megfelelő adószám!
 									</mat-error>
 									<hr>
-									<div *ngIf="!mail; else mailBlock">
+									<div *ngIf="!mail">
 										<h4>Levelezési adatok</h4>
 										<mat-form-field>
 											<mat-select formControlName="companyMailCountry" placeholder="Ország" [compareWith]="compareFn" [(ngModel)]="company.mailing.country">
@@ -131,9 +129,6 @@
 										</mat-form-field>
 										<hr>
 									</div>
-									<ng-template #mailBlock>
-										{{mail_datas(company)}}
-									</ng-template>
 									<h4>Statisztikai adatok</h4>
 									<mat-form-field>
 										<mat-select formControlName="companyIndustry" placeholder="Iparág" [compareWith]="compareFn" [(ngModel)]="company.industry">
@@ -150,7 +145,7 @@
 										</mat-select>
 									</mat-form-field>
 									<mat-form-field>
-										<mat-select formControlName="companyYearlyincome" placeholder="Éves bevétel" [compareWith]="compareFn" [(ngModel)]="company.yearlyincome">
+										<mat-select formControlName="companyYearlyincome" placeholder="Éves bevétel (millió forint)" [compareWith]="compareFn" [(ngModel)]="company.yearlyincome">
 											<mat-option *ngFor="let yearlyincome of companyService.getYearlyIncomes()" [value]="yearlyincome">
 												{{yearlyincome.range}}
 											</mat-option>

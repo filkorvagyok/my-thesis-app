@@ -7,27 +7,18 @@ import { Project } from './../projects/project';
 export abstract class BaseService{
     constructor(){}
 
-    abstract getStartingdatas (): void;
     abstract getItems (): Company[] | Contact[] | Project[];
     abstract getItem (item: any | number): Company | Contact | Project;
     abstract delete (item: any | number): void;
     abstract add(item: any): void;
     abstract update (item: any): void;
-    abstract getCertainItems (item: any): Company[] | Contact[] | Project[];
-    abstract modifyItems (item: any): void;
     abstract deleteItems (item: any): void;
 
     //Hibakezelő
     handleError<T> (operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
-
-            // TODO: send the error to remote logging infrastructure
-            console.error(error); // log to console instead
-
-            // TODO: better job of transforming error for user consumption
+            console.error(error);
             (`${operation} failed: ${error.message}`);
-
-            // Let the app keep running by returning an empty result.
             return of(result as T);
         };
     }

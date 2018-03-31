@@ -12,13 +12,13 @@ import { BaseService } from '../base/base.service';
 
 @Injectable()
 export class CompanyService extends BaseService{
-    private companies: Company[];
+    private companies: Company[]; //Lokálisan is letároljuk az adatbázisból kinyert adatokat a gyorsabb működés miatt.
     private countries: Country[];
     private industries: Industry[];
     private employeesNums: EmployeesNumber[];
     private yearlyIncomes: YearlyIncome[];
-    isLoading = true;
-    isLoadingForEdit = true;
+    isLoading = true; //Az api-val kapcsolatos függvények lefutása ideéig true értéket tárol, majd ha végzett a függvény lefutott false-ra változik. Erre azért van szükség, mert addig a felhasználónak töltést jeleníthetünk meg.
+    isLoadingForEdit = true; //Ugyan az vonatkozik rá, mint az isLoading-ra, csak ez az edit komponensben lesz hasznunkra.
     checkedArray = new Subject<number[]>();
 
     constructor(
@@ -34,14 +34,12 @@ export class CompanyService extends BaseService{
         );
     }
 
-    getStartingdatas(): void{
-        
-    }
-
     getItems (): Company[] {
         return this.companies;
     }
 
+    /*Kinyerjük a lokálisan tárolt több-ből a nekünk szükséges céget, vagy ha a tömb még nem állna 
+    rendelkezésre, akkor az api segítségével szerezzük meg az szükséges adatokat. */
     getItem(company: Company | number): Company{
         const id = typeof company === 'number' ? company : company.id;
         if(this.companies)
@@ -90,14 +88,24 @@ export class CompanyService extends BaseService{
         );
     }
 
-    /*A paraméterben kapott cég alapján azonosítja a módosítani kívánt
-    céget és küld egy kérést a http.put segítségével az apinak.*/
+    addLogo(logo: FormData): void{
+        console.log(logo);
+        this.companyApiService.addLogo(logo).subscribe(
+            (res: Response) => {
+                console.log(res);
+            }
+        );
+    }
+
     update (company: Company): void{
         this.companies.find(oldCompany => oldCompany.id === company.id)[0] = company;
         this.companyApiService.updateCompany(company).subscribe();
     }
 
-    getEditItems() {
+    /*Edit komponens esetén szükségünk van az összes országra, iparágra, dolgozók számának kategóriára, éves 
+    bevétel kategóriára, ezért ezeket beszerezzük az api segítségével és ezt a metódust hívjuk meg 
+    szerkesztéskor és új cég felvitelekor. */
+    getEditItems(): void{
         this.companyApiService.getCountries().subscribe(
             (countries: Country[]) => {
                 this.countries = countries;
@@ -121,23 +129,14 @@ export class CompanyService extends BaseService{
         );
     }
 
-    getCertainItems(item: Contact | Project): any{
-        /* if(this.companies){
-            let companies: Company[] = [];
-            if(item.company.length > 0){
-                item.company.forEach(companyID => {
-                    companies.push(this.companies.find(company => company.id === companyID));
-                });
-            }
-            return companies;
-        } else {
-            while(this.isLoading === true){
-                continue;
-            }
-            this.getCertainItems(item);
-        } */
-    }
-
+    /* Hogy a felhasználói élmény a lehető legmegfelelőbb legyen, és ha egy névjegy vagy projekt módosítása 
+    esetén más cégeket rendelnénk az adott névjegyhez vagy projekhez ne kelljen újra betölteni az alkalmazást, 
+    hogy a már módosított cégeket kapjuk meg ezért van szükség erre a metódusra. Ez a metódos először is 
+    megvizsgálja, hogy a cégek között van e olyan, melyben a paraméterben kapott névjegy/projekt adatai 
+    szerepelnek, viszont annak a cégek listájában nincs benne ez a cég, ekkor az adott cégből kitörli a 
+    feleslegesen tárolt névjegyet/projektet. Ezután megvizsgálja hogy a kapott névjegy/projekt tartalmaz e 
+    céget az adatai között és ha igen, akkor a cég névjegy/projekt mezőjébe is letároljuk a névjegyet/projektet,
+    de csak abban az esetben, ha még eddig nem volt tárolva. */
     modifyItems(item: Contact | Project): void{
         if(this.companies){
             if(item.hasOwnProperty('full_name')){
@@ -179,6 +178,11 @@ export class CompanyService extends BaseService{
         }
     }
 
+    /* Hasonlóan a modifyItems metódushoz, ez is a megfelelő felhasználói élmény biztosítása miatt készült el.
+    Ez a metódus, akkor hajtódik végre ha a paraméterben kapott névjegyet/projektet törölni szeretnénk, de
+    nem szeretnénk hogy a cégek között továbbra is megtaálható legyen a névjegy/projekt. Ekkor ahelyett, hogy
+    újra betöltenénk a friss adatokat az adatbázisból, annyit teszünk hogy cégek közül kikeressük azokat,
+    melyekben le van tárolva a paraméterben kapott érték és egyszerűen kitöröljük ezt az értéket belőlük. */
     deleteItems(item: Contact | Project): void{
         if(this.companies){
             if(item.hasOwnProperty('full_name')){

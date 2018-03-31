@@ -101,10 +101,10 @@
                             <input #fullname matInput name="fullname" placeholder="Teljes név" ngModel required>
                         </mat-form-field>
                         <mat-form-field>
-                            <input type="email" #email matInput name="email" placeholder="E-mail-cím" ngModel required>
+                            <input type="email" #email matInput name="email" placeholder="E-mail-cím" ngModel required [pattern]="EMAIL_REGEX">
                         </mat-form-field>
                         <mat-form-field>
-                            <input #phone matInput name="phone" placeholder="Telefonszám" ngModel>
+                            <input #phone matInput name="phone" placeholder="Telefonszám" ngModel required>
                         </mat-form-field>
                     </div>
                 </div>

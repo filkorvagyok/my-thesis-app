@@ -6,13 +6,11 @@ import { MatFormFieldModule, MatInputModule, MatIconModule, MatCheckboxModule, M
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignupComponent } from './signup/signup.component';
 import { SigninComponent } from './signin/signin.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { NgModule } from "@angular/core";
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
     declarations: [
-        ResetPasswordComponent,
         SigninComponent,
         SignupComponent
     ],

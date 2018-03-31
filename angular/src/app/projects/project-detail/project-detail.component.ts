@@ -22,7 +22,7 @@ export class ProjectDetailComponent extends BaseDetailComponent implements OnIni
     protected route: ActivatedRoute,
     protected router: Router,
     protected dialog: MatDialog,
-    protected projectService: ProjectService,
+    public projectService: ProjectService,
     private changeDetector: ChangeDetectorRef
   ) {
     super(route, router, dialog);
@@ -34,7 +34,7 @@ export class ProjectDetailComponent extends BaseDetailComponent implements OnIni
     }
   }
 
-	ngAfterViewChecked(){
+	ngAfterViewChecked(): void{
 		if(!this.project){
 			this.project = this.projectService.getItem(+this.route.snapshot.params['id'])
     }
@@ -49,9 +49,8 @@ export class ProjectDetailComponent extends BaseDetailComponent implements OnIni
   }
 
 
-	/*Ha van(nak) hozzátartozó cég(ek) vagy névjegy(ek), akkor először
-	  onnan kitöröljük a névjegyet a SharedDeleteDataHandler segítségével, majd
-	  a projectsApiService.delete metódusát hajtjuk végre*/
+  /*Ha van(nak) hozzátartozó cég(ek) vagy névjegy(ek), akkor a saját service-ük segítségével kitöröljük a 
+  projektet a megjelenítéshez tárolt több-ből. Ezután ténylegesen elvégezzük a törlést.*/
 	delete(project: Project): void{
 		if(project.company.length > 0)
       this.companyService.deleteItems(project);
@@ -61,11 +60,12 @@ export class ProjectDetailComponent extends BaseDetailComponent implements OnIni
 		this.router.navigate(['project/list']);
 	}
 
-	/*Átadjuk a projektet az új névjegy létrehozásához.*/
-    createNewContact(): void{
-      let projectsArray: number[] = [];
-      projectsArray.push(this.project.id);
-      this.router.navigate(['/people/new/', {array:projectsArray, num:1}]);
-    }
+	/*Átadjuk a projektet az új névjegy létrehozásához, így
+  automatikusan belekerül a névjegy project mezőjébe.*/
+  createNewContact(): void{
+    let projectsArray: number[] = [];
+    projectsArray.push(this.project.id);
+    this.router.navigate(['/people/new/', {array:projectsArray, num:1}]);
+  }
 
 }

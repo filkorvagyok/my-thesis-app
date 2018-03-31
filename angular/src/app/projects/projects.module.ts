@@ -13,7 +13,6 @@ import { ProjectItemComponent } from './project-list/project-item/project-item.c
 import { MAT_DATE_LOCALE, MatSelectModule, MatMenuModule, MatDatepickerModule, MatNativeDateModule, MatButtonModule, MatCheckboxModule, MatInputModule, MatIconModule } from '@angular/material';
 import { ProjectService } from './project.service';
 import { NgModule } from '@angular/core';
-//import * as $ from 'jquery';
 
 @NgModule({
   imports: [

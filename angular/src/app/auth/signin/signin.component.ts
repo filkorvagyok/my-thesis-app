@@ -17,6 +17,7 @@ export class SigninComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService
   ){
+    //Létrehozzunk egy formgroupot, amiben az input mezők és a rájuk vonatkozó jogosultsági szabályok találhatók.
 		this.loginForm = fb.group({
 			'loginEmail': [null, Validators.compose([Validators.required,
 				Validators.pattern(EMAIL_REGEXP)])],
@@ -24,9 +25,12 @@ export class SigninComponent implements OnInit {
 		});
   }
 
-  ngOnInit() {
+  ngOnInit(): void{
   }
 
+  /*Az authservice signin függvényének átadjuk az inputmezők adatait majd, sikeres bejelentkezés esetén
+   console-ba kiírjuk a token adatait, sikertelen bejelentkezés esetén pedig jelezzük a felhasználónak, hogy
+    hibás adatokat adott meg.*/
 	onSignin(): void{
     this.authService.signin(this.loginForm.controls['loginEmail'].value,
       this.loginForm.controls['loginPassword'].value)
@@ -37,7 +41,7 @@ export class SigninComponent implements OnInit {
         },
         error => {
           if(error.error['error']==='Invalid Credentials!'){
-            this.error ='Hibás felhasználónév vagy jelszó!';
+            this.error ='Hibás e-mail-cím vagy jelszó!';
           }
         }
       );

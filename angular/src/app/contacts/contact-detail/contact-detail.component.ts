@@ -22,7 +22,7 @@ export class ContactDetailComponent extends BaseDetailComponent implements OnIni
     protected router: Router,
     protected dialog: MatDialog,
     private changeDetector: ChangeDetectorRef,
-    protected contactService: ContactService
+    public contactService: ContactService
   ) {
     super(route, router, dialog);
   }
@@ -33,7 +33,7 @@ export class ContactDetailComponent extends BaseDetailComponent implements OnIni
 		}
   }
 
-	ngAfterViewChecked(){
+	ngAfterViewChecked(): void{
 		if(!this.contact){
 			this.contact = this.contactService.getItem(+this.route.snapshot.params['id']);
     }
@@ -44,10 +44,9 @@ export class ContactDetailComponent extends BaseDetailComponent implements OnIni
     this.router.navigate(['/people/edit', this.contact.id]);
   }
 
-  /*Ha van(nak) hozzátartozó projekt(ek) vagy névjegy(ek), akkor először
-  onnan kitöröljük a céget a SharedDeleteDataHandler segítségével, majd
-  a companiesApiService.delete metódusát hajtjuk végre*/
-  delete(contact: Contact): void {
+  /*Ha van(nak) hozzátartozó cég(ek) vagy projekt(ek), akkor a saját service-ük segítségével kitöröljük a 
+  névjegyet a megjelenítéshez tárolt több-ből. Ezután ténylegesen elvégezzük a törlést.*/
+  delete(contact: Contact): void{
     if(contact.company.length > 0)
 			this.companyService.deleteItems(contact);
 		if(contact.project.length > 0)

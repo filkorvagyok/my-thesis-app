@@ -13,7 +13,7 @@ export class CompanyItemComponent extends BaseItemComponent implements OnInit {
   @Input() company: Company;
 
   constructor(
-    protected companyService: CompanyService,
+    public companyService: CompanyService,
     private router: Router
   ) {
     super(companyService);

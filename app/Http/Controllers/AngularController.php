@@ -21,9 +21,10 @@ class AngularController extends Controller
      */
     public function serveFile($fileName)
     {
+        $fileName = 'index.html';
 
         try {
-            return File::get(public_path() . '/angular/' . $fileName);
+            return File::get(public_path() . '/' . $fileName);
         } catch (FileNotFoundException $e) {
 			throw $e;
         }

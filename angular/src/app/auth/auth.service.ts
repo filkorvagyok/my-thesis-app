@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -12,17 +13,19 @@ export class AuthService{
         private router: Router
     ){}
 
-    signup(username: string, email: string, password: string){
+    //A paraméterben kapott adatokat továbbítja az adatbázisnak.
+    signup(username: string, email: string, password: string): Observable<any>{
         return this.http.post('http://homestead.test/api/user', {name: username, email: email, password: password},
             {headers: new HttpHeaders({'X-Requested-With': 'XMLHttpRequest'})});
     }
 
-    signin(email: string, password: string){
+    signin(email: string, password: string): Observable<any>{
         console.log('email: ' + email + '   password: ' + password);
         return this.http.post('http://homestead.test/api/user/signin', {email: email, password: password},
             {headers: new HttpHeaders({'X-Requested-With': 'XMLHttpRequest'})})
             .map(
                 res => {
+                    //Olvashatóvá és értelmezhetővé alakítjuk a token-t
                     this.router.navigate(['/']);
                     const token = res['token'];
                     const base64Url = token.split('.')[1];
@@ -42,12 +45,11 @@ export class AuthService{
         this.router.navigate(['login']);
     }
     
-    getToken(){
+    getToken(): string{
         return localStorage.getItem('token');
     }
 
-    isAuthenticated(){
+    isAuthenticated(): boolean{
         return localStorage.getItem('token') != null;
-        /* return true; */
     }
 }

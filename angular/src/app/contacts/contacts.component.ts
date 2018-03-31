@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { Contact } from './contact';
 
+
+
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
@@ -16,15 +18,18 @@ import { Contact } from './contact';
 export class ContactsComponent extends BaseComponent implements OnInit {
   contacts: Contact[];
   contact: Contact;
+  EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   constructor(
     private companyService: CompanyService,
     private projectService: ProjectService,
     private router: Router,
-    protected contactService: ContactService,
+    public contactService: ContactService,
     protected dialog: MatDialog
   ) {
     super(dialog);
+    /*A ContactService-ben található checkedArray Subject-re feliratkozva kinyertük az adatait, ez alapján 
+    tudjuk mely cégek vannak kijelölve.*/
     this.subscription = this.contactService.checkedArray.subscribe(
 			(array: number[]) => this.checkedArray = array
     );
@@ -34,8 +39,8 @@ export class ContactsComponent extends BaseComponent implements OnInit {
   ngOnInit() {
   }
 
-  /*Tölés esetén a céggel összekapcsolt projekt(ek) és névjegy(ek) közül is ki kell törölnünk az adott céget,
-  tehát ezzel kezdünk és csak ezután hívjuk meg a companiesApiService delete metódusát*/
+  /*Ha van(nak) hozzátartozó cég(ek) vagy projekt(ek), akkor a saját service-ük segítségével kitöröljük a 
+  névjegyet a megjelenítéshez tárolt tömb-ből. Ezután ténylegesen elvégezzük a törlést.*/
   delete(contact: Contact | number): void {
     const actualContact = typeof contact === 'number' ? this.contactService.getItem(contact) : contact;
 		if(actualContact.company.length > 0)
@@ -49,8 +54,8 @@ export class ContactsComponent extends BaseComponent implements OnInit {
       this.router.navigate(['/people/edit', this.checkedArray[0]]);
     }
 
-  /*A lista nézetben egy név mező kitöltésével tudunk létrehozni
-  	egy új céget. A cég további mezőit alaphelyzetbe állítjuk.*/
+    /*A lista nézetben a teljes név, e-mail-cím, telefonszám mezők kitöltésével tudunk létrehozni egy új 
+    névjegyet. A névjegy további mezőit alaphelyzetbe állítjuk.*/
   	onSubmit(form: NgForm): void{
       let contact = new Contact();
       contact.full_name = form.value.fullname.trim();

@@ -3,9 +3,7 @@ import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-	{ path: '', redirectTo: 'company', pathMatch: 'full' },
-	{ path: 'not-found', component: PageNotFoundComponent },
-	{ path: '**', redirectTo: '/not-found' }
+	{ path: '', redirectTo: 'company', pathMatch: 'full' }
 ];
 
 @NgModule({

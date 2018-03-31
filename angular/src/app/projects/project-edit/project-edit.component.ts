@@ -1,5 +1,4 @@
 import { Subscription } from 'rxjs/Subscription';
-import { ContactService } from './../../contacts/contact.service';
 import { CompanyService } from './../../companies/company.service';
 import { Project } from './../project';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,24 +20,22 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 	projectForm: FormGroup;
 	project: Project;
 	companyChanged: boolean = false;
-	contactChanged: boolean = false;
 	subscription: Subscription;
 	companyArray: Company[];
 
   constructor(
-		protected companyService: CompanyService,
-		protected contactService: ContactService,
+		public companyService: CompanyService,
 		protected route: ActivatedRoute,
 		protected router: Router,
-		protected projectService: ProjectService,
+		public projectService: ProjectService,
 		private fb: FormBuilder,
 		private changeDetector: ChangeDetectorRef
 	) {
 	  super(route, router);
     }
 
-  //Form validitás beállítása
 	initform(): void{
+		/*Létrehozzunk egy formgroupot, amiben az input mezők és a rájuk vonatkozó jogosultsági szabályok találhatók.*/
 		this.projectForm = this.fb.group({
 			'projectName': [null, Validators.required],
 			'projectIncome': [null, Validators.pattern(MONEY_REGEX)],
@@ -53,7 +50,7 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 		});
 	}
 
-  ngOnInit() {
+  ngOnInit(): void{
 	this.projectService.getEditItems();
     this.initform();
     if(this.projectService.getItems() && !this.project)
@@ -62,10 +59,12 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
     }
   }
 
-	ngAfterViewChecked(){
+	ngAfterViewChecked(): void{
+		/*Mivel előbb tölt be a view, mint az adatok ezért szükségvel az alábbi metódusra, hogy ne kapjunk hibaüzenetet.*/
 		if(!this.project){
 			this.setThis();
 		} else {
+			/*A router url-ének paraméterei alapján az array-ben cég id-k lesznek találhatóak, így a CompanyService segítségével kinyerjük a megfelelő cégeket és belerakjuk a projekt company mezőjébe.*/
 			if(this.route.snapshot.params['array']){
 				if(this.project.company.length === 0 && this.companyService.getItems()){
 					this.route.snapshot.params['array'].split(",").forEach((x: number) =>{
@@ -80,11 +79,12 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
   setThis(): void{
 		if(this.route.snapshot.routeConfig.path == "new")
 		{
-			//Ha az url "company/new"-val egyenlő, akkor teljesül
+			//Ha az url "new"-val egyenlő, akkor teljesül
 			this.setNew();
 		}
 		else
 		{
+			//Itt az url minden esetben "edit/:id" lesz és :id helyén, pedig a cég id-je.
 			this.setEdit();
 		}
 	}
@@ -98,6 +98,9 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 		this.edit = true;	//Ezen mező alapján tudja a company-edit.component, hogy szerkeszteni kell vagy új céget létrehozni
 	}
 	
+	/*Amíg nem tudja kinyerni a szükséges dátumot, addig a mai dátumot adja vissza. Nem a legjobb megoldás, de 
+	mire betölti az adatokat addigra sikerül is kinyerni a megfelelő dátumot, szóval a felhasználó nem vesz észre 
+	belőle semmit*/
 	date(){
 		if(this.project){
 			return new FormControl(this.project.deadline);
@@ -109,9 +112,10 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
 		console.log(event);
 	}
 
-  compareFn(c1: any, c2: any): boolean {
-	return c1 && c2 ? c1.id === c2.id : c1 === c2;
-}
+	//Megvizsgál két objektet, hogy azonosak-e.
+	compareFn(c1: any, c2: any): boolean {
+		return c1 && c2 ? c1.id === c2.id : c1 === c2;
+	}
 
   save(): void{
 		this.projectService.update(this.project);
@@ -129,38 +133,10 @@ export class ProjectEditComponent extends BaseEditComponent implements OnInit, A
     	this.navigateBack();
 	}
 
-  /*Ha a project company mezőjében letároltunk 1 vagy több cég id-ját,
-	akkor ez a metódus a sharedAddDataHandler segítségével rögzíti a megfelelő
-	cég project mezőjében ennek a projektnek az id-ját. Hasonlóan működik, ha
-	a project accountable, owner,observer vagy participant mezőjében lárolunk
-	legalább 1 névjegy id-t, csak ott a névjegy project mezőjébe szúrjuk be a
-	project id-ját.*/
-
-	//Dátumválasztó beállítása
-	datepickerOpts = {
-	    autoclose: true,
-	    todayBtn: 'linked',
-	    todayHighlight: true,
-	    assumeNearbyYear: true,
-	    format: 'yyyy. MM d.',
-  		showMeridian : false,
-  		maxHours: 24,
-  		language: 'hu'
-	}
-
-	onChange(newValue){
-		return newValue;
-	}
-
 	//Submit lenyomásakor hívódik meg
 	onSubmit(project: Project){
 		if(this.projectForm.valid)  //Ha a validitás megfelelő
 			this.edit? this.save() : this.add(project);  //Ha az edit true, akkor a save hívódik meg, különben az add
-		else
-		{
-			$(document.getElementById('maindiv')).animate({ scrollTop: 0 }, 1000); //Felgörger az oldal tetejére
-			this.validateAllFormFields(this.projectForm);
-		}
 	}
 
 }

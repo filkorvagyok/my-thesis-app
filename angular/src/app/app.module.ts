@@ -6,8 +6,6 @@ import { SharedModule } from './shared/shared.module';
 import { ContactsModule } from './contacts/contacts.module';
 import { ProjectsModule } from './projects/projects.module';
 import { CompaniesModule } from './companies/companies.module';
-/* import { InMemoryDataService } from './shared/in-memory-data.service';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api'; */
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { NgModule } from "@angular/core";
@@ -19,8 +17,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     PageNotFoundComponent
   ],
   imports: [
-    BrowserModule,
-    /* InMemoryWebApiModule.forRoot(InMemoryDataService), */
+    BrowserModule.withServerTransition({appId: 'CompanyThesis'}),
     MatSidenavModule,
     CompaniesModule,
     ProjectsModule,
