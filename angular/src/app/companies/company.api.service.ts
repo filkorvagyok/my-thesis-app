@@ -103,12 +103,6 @@ export class CompanyApiService{
         return this.http.post('http://homestead.test/api/company?token=' + token, body, {headers: headers});
     }
 
-    addLogo(logo: FormData): Observable<any>{
-        const token = this.authService.getToken();
-        const headers = new HttpHeaders({'Content-Type': 'application/json'});
-        return this.http.post('http://homestead.test/api/logo?token=' + token, logo, {headers: headers});
-    }
-
     //A paraméterben kapott céget lecseréljük a korábban ezzel az id-val tárolt céggel.
     updateCompany(company: Company): Observable<any>{
         const token = this.authService.getToken();

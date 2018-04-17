@@ -14,13 +14,12 @@ export class AuthService{
     ){}
 
     //A paraméterben kapott adatokat továbbítja az adatbázisnak.
-    signup(username: string, email: string, password: string): Observable<any>{
-        return this.http.post('http://homestead.test/api/user', {name: username, email: email, password: password},
+    signup(email: string, password: string): Observable<any>{
+        return this.http.post('http://homestead.test/api/user', {email: email, password: password},
             {headers: new HttpHeaders({'X-Requested-With': 'XMLHttpRequest'})});
     }
 
     signin(email: string, password: string): Observable<any>{
-        console.log('email: ' + email + '   password: ' + password);
         return this.http.post('http://homestead.test/api/user/signin', {email: email, password: password},
             {headers: new HttpHeaders({'X-Requested-With': 'XMLHttpRequest'})})
             .map(

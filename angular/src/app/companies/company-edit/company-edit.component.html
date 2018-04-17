@@ -19,7 +19,6 @@
 									<mat-form-field>
 										<input matInput type="text" [(ngModel)]="company.name" formControlName="companyName" placeholder="Név*">
 									</mat-form-field>
-									<input type="file" name="logo" (change)="logo = onFileSelected($event)">
 									<mat-error *ngIf="!companyForm.controls['companyName'].valid && companyForm.controls['companyName'].touched">
 										A név mező megadása <strong>kötelező</strong>!
 									</mat-error>

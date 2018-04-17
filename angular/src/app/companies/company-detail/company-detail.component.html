@@ -38,7 +38,9 @@
 										</a>
 									</p>
 									<p>
-										<i class="fa fa-map-marker"></i>
+										<span *ngIf="company.headquarter.country.code && (company.headquarter.zipcode || company.headquarter.settlement || company.headquarter.address_line)">
+											<i class="fa fa-map-marker"></i>
+										</span>
 										<span>
 											{{company.headquarter.country.name}}<span *ngIf="company.headquarter.country.code && (company.headquarter.zipcode || company.headquarter.settlement || company.headquarter.address_line)">, </span>{{company.headquarter.zipcode}} 
 											{{company.headquarter.settlement}}<span *ngIf="(company.headquarter.zipcode || company.headquarter.settlement) && company.headquarter.address_line">, </span>
@@ -51,7 +53,9 @@
 										</ng-template>
 									</p>
 									<p>
-										<i class="fa fa-usd"></i>
+										<span *ngIf="company.billing.country.code && (company.billing.zipcode || company.billing.settlement || company.billing.address_line)">
+											<i class="fa fa-usd"></i>
+										</span>
 										<span *ngIf="(company.billing.country.id || company.billing.zipcode || company.billing.settlement || company.billing.address_line); else headquarter">
 											{{company.billing.country.name}}<span *ngIf="company.billing.country.code && (company.billing.zipcode || company.billing.settlement || company.billing.address_line)">, </span>{{company.billing.zipcode}} 
 											{{company.billing.settlement}}<span *ngIf="(company.billing.zipcode || company.billing.settlement) && company.billing.address_line">, </span>
@@ -59,7 +63,9 @@
 										</span>
 									</p>
 									<p>
-										<i class="fa fa-envelope"></i>
+										<span *ngIf="company.mailing.country.code && (company.mailing.zipcode || company.mailing.settlement || company.mailing.address_line)">
+											<i class="fa fa-envelope"></i>
+										</span>
 										<span *ngIf="(company.mailing.country.id || company.mailing.zipcode || company.mailing.settlement || company.mailing.address_line); else headquarter">
 											{{company.mailing.country.name}}<span *ngIf="company.mailing.country.code && (company.mailing.zipcode || company.mailing.settlement || company.mailing.address_line)">-</span>{{company.mailing.zipcode}} 
 											{{company.mailing.settlement}}<span *ngIf="(company.mailing.zipcode || company.mailing.settlement) && company.mailing.address_line">, </span>

@@ -88,15 +88,6 @@ export class CompanyService extends BaseService{
         );
     }
 
-    addLogo(logo: FormData): void{
-        console.log(logo);
-        this.companyApiService.addLogo(logo).subscribe(
-            (res: Response) => {
-                console.log(res);
-            }
-        );
-    }
-
     update (company: Company): void{
         this.companies.find(oldCompany => oldCompany.id === company.id)[0] = company;
         this.companyApiService.updateCompany(company).subscribe();

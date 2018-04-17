@@ -25,7 +25,6 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 	billing = true;
 	mail = true;
 	country: Country;
-	logo: FormData;
 
 
 	constructor(
@@ -133,23 +132,12 @@ export class CompanyEditComponent extends BaseEditComponent implements OnInit, A
 		return address;
 	}
 
-	onFileSelected(event){
-		const fd = new FormData();
-		const selectedFile = <File>event.target.files[0];
-		fd.append('logo', selectedFile, this.company.name);
-		return event;
-	}
-
 	save(): void {
 		this.companyService.update(this.company)
 		this.navigateBack();
 	}
 
 	add(company: Company): void{
-		console.log(company);
-		company.logo = undefined;
-		if(this.logo)
-			this.companyService.addLogo(this.logo);
 		this.companyService.add(company)
 		this.navigateBack();
 	}
