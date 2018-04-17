@@ -468,7 +468,6 @@ var AuthService = /** @class */ (function () {
     };
     AuthService.prototype.signin = function (email, password) {
         var _this = this;
-        console.log('email: ' + email + '   password: ' + password);
         return this.http.post('http://homestead.test/api/user/signin', { email: email, password: password }, { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["h" /* HttpHeaders */]({ 'X-Requested-With': 'XMLHttpRequest' }) })
             .map(function (res) {
             //Olvashatóvá és értelmezhetővé alakítjuk a token-t
