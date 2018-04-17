@@ -17,7 +17,7 @@ export class CompanyApiService{
     nekünk megfelelő alakra.*/
     getCompanies(): Observable<Company[]>{
         const token = this.authService.getToken(); //A bejelentkezéskor eltárolt token
-        return this.http.get('http://homestead.test/api/companies?token=' + token)
+        return this.http.get('/api/companies?token=' + token)
         .map(
             (res: Response) => {
                 const companies: Company[] = [];
@@ -36,7 +36,7 @@ export class CompanyApiService{
     adabázisból és ehhez felhasználjuk a paraméterben kapott id-it is.*/
     getCompany(id: number): Observable<Company>{
         const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/company/' + id + '?token=' + token)
+        return this.http.get('/api/company/' + id + '?token=' + token)
         .map(
             (res: Response) => {
                 let company = new Company();
@@ -100,7 +100,7 @@ export class CompanyApiService{
         const token = this.authService.getToken();
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         const body = this.companyToDatabase(company);
-        return this.http.post('http://homestead.test/api/company?token=' + token, body, {headers: headers});
+        return this.http.post('/api/company?token=' + token, body, {headers: headers});
     }
 
     //A paraméterben kapott céget lecseréljük a korábban ezzel az id-val tárolt céggel.
@@ -108,7 +108,7 @@ export class CompanyApiService{
         const token = this.authService.getToken();
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         const body = this.companyToDatabase(company);
-        return this.http.put('http://homestead.test/api/company/' + company.id + '?token=' + token, body, {headers: headers});
+        return this.http.put('/api/company/' + company.id + '?token=' + token, body, {headers: headers});
     }
 
     //A kapott céget átalakítjuk az adatvázisnak megfelelő formátumra.
@@ -154,12 +154,12 @@ export class CompanyApiService{
     deleteCompany(company: Company | number): Observable<any>{
         const id = typeof company === 'number' ? company : company.id;
         const token = this.authService.getToken();
-        return this.http.delete('http://homestead.test/api/company/' + id + '?token=' + token);
+        return this.http.delete('/api/company/' + id + '?token=' + token);
     }
 
     getCountries(): Observable<Country[]>{
         const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/countries?token=' + token)
+        return this.http.get('/api/countries?token=' + token)
         .map(
             (res: Response) => {
                 const countries: Country[] = [];
@@ -179,7 +179,7 @@ export class CompanyApiService{
 
     getEmployeesnumbers(): Observable<EmployeesNumber[]>{
         const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/employeesnumbers?token=' + token)
+        return this.http.get('/api/employeesnumbers?token=' + token)
         .map(
             (res: Response) => {
                 const employeesnumbers: EmployeesNumber[] = [];
@@ -198,7 +198,7 @@ export class CompanyApiService{
 
     getIndustries(): Observable<Industry[]>{
         const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/industries?token=' + token)
+        return this.http.get('/api/industries?token=' + token)
         .map(
             (res: Response) => {
                 const industries: Industry[] = [];
@@ -217,7 +217,7 @@ export class CompanyApiService{
 
     getYearlyincomes(): Observable<YearlyIncome[]>{
         const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/yearlyincomes?token=' + token)
+        return this.http.get('/api/yearlyincomes?token=' + token)
         .map(
             (res: Response) => {
                 const yearlyincomes: YearlyIncome[] = [];

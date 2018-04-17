@@ -16,7 +16,7 @@ export class ProjectApiService{
     formázzuk a nekünk megfelelő alakra.*/
     getProjects(): Observable<Project[]>{
         const token = this.authService.getToken(); //A bejelentkezéskor eltárolt token
-        return this.http.get('http://homestead.test/api/projects?token=' + token)
+        return this.http.get('/api/projects?token=' + token)
         .map(
             (res: Response) => {
                 let projects: Project[] = [];
@@ -35,7 +35,7 @@ export class ProjectApiService{
     adabázisból és ehhez felhasználjuk a paraméterben kapott id-it is.*/
     getProject(id: number): Observable<Project>{
         const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/project/' + id + '?token=' + token)
+        return this.http.get('/api/project/' + id + '?token=' + token)
         .map(
             (res: Response) => {
                 let project = new Project();
@@ -66,7 +66,7 @@ export class ProjectApiService{
         const token = this.authService.getToken();
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         const body = this.projectToDatabase(project);
-        return this.http.post('http://homestead.test/api/project?token=' + token, body, {headers: headers});
+        return this.http.post('/api/project?token=' + token, body, {headers: headers});
     }
 
     //A paraméterben kapott projektet lecseréljük a korábban ezzel az id-val tárolt projekttel.
@@ -74,7 +74,7 @@ export class ProjectApiService{
         const token = this.authService.getToken();
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         const body = this.projectToDatabase(project);
-        return this.http.put('http://homestead.test/api/project/' + project.id + '?token=' + token, body, {headers: headers});
+        return this.http.put('/api/project/' + project.id + '?token=' + token, body, {headers: headers});
     }
 
     //A kapott projektet átalakítjuk az adatvázisnak megfelelő formátumra.
@@ -105,12 +105,12 @@ export class ProjectApiService{
     deleteProject(project: Project | number): Observable<any>{
         const id = typeof project === 'number' ? project : project.id;
         const token = this.authService.getToken();
-        return this.http.delete('http://homestead.test/api/project/' + id + '?token=' + token);
+        return this.http.delete('/api/project/' + id + '?token=' + token);
     }
 
     getStatuses(): Observable<Status[]>{
         const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/statuses?token=' + token)
+        return this.http.get('/api/statuses?token=' + token)
         .map(
             (res: Response) => {
                 const statuses: Status[] = [];
@@ -129,7 +129,7 @@ export class ProjectApiService{
 
     getPriorities(): Observable<Priority[]>{
         const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/priorities?token=' + token)
+        return this.http.get('/api/priorities?token=' + token)
         .map(
             (res: Response) => {
                 const priorities: Priority[] = [];
@@ -148,7 +148,7 @@ export class ProjectApiService{
 
     getCurrencies(): Observable<Currency[]>{
         const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/currencies?token=' + token)
+        return this.http.get('/api/currencies?token=' + token)
         .map(
             (res: Response) => {
                 const currencies: Currency[] = [];

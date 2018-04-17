@@ -464,11 +464,11 @@ var AuthService = /** @class */ (function () {
     }
     //A paraméterben kapott adatokat továbbítja az adatbázisnak.
     AuthService.prototype.signup = function (email, password) {
-        return this.http.post('http://homestead.test/api/user', { email: email, password: password }, { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["h" /* HttpHeaders */]({ 'X-Requested-With': 'XMLHttpRequest' }) });
+        return this.http.post('/api/user', { email: email, password: password }, { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["h" /* HttpHeaders */]({ 'X-Requested-With': 'XMLHttpRequest' }) });
     };
     AuthService.prototype.signin = function (email, password) {
         var _this = this;
-        return this.http.post('http://homestead.test/api/user/signin', { email: email, password: password }, { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["h" /* HttpHeaders */]({ 'X-Requested-With': 'XMLHttpRequest' }) })
+        return this.http.post('/api/user/signin', { email: email, password: password }, { headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["h" /* HttpHeaders */]({ 'X-Requested-With': 'XMLHttpRequest' }) })
             .map(function (res) {
             //Olvashatóvá és értelmezhetővé alakítjuk a token-t
             _this.router.navigate(['/']);
@@ -2640,7 +2640,7 @@ var CompanyApiService = /** @class */ (function () {
     CompanyApiService.prototype.getCompanies = function () {
         var _this = this;
         var token = this.authService.getToken(); //A bejelentkezéskor eltárolt token
-        return this.http.get('http://homestead.test/api/companies?token=' + token)
+        return this.http.get('/api/companies?token=' + token)
             .map(function (res) {
             var companies = [];
             var comps = res['companies'];
@@ -2657,7 +2657,7 @@ var CompanyApiService = /** @class */ (function () {
     CompanyApiService.prototype.getCompany = function (id) {
         var _this = this;
         var token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/company/' + id + '?token=' + token)
+        return this.http.get('/api/company/' + id + '?token=' + token)
             .map(function (res) {
             var company = new __WEBPACK_IMPORTED_MODULE_2__company__["a" /* Company */]();
             company = _this.formatItem(company, res['company']);
@@ -2717,14 +2717,14 @@ var CompanyApiService = /** @class */ (function () {
         var token = this.authService.getToken();
         var headers = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["h" /* HttpHeaders */]({ 'Content-Type': 'application/json' });
         var body = this.companyToDatabase(company);
-        return this.http.post('http://homestead.test/api/company?token=' + token, body, { headers: headers });
+        return this.http.post('/api/company?token=' + token, body, { headers: headers });
     };
     //A paraméterben kapott céget lecseréljük a korábban ezzel az id-val tárolt céggel.
     CompanyApiService.prototype.updateCompany = function (company) {
         var token = this.authService.getToken();
         var headers = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["h" /* HttpHeaders */]({ 'Content-Type': 'application/json' });
         var body = this.companyToDatabase(company);
-        return this.http.put('http://homestead.test/api/company/' + company.id + '?token=' + token, body, { headers: headers });
+        return this.http.put('/api/company/' + company.id + '?token=' + token, body, { headers: headers });
     };
     //A kapott céget átalakítjuk az adatvázisnak megfelelő formátumra.
     CompanyApiService.prototype.companyToDatabase = function (company) {
@@ -2768,11 +2768,11 @@ var CompanyApiService = /** @class */ (function () {
     CompanyApiService.prototype.deleteCompany = function (company) {
         var id = typeof company === 'number' ? company : company.id;
         var token = this.authService.getToken();
-        return this.http.delete('http://homestead.test/api/company/' + id + '?token=' + token);
+        return this.http.delete('/api/company/' + id + '?token=' + token);
     };
     CompanyApiService.prototype.getCountries = function () {
         var token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/countries?token=' + token)
+        return this.http.get('/api/countries?token=' + token)
             .map(function (res) {
             var countries = [];
             var x = res['countries'];
@@ -2789,7 +2789,7 @@ var CompanyApiService = /** @class */ (function () {
     };
     CompanyApiService.prototype.getEmployeesnumbers = function () {
         var token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/employeesnumbers?token=' + token)
+        return this.http.get('/api/employeesnumbers?token=' + token)
             .map(function (res) {
             var employeesnumbers = [];
             var x = res['employeesnumbers'];
@@ -2805,7 +2805,7 @@ var CompanyApiService = /** @class */ (function () {
     };
     CompanyApiService.prototype.getIndustries = function () {
         var token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/industries?token=' + token)
+        return this.http.get('/api/industries?token=' + token)
             .map(function (res) {
             var industries = [];
             var x = res['industries'];
@@ -2821,7 +2821,7 @@ var CompanyApiService = /** @class */ (function () {
     };
     CompanyApiService.prototype.getYearlyincomes = function () {
         var token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/yearlyincomes?token=' + token)
+        return this.http.get('/api/yearlyincomes?token=' + token)
             .map(function (res) {
             var yearlyincomes = [];
             var x = res['yearlyincomes'];
@@ -3946,7 +3946,7 @@ var ContactApiService = /** @class */ (function () {
     ContactApiService.prototype.getContacts = function () {
         var _this = this;
         var token = this.authService.getToken(); //A bejelentkezéskor eltárolt token
-        return this.http.get('http://homestead.test/api/contacts?token=' + token)
+        return this.http.get('/api/contacts?token=' + token)
             .map(function (res) {
             var contacts = [];
             var conts = res['contacts'];
@@ -3963,7 +3963,7 @@ var ContactApiService = /** @class */ (function () {
     ContactApiService.prototype.getContact = function (id) {
         var _this = this;
         var token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/contact/' + id + '?token=' + token)
+        return this.http.get('/api/contact/' + id + '?token=' + token)
             .map(function (res) {
             var contact = new __WEBPACK_IMPORTED_MODULE_2__contact__["a" /* Contact */]();
             contact = _this.formatItem(contact, res['contact']);
@@ -3989,14 +3989,14 @@ var ContactApiService = /** @class */ (function () {
         var token = this.authService.getToken();
         var headers = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["h" /* HttpHeaders */]({ 'Content-Type': 'application/json' });
         var body = this.contactToDatabase(contact);
-        return this.http.post('http://homestead.test/api/contact?token=' + token, body, { headers: headers });
+        return this.http.post('/api/contact?token=' + token, body, { headers: headers });
     };
     //A paraméterben kapott névjegyet lecseréljük a korábban ezzel az id-val tárolt névjeggyel.
     ContactApiService.prototype.updateContact = function (contact) {
         var token = this.authService.getToken();
         var headers = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["h" /* HttpHeaders */]({ 'Content-Type': 'application/json' });
         var body = this.contactToDatabase(contact);
-        return this.http.put('http://homestead.test/api/contact/' + contact.id + '?token=' + token, body, { headers: headers });
+        return this.http.put('/api/contact/' + contact.id + '?token=' + token, body, { headers: headers });
     };
     //A kapott névjegyet átalakítjuk az adatvázisnak megfelelő formátumra.
     ContactApiService.prototype.contactToDatabase = function (contact) {
@@ -4024,7 +4024,7 @@ var ContactApiService = /** @class */ (function () {
     ContactApiService.prototype.deleteContact = function (contact) {
         var id = typeof contact === 'number' ? contact : contact.id;
         var token = this.authService.getToken();
-        return this.http.delete('http://homestead.test/api/contact/' + id + '?token=' + token);
+        return this.http.delete('/api/contact/' + id + '?token=' + token);
     };
     return ContactApiService;
 }());
@@ -5992,7 +5992,7 @@ var ProjectApiService = /** @class */ (function () {
     ProjectApiService.prototype.getProjects = function () {
         var _this = this;
         var token = this.authService.getToken(); //A bejelentkezéskor eltárolt token
-        return this.http.get('http://homestead.test/api/projects?token=' + token)
+        return this.http.get('/api/projects?token=' + token)
             .map(function (res) {
             var projects = [];
             var projs = res['projects'];
@@ -6009,7 +6009,7 @@ var ProjectApiService = /** @class */ (function () {
     ProjectApiService.prototype.getProject = function (id) {
         var _this = this;
         var token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/project/' + id + '?token=' + token)
+        return this.http.get('/api/project/' + id + '?token=' + token)
             .map(function (res) {
             var project = new __WEBPACK_IMPORTED_MODULE_0__project__["a" /* Project */]();
             project = _this.formatItem(project, res['project']);
@@ -6036,14 +6036,14 @@ var ProjectApiService = /** @class */ (function () {
         var token = this.authService.getToken();
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["h" /* HttpHeaders */]({ 'Content-Type': 'application/json' });
         var body = this.projectToDatabase(project);
-        return this.http.post('http://homestead.test/api/project?token=' + token, body, { headers: headers });
+        return this.http.post('/api/project?token=' + token, body, { headers: headers });
     };
     //A paraméterben kapott projektet lecseréljük a korábban ezzel az id-val tárolt projekttel.
     ProjectApiService.prototype.updateProject = function (project) {
         var token = this.authService.getToken();
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["h" /* HttpHeaders */]({ 'Content-Type': 'application/json' });
         var body = this.projectToDatabase(project);
-        return this.http.put('http://homestead.test/api/project/' + project.id + '?token=' + token, body, { headers: headers });
+        return this.http.put('/api/project/' + project.id + '?token=' + token, body, { headers: headers });
     };
     //A kapott projektet átalakítjuk az adatvázisnak megfelelő formátumra.
     ProjectApiService.prototype.projectToDatabase = function (project) {
@@ -6072,11 +6072,11 @@ var ProjectApiService = /** @class */ (function () {
     ProjectApiService.prototype.deleteProject = function (project) {
         var id = typeof project === 'number' ? project : project.id;
         var token = this.authService.getToken();
-        return this.http.delete('http://homestead.test/api/project/' + id + '?token=' + token);
+        return this.http.delete('/api/project/' + id + '?token=' + token);
     };
     ProjectApiService.prototype.getStatuses = function () {
         var token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/statuses?token=' + token)
+        return this.http.get('/api/statuses?token=' + token)
             .map(function (res) {
             var statuses = [];
             var x = res['statuses'];
@@ -6092,7 +6092,7 @@ var ProjectApiService = /** @class */ (function () {
     };
     ProjectApiService.prototype.getPriorities = function () {
         var token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/priorities?token=' + token)
+        return this.http.get('/api/priorities?token=' + token)
             .map(function (res) {
             var priorities = [];
             var x = res['priorities'];
@@ -6108,7 +6108,7 @@ var ProjectApiService = /** @class */ (function () {
     };
     ProjectApiService.prototype.getCurrencies = function () {
         var token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/currencies?token=' + token)
+        return this.http.get('/api/currencies?token=' + token)
             .map(function (res) {
             var currencies = [];
             var x = res['currencies'];

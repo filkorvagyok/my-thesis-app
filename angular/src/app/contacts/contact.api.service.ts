@@ -15,7 +15,7 @@ export class ContactApiService{
     /*A bejelentkezés után eltárolt token segítségével lekérjük a névjegyek adatait az adatbázisból és formázzuk a nekünk megfelelő alakra.*/
     getContacts(): Observable<Contact[]>{
         const token = this.authService.getToken(); //A bejelentkezéskor eltárolt token
-        return this.http.get('http://homestead.test/api/contacts?token=' + token)
+        return this.http.get('/api/contacts?token=' + token)
         .map(
             (res: Response) => {
                 let contacts: Contact[] = [];
@@ -34,7 +34,7 @@ export class ContactApiService{
     adabázisból és ehhez felhasználjuk a paraméterben kapott id-it is.*/
     getContact(id: number): Observable<Contact>{
         const token = this.authService.getToken();
-        return this.http.get('http://homestead.test/api/contact/' + id + '?token=' + token)
+        return this.http.get('/api/contact/' + id + '?token=' + token)
         .map(
             (res: Response) => {
                 let contact = new Contact();
@@ -64,7 +64,7 @@ export class ContactApiService{
         const token = this.authService.getToken();
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         const body = this.contactToDatabase(contact);
-        return this.http.post('http://homestead.test/api/contact?token=' + token, body, {headers: headers});
+        return this.http.post('/api/contact?token=' + token, body, {headers: headers});
     }
 
     //A paraméterben kapott névjegyet lecseréljük a korábban ezzel az id-val tárolt névjeggyel.
@@ -72,7 +72,7 @@ export class ContactApiService{
         const token = this.authService.getToken();
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         const body = this.contactToDatabase(contact);
-        return this.http.put('http://homestead.test/api/contact/' + contact.id + '?token=' + token, body, {headers: headers});
+        return this.http.put('/api/contact/' + contact.id + '?token=' + token, body, {headers: headers});
     }
 
     //A kapott névjegyet átalakítjuk az adatvázisnak megfelelő formátumra.
@@ -102,6 +102,6 @@ export class ContactApiService{
     deleteContact(contact: Contact | number): Observable<any>{
         const id = typeof contact === 'number' ? contact : contact.id;
         const token = this.authService.getToken();
-        return this.http.delete('http://homestead.test/api/contact/' + id + '?token=' + token);
+        return this.http.delete('/api/contact/' + id + '?token=' + token);
     }
 }
